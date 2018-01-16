@@ -1,0 +1,40 @@
+01  -xb dllists                    373
+02  - a
+03  -xb random/booleans        235/121
+04  -xdxsubclass method calls      195x
+05  - bxtree traversals            440
+06  -xaxrun time sort algos        539
+07  - d 
+08  - b
+09  -xd iterator remove method     476
+10  - e
+11  -xbxtraversing linked list     366x
+12  - e
+13  - c
+14  - e
+15  - e
+16  - a
+17  -xc stacks queues pqs      403-409    
+18  - e
+19  - b
+20  - c
+21  -xa get method of map          493
+22  - b
+23  -xaxinorder traversal of bst   442
+24  - d
+25  -xexO() of bst algos           438
+26  - c
+27  - a
+28  -xaxrun time of treemap ops    494
+29  -xb Set methods                487
+30  -xd Map Methods                492
+31  -xe map methods                492
+32  - c
+33  - e
+34  - d
+35  -xd xxxxxxxxxxxx
+36  -xc xxxxxxxxxxxx
+37  - e xxxxxxxxxxxx
+38  - e xxxxxxxxxxxx
+39  -xb xxxxxxxxxxxx
+40  - d xxxxxxxxxxxx
