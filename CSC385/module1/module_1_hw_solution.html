@@ -1,0 +1,1097 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><!-- InstanceBegin template="/Templates/blackboard.dwt" codeOutsideHTMLIsLocked="false" --><head>
+<!-- InstanceBeginEditable name="doctitle" -->
+<title></title>
+<!-- InstanceEndEditable -->
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<style type="text/css">
+<!--
+.verd10 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: normal;
+	color: #000000;
+}
+.verd10bold {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: bold;
+	color: #000000;
+}
+.verd10red {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: normal;
+	color: #FF0000;
+}
+.verd10red_bold {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: bold;
+	color: #FF0000;
+}
+.verd12 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	color: #000000;
+}
+.verd12red {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	color: #FF0000;
+}
+.verd12red_bold {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: bold;
+	color: #FF0000;
+}
+.verd12b {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: bold;
+	color: #000000;
+}
+.verd14b {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: bold;
+	color: #000000;
+}
+.courier12 {
+	font-family: "Courier New", Courier, mono;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	color: #000000;
+}
+.courier12b {
+	font-family: "Courier New", Courier, mono;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: bold;
+	color: #000000;
+}
+.verd12u {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	color: #000000;
+	text-decoration: underline;
+}
+.times14i {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 14px;
+	font-style: italic;
+	font-weight: normal;
+	color: #000000;
+}
+.letter-list {
+	list-style-position: outside;
+	list-style-type: lower-alpha;
+}
+.small_roman_list {
+	list-style-position: outside;
+	list-style-type: lower-roman;
+}
+-->
+</style>
+<!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
+</head>
+
+<body>
+<!-- InstanceBeginEditable name="Content" -->
+<table align="left" border="0" cellpadding="5" width="100%">
+	<tbody><tr>
+		<td class="verd14b"><p>CSC 385</p>
+			<p>Module 1 Assignment</p>
+		  <p>Solution</p></td>
+	</tr>
+	<tr>
+		<td class="verd12"><p class="verd12b">&nbsp;</p>		</td>
+	</tr>
+	<tr>
+		<td class="verd12"><p>1. (2 points) State the order of magnitude for each of the following
+		  	mathematical functions.</p>
+		  <ol>
+		    <li class="letter-list">3 + <em>4logN</em>&nbsp;&nbsp;&nbsp;&nbsp; <span class="verd12b">O(logN)</span> </li>
+		    <li class="letter-list"><em>5n<sup>3</sup></em> - 7n + 30&nbsp;&nbsp;&nbsp;&nbsp; <span class="verd12b">O(N<sup>3</sup>)</span></li>
+		    <li class="letter-list"><em>70000000n<sup>2</sup></em> + 40000n
+		      + 10<sup>8</sup>&nbsp;&nbsp;&nbsp;&nbsp; <span class="verd12b">O(N<sup>2</sup>)</span></li>
+		    <li class="letter-list">(<em>n<sup>3</sup></em> + 3n<sup>2</sup> + 2n) / 6&nbsp;&nbsp;&nbsp;&nbsp; <span class="verd12b">O(N<sup>3</sup>)</span></li>
+          </ol>
+		  <p><br>
+		    <span class="verd12b"><em>The goal here was to find the order of 
+magnitude growth rate function   from Table 1.1 in the lecture that 
+corresponds to each mathematical   function. The order of magnitude is 
+determined by finding the dominant   term, which is the term that 
+contributes the most to the function's   value when N is arbitrarily 
+large, and disregarding any coefficient that   term may have. The other 
+terms of the mathematical function are   ignored. For example, for the 
+mathematical function 45n3 + 14n2 +3n + 6, the dominant term is the 
+cubic term, 45n3,   since that term will contribute most significantly 
+to the overall value   of the function when N is arbitrarily large. The 
+quadratic, linear, and   constant terms are ignored, and the coefficient
+ of the cubic term, 45,   is disregarded. This leaves n3, which 
+corresponds to O(N3).</em></span><em><br>
+	      </em></p>
+		  <p>2. (2 points) Assume you have two algorithms, A and B, both of 
+which perform the same   function, although their implementations 
+differ. Assume that algorithm A   has a running time of O(N<sup>3</sup> + 2N<sup>2</sup> + 6N + 3) and algorithm B has a running time of O(6N<sup>2</sup>
+ + 4N + 10). Also assume that the value of N is restricted to the set of
+ Natural numbers, including 0; i.e., {0, 1, 2, 3, ...}. If the 
+performances of the two algorithms are compared, assuming identical test
+   conditions for both algorithms, match each of the following questions
+   on the left to the correct answer on the right. For this question you
+   must look deeper than the order of magnitude values for Big-Oh.</p>
+		  <blockquote>
+		  	<p class="verd12b"><em>NOTE: When doing an analysis such as this, 
+only non-negative, integral values of N are of importance, since the 
+notion of a fractional problem size is undefined, as is the notion of a 
+negative problem size. A problem size of 0 represents the empty set 
+problem, which is significant to an analysis of the efficiencies of two 
+algorithms.</em></p>
+		  	<p class="verd12b">The following table illustrates the comparative efficiencies of the two algorithms, based on the number of statement executions.</p>
+		  	<table border="1" cellpadding="5" cellspacing="0" width="50%">
+		  		<tbody><tr class="verd12b">
+		  			<td align="center" width="20%">N</td>
+		  			<td align="center" width="40%">Algorithm A<br>
+		  				O(N<sup>3</sup> + 2N<sup>2</sup> + 6N + 3)</td>
+		  			<td align="center" width="40%">Algorithm B<br>
+		  				O(6N<sup>2</sup> + 4N + 10)</td>
+	  			</tr>
+		  		<tr class="verd12">
+		  			<td align="center">0</td>
+		  			<td align="center">3</td>
+		  			<td align="center">10</td>
+	  			</tr>
+		  		<tr class="verd12">
+		  			<td align="center">1</td>
+		  			<td align="center">12</td>
+		  			<td align="center">20</td>
+	  			</tr>
+		  		<tr class="verd12">
+		  			<td align="center">2</td>
+		  			<td align="center">31</td>
+		  			<td align="center">42</td>
+	  			</tr>
+		  		<tr class="verd12">
+		  			<td align="center">3</td>
+		  			<td align="center">66</td>
+		  			<td align="center">76</td>
+	  			</tr>
+		  		<tr class="verd12">
+		  			<td align="center">4</td>
+		  			<td align="center">123</td>
+		  			<td align="center">122</td>
+	  			</tr>
+		  		<tr class="verd12">
+		  			<td align="center">5</td>
+		  			<td align="center">208</td>
+		  			<td align="center">180</td>
+	  			</tr>
+		  		<tr class="verd12">
+		  			<td align="center">6</td>
+		  			<td align="center">327</td>
+		  			<td align="center">250</td>
+	  			</tr>
+		  		<tr class="verd12">
+		  			<td align="center">7</td>
+		  			<td align="center">486</td>
+		  			<td align="center">332</td>
+	  			</tr>
+		  		<tr class="verd12">
+		  			<td align="center">...</td>
+		  			<td align="center">...</td>
+		  			<td align="center">...</td>
+	  			</tr>
+		  		<tr class="verd12">
+		  			<td align="center">1000</td>
+		  			<td align="center">1,002,006,003</td>
+		  			<td align="center">6,004,010</td>
+	  			</tr>
+		  		<tr class="verd12">
+		  			<td colspan="3" align="left">Table 1. Illustration of the 
+comparative efficiencies of Algorithm A and Algorithm B, based on the 
+number of statement executions. The values in the table were obtained by
+ substituting the values in the leftmost column for N, and solving the 
+polynomials.</td>
+  			  </tr>
+	  		</tbody></table>
+		  	<p class="verd12b">&nbsp;</p>
+		  </blockquote>
+		  <ol>
+		  	<li class="letter-list">Which algorithm would be expected to be most efficient when N is arbitrarily large; i.e., as N approaches infinity?<br>
+		      <br>
+	            <span class="verd12b"><em>Algorithm B. To answer this 
+question, you only need to consider the order of magnitude of the two 
+algorithms, since for a large enough value of N, the highest order term 
+will be dominant. Algorithm B has an order of magnitude of O(N<sup>2</sup>), whereas the order of magnitude for algorithm A is O(N<sup>3</sup>).
+ When N reaches a sufficiently high value (N = 4 in this case), the 
+cubic term of algorithm A will ensure that for all values greater than 
+or equal N, the value of algorithm A will always be greater than the 
+value of algorithm B. Since lower values correspond to higher 
+efficiency, Algorithm B will be more efficient when N is large.<br>
+	            <br>
+	            To find the precise value that tips the balance towards one
+ algorithm or the other, you can set up an inequality between the two 
+polynomials and solve for N, or you can create a table where each 
+polynomial is evaluated for a series of Natural numbers, and look for 
+the value at which the growth of one polynomial clearly will always be 
+greater than the growth of the other polynomial</em></span><span class="verd12b"><em>.</em></span><br>
+		  		<br>
+	  		</li>
+		    <li class="letter-list">Which algorithm would be expected to be most efficient when N is arbitrarily small; i.e., as N approaches 0?<br>
+		    	<br>
+		    	<span class="verd12b"><em>Algorithm A. For this question, you 
+already know that algorithm A is more efficient when N is arbitrarily 
+large, and it may  be more efficient for all values of N. To test the 
+hypothesis that algorithm A is more efficient for all values of N, you 
+need to find out whether there is some N &gt; 0 such that N<sup>3</sup> + 2N<sup>2</sup> + 6N + 3 &lt; 6N<sup>2</sup>
+ + 4N + 10. If so, you can disprove the hypothesis by contradiction; if 
+not, the hypothesis holds, and algorithm A will be more efficient even 
+when N is arbitrarily small. It turns out in this case that algorithm A 
+is more efficient than algorithm B for N &lt; 3, thus disproving the 
+hypothesis by contradiction.</em></span></li>
+          </ol>
+		  <p>3.&nbsp; (2 points) Assume you have two algorithms, A and B, both
+ of which perform the same   function, although their implementations 
+differ. Assume that algorithm A   has a running time of O(N<sup>3</sup> + 2N<sup>2</sup> + 6N + 3) and algorithm B has a running time of O(6N<sup>2</sup>
+ + 4N + 10). Also assume that the value of N is restricted to the set of
+   Natural numbers, including 0; i.e., {0, 1, 2, 3, ...}. If the   
+performances of the two algorithms are compared, assuming identical test
+   conditions for both algorithms, at what value of N would you expect  
+ both algorithms to exhibit approximately the same efficiency?</p>
+		  <blockquote>
+		    <p class="verd12b"><em>N = 4. To find the precise value that tips 
+the balance towards one algorithm or   the other, you can set up an 
+inequality between the two polynomials and   solve for N, or you can 
+create a table where each polynomial is   evaluated for a series of 
+Natural numbers, and look for the value at   which the growth of one 
+polynomial clearly will always be greater than   the growth of the other
+ polynomial. Alternatively, you can set up a   table like the one shown 
+below. As you can see from the table, the two   algorithms will be 
+expected to have nearly identical performance when N =   4. There is 
+only a difference of 1 [statement execution] between the   two 
+algorithms when N = 4. Incidentally, you can also use the same   
+strategies for answering the questions of which algorithm will be more  
+ efficient when N is arbitrarily large or arbitrarily small.</em></p>
+		    <table border="1" cellpadding="5" cellspacing="0" width="50%">
+		      <tbody>
+		        <tr>
+		          <td class="verd12b" align="center">N</td>
+		          <td class="verd12b" align="center">Algorithm A</td>
+		          <td class="verd12b" align="center">Algorithm B</td>
+	            </tr>
+		        <tr>
+		          <td class="verd12" align="center">0</td>
+		          <td class="verd12" align="center">3</td>
+		          <td class="verd12" align="center">10</td>
+	            </tr>
+		        <tr>
+		          <td class="verd12" align="center">1</td>
+		          <td class="verd12" align="center">12</td>
+		          <td class="verd12" align="center">20</td>
+	            </tr>
+		        <tr>
+		          <td class="verd12" align="center">2</td>
+		          <td class="verd12" align="center">31</td>
+		          <td class="verd12" align="center">42</td>
+	            </tr>
+		        <tr>
+		          <td class="verd12" align="center">3</td>
+		          <td class="verd12" align="center">66</td>
+		          <td class="verd12" align="center">76</td>
+	            </tr>
+		        <tr class="verd12b">
+		          <td class="verd12b" align="center" bgcolor="#BFBFBF">4</td>
+		          <td class="verd12b" align="center" bgcolor="#BFBFBF">123</td>
+		          <td class="verd12b" align="center" bgcolor="#BFBFBF">122</td>
+	            </tr>
+		        <tr>
+		          <td class="verd12" align="center">5</td>
+		          <td class="verd12" align="center">208</td>
+		          <td class="verd12" align="center">180</td>
+	            </tr>
+		        <tr>
+		          <td class="verd12" align="center">6</td>
+		          <td class="verd12" align="center">327</td>
+		          <td class="verd12" align="center">250</td>
+	            </tr>
+		        <tr>
+		          <td class="verd12" align="center">7</td>
+		          <td class="verd12" align="center">486</td>
+		          <td class="verd12" align="center">332</td>
+	            </tr>
+		        <tr>
+		          <td class="verd12" align="center">...</td>
+		          <td class="verd12" align="center">...</td>
+		          <td class="verd12" align="center">...</td>
+	            </tr>
+		        <tr>
+		          <td class="verd12" align="center">1000</td>
+		          <td class="verd12" align="center">1,002,006,003</td>
+		          <td class="verd12" align="center">6,004,010</td>
+	            </tr>
+	          </tbody>
+	        </table>
+		  </blockquote>
+		  <p>4.&nbsp; (2 points) </p>
+		    <blockquote>
+		      <p>Determine the precise   (i.e., not just the order of 
+magnitude) Big-Oh values for the following   code sample, based on the 
+number of statement executions, as described   in the Module 1 lecture. 
+Choose the answer that best agrees with the   value you have determined.
+ Keep the following considerations in mind:</p>
+		      <ul>
+		        <li>&nbsp;&nbsp;&nbsp; Remember to consider each statement in compound statements separately.<br>
+		          <br>
+	            </li>
+		        <li>&nbsp;&nbsp;&nbsp; Pay close attention to the initial and end values of loop variables!<br>
+		          <br>
+	            </li>
+		        <li>&nbsp;&nbsp;&nbsp;   Loops such as "for" and "while" 
+contain an implicit "jump" instruction   that causes execution to 
+proceed from the end of the loop back to the   beginning of the loop.</li>
+	          </ul>
+		      <p>Code sample:</p>
+		      <blockquote>
+		        <p class="courier12">int i = 0;<br>
+		          <br>
+		          int j = 1;</p>
+		      </blockquote>
+		      <p class="verd12b"><em>This sample consists only of 2 simple statements, executed consecutively.</em></p>
+		      <table border="1" cellpadding="5" cellspacing="0" width="90%">
+		        <tbody><tr>
+		          <td class="verd12b" align="center" width="27%">Statement</td>
+		          <td class="verd12b" align="center" width="12%"># of times executed<br>
+		            (general)</td>
+		          <td class="verd12b" align="center" width="12%">actual # of times executed<br>
+		            (N = 10)</td>
+		          <td class="verd12b" align="center" width="49%">Comments</td>
+	            </tr>
+		        <tr>
+		          <td class="courier12" align="center">int i = 0;</td>
+		          <td class="verd12" align="center">1</td>
+		          <td class="verd12" align="center">1</td>
+		          <td class="verd12" align="left">Simple assignment statement outside of any loop --&gt; O(1).</td>
+	            </tr>
+		        <tr>
+		          <td class="courier12" align="center">int j = 1;</td>
+		          <td class="verd12" align="center">1</td>
+		          <td class="verd12" align="center">1</td>
+		          <td class="verd12" align="left">Simple assignment statement outside of any loop --&gt; O(1).</td>
+		          </tr>
+		        <tr>
+		          <td class="verd12b" align="right">Big-Oh:</td>
+		          <td class="verd12b" align="center">O(2)</td>
+		          <td class="verd12b" align="center">2</td>
+		          <td class="verd12b" align="left">Sum of all the terms. </td>
+		          </tr>
+	          </tbody></table>
+		      <p class="courier12">&nbsp;</p>
+	      </blockquote>
+		    <p><span class="verd12">5.</span>&nbsp; (2 points)</p>
+		    <blockquote>
+		      <p>Determine the precise   (i.e., not just the order of 
+magnitude) Big-Oh values for the following   code sample, based on the 
+number of statement executions, as described   in the Module 1 lecture. 
+Choose the answer that best agrees with the   value you have determined.
+ Keep the following considerations in mind:</p>
+              <ul>
+                <li>&nbsp;&nbsp;&nbsp; Remember to consider each statement in compound statements separately.<br>
+                  <br>
+                </li>
+                <li>&nbsp;&nbsp;&nbsp; Pay close attention to the initial and end values of loop variables!<br>
+                  <br>
+                </li>
+                <li>&nbsp;&nbsp;&nbsp;   Loops such as "for" and "while"
+ contain an implicit "jump" instruction   that causes execution to 
+proceed from the end of the loop back to the   beginning of the loop.</li>
+              </ul>
+              <p>Code sample:</p>
+              <blockquote>
+                <p class="courier12">for (int i = 0; i &lt; n; i++)<br>
+                  {<br>
+                  &nbsp;&nbsp;&nbsp; sum += i;<br>
+                }</p>
+              </blockquote>
+              <table border="1" cellpadding="5" cellspacing="0" width="90%">
+                <tbody><tr>
+                  <td class="verd12b" align="center" width="27%">Statement</td>
+                  <td class="verd12b" align="center"># of times executed<br>
+                    (general)</td>
+                  <td class="verd12b" align="center">actual # of times executed<br>
+                    (N = 10)</td>
+                  <td class="verd12b" align="center" width="49%">Comments</td>
+                </tr>
+                <tr>
+                  <td class="courier12" align="right">int i = 0;</td>
+                  <td class="verd12" align="center">1</td>
+                  <td class="verd12" align="center">1</td>
+                  <td class="verd12" align="left">Simple assignment statement outside any loops --&gt; O(1).</td>
+                </tr>
+                <tr>
+                  <td class="courier12" align="right">i &lt; n;</td>
+                  <td class="verd12" align="center">N + 1 </td>
+                  <td class="verd12" align="center">11</td>
+                  <td class="verd12" align="left">Conditional statement inside a O(N) loop; executes N times, plus 1 extra time to break the loop. </td>
+                </tr>
+                <tr>
+                  <td class="courier12" align="right">sum += i;</td>
+                  <td class="verd12" align="center">N</td>
+                  <td class="verd12" align="center">10</td>
+                  <td class="verd12" align="left">The <span class="courier12">i</span> loop iterates over a range of N values, so statements immediately inside the loop will be executed N times. </td>
+                </tr>
+                <tr>
+                  <td class="courier12" align="right">i++</td>
+                  <td class="verd12" align="center">N</td>
+                  <td class="verd12" align="center">10</td>
+                  <td class="verd12" align="left">Simple statement immediately inside a O(N) loop --&gt; O(N). </td>
+                </tr>
+                <tr>
+                  <td class="courier12" align="right">(i loop jump) for ( ; ; ) </td>
+                  <td class="verd12" align="center">N</td>
+                  <td class="verd12" align="center">10</td>
+                  <td class="verd12" align="left">Jump instruction from end of loop back to beginning of loop will be executed N&nbsp;times.</td>
+                </tr>
+                <tr>
+                  <td class="verd12b" align="right">Big-Oh:</td>
+                  <td class="verd12b" align="center">O(4N + 2)</td>
+                  <td class="verd12b" align="center">42</td>
+                  <td class="verd12b" align="left">Sum of all the terms. </td>
+                </tr>
+              </tbody></table>
+          </blockquote>
+		    <p>6.&nbsp; (2 points)</p>
+            <blockquote>
+              <p>Determine the precise   (i.e., not just the order of 
+magnitude) Big-Oh values for the following   code sample, based on the 
+number of statement executions, as described   in the Module 1 lecture. 
+Choose the answer that best agrees with the   value you have determined.
+ Keep the following considerations in mind:</p>
+              <ul>
+                <li>&nbsp;&nbsp;&nbsp; Remember to consider each statement in compound statements separately.<br>
+                  <br>
+                </li>
+                <li>&nbsp;&nbsp;&nbsp; Pay close attention to the initial and end values of loop variables!<br>
+                  <br>
+                </li>
+                <li>&nbsp;&nbsp;&nbsp;   Loops such as "for" and "while"
+ contain an implicit "jump" instruction   that causes execution to 
+proceed from the end of the loop back to the   beginning of the loop.</li>
+              </ul>
+              <p>Code sample:</p>
+              <blockquote>
+                <p class="courier12">for (int i = 0; i &lt; n; i++)<br>
+                  {<br>
+                  &nbsp;&nbsp;&nbsp; sum += i;<br>
+                  }<br>
+                  <br>
+                  int j = 0;<br>
+                  <br>
+                  while (j &lt; n)<br>
+                  {<br>
+                  &nbsp;&nbsp;&nbsp; sum--;<br>
+                  <br>
+                  &nbsp;&nbsp;&nbsp; j++;<br>
+                }</p>
+              </blockquote>
+              <table border="1" cellpadding="5" cellspacing="0" width="90%">
+		        <tbody><tr>
+		          <td class="verd12b" align="center" width="27%">Statement</td>
+		          <td class="verd12b" align="center"># of times executed<br>
+		            (general)</td>
+		          <td class="verd12b" align="center">actual # of times executed<br>
+		            (N = 10)</td>
+		          <td class="verd12b" align="center" width="49%">Comments</td>
+	            </tr>
+		        <tr>
+		          <td class="courier12" align="right">int i = 0;</td>
+		          <td class="verd12" align="center">1</td>
+		          <td class="verd12" align="center">1</td>
+		          <td class="verd12" align="left">Simple assignment statement outside any loops --&gt; O(1).</td>
+	            </tr>
+		        <tr>
+		          <td class="courier12" align="right">i &lt; n;</td>
+		          <td class="verd12" align="center">N + 1 </td>
+		          <td class="verd12" align="center">11</td>
+		          <td class="verd12" align="left">Conditional statement inside a O(N) loop; executes N times, plus 1 extra time to break the loop. </td>
+	            </tr>
+		        <tr>
+		          <td class="courier12" align="right">sum += i;</td>
+		          <td class="verd12" align="center">N</td>
+		          <td class="verd12" align="center">10</td>
+		          <td class="verd12" align="left">The <span class="courier12">i</span> loop iterates over a range of N values, so statements immediately inside the loop will be executed N times. </td>
+	            </tr>
+		        <tr>
+		          <td class="courier12" align="right">i++</td>
+		          <td class="verd12" align="center">N</td>
+		          <td class="verd12" align="center">10</td>
+		          <td class="verd12" align="left">Simple statement immediately inside a O(N) loop --&gt; O(N). </td>
+	            </tr>
+		        <tr>
+		          <td class="courier12" align="right">(i loop jump) for ( ; ; ) </td>
+		          <td class="verd12" align="center">N</td>
+		          <td class="verd12" align="center">10</td>
+		          <td class="verd12" align="left">Jump instruction from end of loop back to beginning of loop will be executed N&nbsp;times.</td>
+	            </tr>
+		        <tr>
+		          <td class="courier12" align="right">int j = 0;</td>
+		          <td class="verd12" align="center">1</td>
+		          <td class="verd12" align="center">1</td>
+		          <td class="verd12" align="left">This starts a consecutive loop, not a nested loop, so its running time is independent of the running time for the <span class="courier12">i</span> loop. </td>
+	            </tr>
+		        <tr>
+		          <td class="courier12" align="right">j &lt; n</td>
+		          <td class="verd12" align="center">N + 1 </td>
+		          <td class="verd12" align="center">11</td>
+		          <td class="verd12" align="left">Conditional statement inside a O(N) loop; executes N times, plus 1 extra time to break the loop. </td>
+	            </tr>
+		        <tr>
+		          <td class="courier12" align="right"> sum--;</td>
+		          <td class="verd12" align="center">N</td>
+		          <td class="verd12" align="center">10</td>
+		          <td class="verd12" align="left">Statement immediately inside a O(N) loop --&gt; O(N). </td>
+	            </tr>
+		        <tr>
+		          <td class="courier12" align="right">j++;</td>
+		          <td class="verd12" align="center">N</td>
+		          <td class="verd12" align="center">10</td>
+		          <td class="verd12" align="left">Simple statement immediately inside a O(N) loop --&gt; O(N).</td>
+	            </tr>
+		        <tr>
+		          <td class="courier12" align="right">(j loop jump) while ()</td>
+		          <td class="verd12" align="center">N</td>
+		          <td class="verd12" align="center">10</td>
+		          <td class="verd12" align="left">Jump instruction from end of loop back to beginning of loop will be executed N&nbsp;times.</td>
+	            </tr>
+		        <tr>
+		          <td class="verd12b" align="right">Big-Oh:</td>
+		          <td class="verd12b" align="center">O(8N + 4)</td>
+		          <td class="verd12b" align="center">84</td>
+		          <td class="verd12b" align="left">Sum of all the terms. </td>
+	            </tr>
+	          </tbody></table>
+            </blockquote>
+		    <p>7.&nbsp; (2 points)</p>
+	      <blockquote>
+		      <p>Determine the precise   (i.e., not just the order of 
+magnitude) Big-Oh values for the following   code sample, based on the 
+number of statement executions, as described   in the Module 1 lecture. 
+Choose the answer that best agrees with the   value you have determined.
+ Keep the following considerations in mind:</p>
+		      <ul>
+		        <li>&nbsp;&nbsp;&nbsp; Remember to consider each statement in compound statements separately.<br>
+		          <br>
+	            </li>
+		        <li>&nbsp;&nbsp;&nbsp; Pay close attention to the initial and end values of loop variables!<br>
+		          <br>
+	            </li>
+		        <li>&nbsp;&nbsp;&nbsp;   Loops such as "for" and "while" 
+contain an implicit "jump" instruction   that causes execution to 
+proceed from the end of the loop back to the   beginning of the loop.</li>
+	          </ul>
+		      <p>Code sample:</p>
+	        <blockquote>
+		        <p class="courier12">for (int i = 0; i &lt; n; i++)<br>
+		          {<br>
+		          &nbsp;&nbsp;&nbsp;
+for (int j = i; j &lt; n; j++)<br>
+&nbsp;&nbsp;&nbsp;
+{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+sum += i;<br>
+&nbsp;&nbsp;&nbsp;
+}<br>
+}</p>
+            </blockquote>
+	      
+	        <table border="1" cellpadding="5" cellspacing="0" width="90%">
+	          <tbody><tr>
+	            <td class="verd12b" align="center" width="27%">Statement</td>
+	            <td class="verd12b" align="center"># of times executed<br>
+	              (general)</td>
+	            <td class="verd12b" align="center">actual # of times executed<br>
+	              (N = 10)</td>
+	            <td class="verd12b" align="center" width="49%">Comments</td>
+	            </tr>
+		        
+	          <tr>
+	            <td class="courier12" align="right">int i = 0;</td>
+	            <td class="verd12" align="center">1</td>
+	            <td class="verd12" align="center">1</td>
+	            <td class="verd12" align="left">Simple assignment statement outside any loops --&gt; O(1).</td>
+	            </tr>
+	          <tr>
+	            <td class="courier12" align="right">i &lt; n;</td>
+	            <td class="verd12" align="center">N + 1 </td>
+	            <td class="verd12" align="center">11</td>
+	            <td class="verd12" align="left">Conditional statement inside a O(N) loop; executes N times, plus 1 extra time to break the loop. </td>
+	            </tr>
+	          <tr>
+	            <td class="courier12" align="right">int j = i;</td>
+	            <td class="verd12" align="center">N</td>
+	            <td class="verd12" align="center">10</td>
+	            <td class="verd12" align="left">Will be executed N + 1 - 1&nbsp;times, which simplifies to N.</td>
+	            </tr>
+	          <tr>
+	            <td class="courier12" align="right">j &lt; n;</td>
+	            <td class="verd12" align="center">N(N + 1)/2 + N</td>
+	            <td class="verd12" align="center">65</td>
+	            <td class="verd12" align="left"><p>This conditional statement 
+	              is inside a O(N) loop, and the range of this loop always begins at the current index of the outer loop. Therefore, the number of iterations of this loop depends on the outer loop, and the number of executions of statements inside this loop is given by the counting formula, N(N + 1)/2. Because this statement is the loop termination statement, it always executes 1 extra time for each iteration of the loop. Because the number of loop iterations is always determined by a loop's parent loop, this loop iterates N times. Therefore, the loop termination statement of this loop will execute an extra N times&nbsp;in addition to the N(N + 1)/2 times already stated.</p></td>
+              </tr>
+	          <tr>
+	            <td class="courier12" align="right">sum += i;</td>
+	            <td class="verd12" align="center">N(N + 1)/2</td>
+	            <td class="verd12" align="center">55</td>
+	            <td class="verd12" align="left">This  statement 
+                is inside a O(N) loop, and the range of this loop always begins at the current index of the outer loop. Therefore, the number of iterations of this loop depends on the outer loop, and the number of executions of statements inside this loop is given by the counting formula, N(N + 1)/2. Since this is not a loop termination statement, it is not executed any additional times beyond N(N + 1)/2.</td>
+	            </tr>
+	          <tr>
+	            <td class="courier12" align="right">j++;</td>
+	            <td class="verd12" align="center">N(N + 1)/2</td>
+	            <td class="verd12" align="center">55</td>
+	            <td class="verd12" align="left">Same as the previous 
+statement.</td>
+	            </tr>
+	          <tr>
+	            <td class="courier12" align="right">(j loop jump) for ( ; ; )</td>
+	            <td class="verd12" align="center">N(N + 1)/2</td>
+	            <td class="verd12" align="center">55</td>
+	            <td class="verd12" align="left">Same as the previous statement.</td>
+	            </tr>
+	          <tr>
+	            <td class="courier12" align="right">i++;</td>
+	            <td class="verd12" align="center">N</td>
+	            <td class="verd12" align="center">10</td>
+	            <td class="verd12" align="left">Simple statement immediately inside a O(N) loop --&gt; O(N). </td>
+	            </tr>
+	          <tr>
+	            <td class="courier12" align="right">(i loop jump) for ( ; ; )</td>
+	            <td class="verd12" align="center">N</td>
+	            <td class="verd12" align="center">10</td>
+	            <td class="verd12" align="left">Jump instruction from end of loop back to beginning of loop will be executed N&nbsp;times.</td>
+	            </tr>
+	          <tr>
+	            <td class="verd12b" align="right">Big-Oh:</td>
+	            <td class="verd12b" align="center">O(2N<sup>2</sup> + 7N + 2)</td>
+	            <td class="verd12b" align="center">272</td>
+	            <td class="verd12b" align="left">Sum of all the terms.</td>
+	            </tr>
+            </tbody></table>
+	        <p class="verd12b">&nbsp;</p>
+          </blockquote>
+		    <p>8.&nbsp; (2 points)</p>
+	      <blockquote>
+		      <p>Determine the precise   (i.e., not just the order of 
+magnitude) Big-Oh values for the following   code sample, based on the 
+number of statement executions, as described   in the Module 1 lecture. 
+Choose the answer that best agrees with the   value you have determined.
+ Keep the following considerations in mind:</p>
+		      <ul>
+		        <li>&nbsp;&nbsp;&nbsp; Remember to consider each statement in compound statements separately.<br>
+		          <br>
+	            </li>
+		        <li>&nbsp;&nbsp;&nbsp; Pay close attention to the initial and end values of loop variables!<br>
+		          <br>
+	            </li>
+		        <li>&nbsp;&nbsp;&nbsp;   Loops such as "for" and "while" 
+contain an implicit "jump" instruction   that causes execution to 
+proceed from the end of the loop back to the   beginning of the loop.</li>
+	          </ul>
+		      <p>Code sample:</p>
+	        <blockquote>
+		        <p class="courier12">for (int i = 0; i &lt; n; i++)<br>
+		          {<br>
+		          &nbsp;&nbsp;&nbsp; for (int j = 0; j &lt; n; j++)<br>
+		          &nbsp;&nbsp;&nbsp; {<br>
+		          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sum += i;<br>
+		          &nbsp;&nbsp;&nbsp; }<br>
+	            }</p>
+	          </blockquote>
+	      
+	        <table border="1" cellpadding="5" cellspacing="0" width="90%">
+	          <tbody><tr>
+	            <td class="verd12b" align="center" width="27%">Statement</td>
+	            <td class="verd12b" align="center"># of times executed<br>
+	              (general)</td>
+	            <td class="verd12b" align="center">actual # of times executed<br>
+	              (N = 10)</td>
+	            <td class="verd12b" align="center" width="49%">Comments</td>
+              </tr>
+	          <tr>
+	            <td class="courier12" align="right">int i = 0;</td>
+	            <td class="verd12" align="center">1</td>
+	            <td class="verd12" align="center">1</td>
+	            <td class="verd12" align="left">Simple assignment statement outside any loops --&gt; O(1).</td>
+              </tr>
+	          <tr>
+	            <td class="courier12" align="right">i &lt; n;</td>
+	            <td class="verd12" align="center">N + 1 </td>
+	            <td class="verd12" align="center">11</td>
+	            <td class="verd12" align="left">Conditional statement inside a O(N) loop; executes N times, plus 1 extra time to break the loop. </td>
+              </tr>
+	          <tr>
+	            <td class="courier12" align="right">int j = 0;</td>
+	            <td class="verd12" align="center">N</td>
+	            <td class="verd12" align="center">10</td>
+	            <td class="verd12" align="left">Will be executed N + 1 - 1&nbsp;times, which simplifies to N.</td>
+              </tr>
+	          <tr>
+	            <td class="courier12" align="right">j &lt; n;</td>
+	            <td class="verd12" align="center">N<sup>2</sup>&nbsp;+ N</td>
+	            <td class="verd12" align="center">110</td>
+	            <td class="verd12" align="left">This conditional statement 
+is inside a O(N) loop, the ranges of both loops are the same (0 to n), 
+and the ranges of both loops are independent of each other. The 
+complexity can therefore be calculated using simple multiplication (N * 
+N), rather than using the counting rules. This statement will  be 
+executed N<sup>2</sup> times, plus an additional N times to break the loop for each iteration of the outer loop.</td>
+              </tr>
+	          <tr>
+	            <td class="courier12" align="right">sum += i;</td>
+	            <td class="verd12" align="center">N<sup>2</sup></td>
+	            <td class="verd12" align="center">100</td>
+	            <td class="verd12" align="left">This  statement is inside a
+ O(N) loop, the ranges of both loops are the same (0 to n), and the loop
+ variables of both loops are independent of each other. This statement 
+will therefore be executed N<sup>2</sup> times.</td>
+              </tr>
+	          <tr>
+	            <td class="courier12" align="right">j++;</td>
+	            <td class="verd12" align="center">N<sup>2</sup></td>
+	            <td class="verd12" align="center">100</td>
+	            <td class="verd12" align="left">Same as the previous 
+statement. This  statement is inside a O(N) loop, the ranges of both 
+loops are the same (0 to n), and the loop variables of both loops are 
+independent of each other. This statement will therefore be executed N<sup>2</sup> times.</td>
+              </tr>
+	          <tr>
+	            <td class="courier12" align="right">(j loop jump) for ( ; ; )</td>
+	            <td class="verd12" align="center">N<sup>2</sup></td>
+	            <td class="verd12" align="center">100</td>
+	            <td class="verd12" align="left">Same as the previous statement.</td>
+              </tr>
+	          <tr>
+	            <td class="courier12" align="right">i++;</td>
+	            <td class="verd12" align="center">N</td>
+	            <td class="verd12" align="center">10</td>
+	            <td class="verd12" align="left">Simple statement immediately inside a O(N) loop --&gt; O(N). </td>
+              </tr>
+	          <tr>
+	            <td class="courier12" align="right">(i loop jump) for ( ; ; )</td>
+	            <td class="verd12" align="center">N</td>
+	            <td class="verd12" align="center">10</td>
+	            <td class="verd12" align="left">Jump instruction from end of loop back to beginning of loop will be executed N&nbsp;times.</td>
+              </tr>
+	          <tr>
+	            <td class="verd12b" align="right">Big-Oh:</td>
+	            <td class="verd12b" align="center">O(4N<sup>2</sup> + 5N + 2)</td>
+	            <td class="verd12b" align="center">452</td>
+	            <td class="verd12b" align="left">Sum of all the terms.</td>
+              </tr>
+            </tbody></table>
+	        <p>&nbsp;</p>
+          </blockquote>
+		    <p>9.&nbsp; (2 points)</p>
+            <blockquote>
+              <p>Determine the precise   (i.e., not just the order of 
+magnitude) Big-Oh values for the following   code sample, based on the 
+number of statement executions, as described   in the Module 1 lecture. 
+Choose the answer that best agrees with the   value you have determined.
+ Keep the following considerations in mind:</p>
+              <ul>
+                <li>&nbsp;&nbsp;&nbsp; Remember to consider each statement in compound statements separately.<br>
+                  <br>
+                </li>
+                <li>&nbsp;&nbsp;&nbsp; Pay close attention to the initial and end values of loop variables!<br>
+                  <br>
+                </li>
+                <li>&nbsp;&nbsp;&nbsp;   Loops such as "for" and "while"
+ contain an implicit "jump" instruction   that causes execution to 
+proceed from the end of the loop back to the   beginning of the loop.</li>
+              </ul>
+              <p>Code sample:</p>
+              <blockquote>
+                <p class="courier12">for (int i = 0; i &lt; n; i++)<br>
+                  {<br>
+                  &nbsp;&nbsp;&nbsp; sum += i;<br>
+                  }<br>
+                  <br>
+                  for (int j = 0; j &lt; n; j++)<br>
+                  {<br>
+                  &nbsp;&nbsp;&nbsp; for (int k = 0; k &lt; n; k++)<br>
+                  &nbsp;&nbsp;&nbsp; {<br>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sum--;<br>
+                  &nbsp;&nbsp;&nbsp; }<br>
+                }</p>
+              </blockquote>
+            
+		      <table border="1" cellpadding="5" cellspacing="0" width="90%">
+		        <tbody><tr>
+		          <td class="verd12b" align="center" width="27%">Statement</td>
+		          <td class="verd12b" align="center"># of times executed<br>
+		            (general)</td>
+		          <td class="verd12b" align="center">actual # of times executed<br>
+		            (N = 10)</td>
+		          <td class="verd12b" align="center" width="49%">Comments</td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right">int i = 0;</td>
+		          <td class="verd12" align="center">1</td>
+		          <td class="verd12" align="center">1</td>
+		          <td class="verd12" align="left">Simple assignment statement outside any loops --&gt; O(1).</td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right">i &lt; n;</td>
+		          <td class="verd12" align="center">N + 1 </td>
+		          <td class="verd12" align="center">11</td>
+		          <td class="verd12" align="left">Conditional statement inside a O(N) loop; executes N times, plus 1 extra time to break the loop. </td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right">sum += i;</td>
+		          <td class="verd12" align="center">N</td>
+		          <td class="verd12" align="center">10</td>
+		          <td class="verd12" align="left">The <span class="courier12">i</span> loop iterates over a range of N values, so statements immediately inside the loop will be executed N times. </td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right">i++;</td>
+		          <td class="verd12" align="center">N</td>
+		          <td class="verd12" align="center">10</td>
+		          <td class="verd12" align="left">Simple statement immediately inside a O(N) loop --&gt; O(N). </td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right">(i loop jump) for ( ; ; ) </td>
+		          <td class="verd12" align="center">N</td>
+		          <td class="verd12" align="center">10</td>
+		          <td class="verd12" align="left">Jump instruction will be executed N&nbsp;times.</td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right">int j = 0;</td>
+		          <td class="verd12" align="center">1</td>
+		          <td class="verd12" align="center">1</td>
+		          <td class="verd12" align="left">This starts a consecutive loop, not a nested loop, so its running time is independent of the running time for the <span class="courier12">i</span> loop. </td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right">j &lt; n;</td>
+		          <td class="verd12" align="center">N + 1 </td>
+		          <td class="verd12" align="center">11</td>
+		          <td class="verd12" align="left">Conditional statement inside a O(N) loop; executes N times, plus 1 extra time to break the loop. </td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right"> int k = 0;</td>
+		          <td class="verd12" align="center">N</td>
+		          <td class="verd12" align="center">10</td>
+		          <td class="verd12" align="left">Statement immediately inside a O(N) loop --&gt; O(N). </td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right">k &lt; n;</td>
+		          <td class="verd12" align="center">N<sup>2</sup> + N</td>
+		          <td class="verd12" align="center">110</td>
+		          <td class="verd12" align="left">Conditional statement executes N extra times to break the loop. Total number of executions is therefore N<sup>2</sup> + N, which can also be written as N(N + 1). </td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right">sum--;</td>
+		          <td class="verd12" align="center">N<sup>2</sup></td>
+		          <td class="verd12" align="center">100</td>
+		          <td class="verd12" align="left"><p>This  statement is inside
+ a O(N) loop, the ranges of both loops are the same (0 to n), and the 
+ranges of both loops are independent of each other. The complexity can 
+therefore be calculated using simple multiplication (N * N), rather than
+ using the counting rules. This statement will  be executed N<sup>2</sup> times</p></td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right">k++;</td>
+		          <td class="verd12" align="center">N<sup>2</sup></td>
+		          <td class="verd12" align="center">100</td>
+		          <td class="verd12" align="left">Same reasoning for the statement <span class="courier12">sum--;</span> applies here. </td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right">(k loop jump) for ( ; ; )</td>
+		          <td class="verd12" align="center">N<sup>2</sup></td>
+		          <td class="verd12" align="center">100</td>
+		          <td class="verd12" align="left">Will be executed N<sup>2</sup>&nbsp;times, since value for <span class="courier12">k</span> loop variable is independent of the value of the <span class="courier12">j</span> loop variable.</td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right">j++;</td>
+		          <td class="verd12" align="center">N</td>
+		          <td class="verd12" align="center">10</td>
+		          <td class="verd12" align="left">Statement immediately inside a O(N) loop --&gt; O(N).</td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right">(j loop jump) for ( ; ; )</td>
+		          <td class="verd12" align="center">N</td>
+		          <td class="verd12" align="center">10</td>
+		          <td class="verd12" align="left">Will be executed N&nbsp;times. (The j loop is not nested inside the i loop, so the i loop has no effect on the j loop).</td>
+		          </tr>
+		        <tr>
+		          <td class="verd12b" align="right">Big-Oh:</td>
+		          <td class="verd12b" align="center">O(4N<sup>2</sup> + 9N + 4)</td>
+		          <td class="verd12b" align="center">494</td>
+		          <td class="verd12b" align="left">Sum of all the terms listed above. </td>
+		          </tr>
+	          </tbody></table>
+		      <p>&nbsp;</p>
+	        </blockquote>
+		    <p>10.&nbsp; (2 points)</p>
+		    <blockquote>
+		      <p>Determine the precise   (i.e., not just the order of 
+magnitude) Big-Oh values for the following   code sample, based on the 
+number of statement executions, as described   in the Module 1 lecture. 
+Choose the answer that best agrees with the   value you have determined.
+ Keep the following considerations in mind:</p>
+		      <ul>
+		        <li>&nbsp;&nbsp;&nbsp; Remember to consider each statement in compound statements separately.<br>
+		          <br>
+	            </li>
+		        <li>&nbsp;&nbsp;&nbsp; Pay close attention to the initial and end values of loop variables!<br>
+		          <br>
+	            </li>
+		        <li>&nbsp;&nbsp;&nbsp;   Loops such as "for" and "while" 
+contain an implicit "jump" instruction   that causes execution to 
+proceed from the end of the loop back to the   beginning of the loop.</li>
+	          </ul>
+		      <p>Code sample:</p>
+		      <blockquote>
+		        <p class="courier12">for (int i = 0; i &lt; n; i++)<br>
+		          {<br>
+		          &nbsp;&nbsp;&nbsp; for (int j = i; j &lt; n; j++)<br>
+		          &nbsp;&nbsp;&nbsp; {<br>
+		          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for (int k = j; k &lt; n; k++)<br>
+		          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>
+		          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sum += j;<br>
+		          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+		          &nbsp;&nbsp;&nbsp; }<br>
+	            }</p>
+	          </blockquote>
+		      <table border="1" cellpadding="5" cellspacing="0" width="90%">
+		        <tbody><tr>
+		          <td class="verd12b" align="center" width="27%">Statement</td>
+		          <td class="verd12b" align="center"># of times executed<br>
+		            (general)</td>
+		          <td class="verd12b" align="center">actual # of times executed<br>
+		            (N = 10)</td>
+		          <td class="verd12b" align="center" width="49%">Comments</td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right">int i = 0;</td>
+		          <td class="verd12" align="center">1</td>
+		          <td class="verd12" align="center">1</td>
+		          <td class="verd12" align="left">Simple assignment statement outside any loops --&gt; O(1).</td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right">i &lt; n;</td>
+		          <td class="verd12" align="center">N + 1 </td>
+		          <td class="verd12" align="center">11</td>
+		          <td class="verd12" align="left">Conditional statement inside a O(N) loop; executes N times, plus 1 extra time to break the loop. </td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right">int j = i;</td>
+		          <td class="verd12" align="center">N</td>
+		          <td class="verd12" align="center">10</td>
+		          <td class="verd12" align="left">Simple assignment statement,
+ but it is executed once for every iteration of the outer loop. Since 
+the outer loop iterates over the range 0 to N - 1, which consists of N 
+values, all statements immediately inside the outer loop will be 
+executed N times. This corresponds to the linear counting formula.</td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right">j &lt; n;</td>
+		          <td class="verd12" align="center">N(N + 1)/2 + N </td>
+		          <td class="verd12" align="center">65</td>
+		          <td class="verd12" align="left">This conditional statement is evaluated at the 2<sup>nd</sup> level of the loop structure. Since the value of <span class="courier12">j</span> is dependent on the current value of <span class="courier12">i</span>, the base number of executions is given by the 2<sup>nd</sup>
+ figurate number formula: N(N + 1)/2. However, since this is a loop 
+termination condition, it must also be executed an additional time for 
+every iteration of the enclosing <span class="courier12">i</span> loop. Since the <span class="courier12">i</span> loop executes N times, this conditional statement therefore executes an additional N times. </td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right">int k = j;</td>
+		          <td class="verd12" align="center">N(N + 1)/2</td>
+		          <td class="verd12" align="center">55</td>
+		          <td class="verd12" align="left">This  statement is at the 2<sup>nd</sup> level of the loop structure. Since the value of <span class="courier12">j</span> is dependent on the current value of <span class="courier12">i</span>, the  number of executions is given by the 2<sup>nd</sup> figurate number formula: N(N + 1)/2. This is not a loop termination condition, so there are no additional executions required.</td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right">k &lt; n;</td>
+		          <td class="verd12" align="center">N(N + 1)(N + 2)/6 + N(N + 1)/2</td>
+		          <td class="verd12" align="center">275</td>
+		          <td class="verd12" align="left">This conditional statement is nested at the 3<sup>rd</sup> level. Since the value of <span class="courier12">k</span> is dependent on the current value of <span class="courier12">j</span>, and the value of <span class="courier12">j</span> is dependent on the current value of <span class="courier12">i</span>, the base number of executions is given by the 3<sup>rd</sup>
+ figurate number formula: N(N + 1)(N + 2)/6. However, since this is a 
+loop termination condition, it must also be executed an additional time 
+for every iteration of the enclosing <span class="courier12">j</span> loop, so the total number of executions will be N(N + 1)(N + 2)/6 + N(N + 1)/2.</td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right">sum += j;</td>
+		          <td class="verd12" align="center">N(N + 1)(N + 2)/6</td>
+		          <td class="verd12" align="center">220</td>
+		          <td class="verd12" align="left">This  statement is nested at the 3<sup>rd</sup> level. Since the value of <span class="courier12">k</span> is dependent on the current value of <span class="courier12">j</span>, and the value of <span class="courier12">j</span> is dependent on the current value of <span class="courier12">i</span>, the  number of executions is given by the 3<sup>rd</sup>
+ figurate number formula: N(N + 1)(N + 2)/6. Since this is not a loop 
+termination condition, no additional executions will be performed.</td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right">k++;</td>
+		          <td class="verd12" align="center">N(N + 1)(N + 2)/6</td>
+		          <td class="verd12" align="center">220</td>
+		          <td class="verd12" align="left">Same reasoning as&nbsp;above.</td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right">(k loop jump) for ( ; ; )</td>
+		          <td class="verd12" align="center">N(N + 1)(N + 2)/6</td>
+		          <td class="verd12" align="center">220</td>
+		          <td class="verd12" align="left">Same reasoning as&nbsp;above.</td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right">j++;</td>
+		          <td class="verd12" align="center">N(N + 1)/2</td>
+		          <td class="verd12" align="center">55</td>
+		          <td class="verd12" align="left">This  statement is at the 2<sup>nd</sup> level of the loop structure. Since the value of <span class="courier12">j</span> is dependent on the current value of <span class="courier12">i</span>, the  number of executions is given by the 2<sup>nd</sup> figurate number formula: N(N + 1)/2. This is not a loop termination condition, so there are no additional executions required.</td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right">(j loop jump) for ( ; ; )</td>
+		          <td class="verd12" align="center">N(N + 1)/2</td>
+		          <td class="verd12" align="center">55</td>
+		          <td class="verd12" align="left">Same reasoning as above.</td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right">i++;</td>
+		          <td class="verd12" align="center">N</td>
+		          <td class="verd12" align="center">10</td>
+		          <td class="verd12" align="left">This statement is at the 1<sup>st</sup>
+ level of nesting of the loop structure, so it will be executed N times.
+ It is not a loop termination condition, so no additional executions 
+will be performed.</td>
+		          </tr>
+		        <tr>
+		          <td class="courier12" align="right">(i loop jump) for ( ; ; )</td>
+		          <td class="verd12" align="center">N</td>
+		          <td class="verd12" align="center">10</td>
+		          <td class="verd12" align="left">Same reasoning as above.</td>
+		          </tr>
+		        <tr>
+		          <td class="verd12b" align="right">Big-Oh:</td>
+		          <td class="verd12b" align="center">O((4N<sup>3</sup> + 27N<sup>2</sup> + 53N + 12)/6)</td>
+		          <td class="verd12b" align="center">1207</td>
+		          <td class="verd12b" align="left">Sum of all the terms. </td>
+		          </tr>
+	          </tbody></table>
+	      </blockquote></td>
+  </tr>
+</tbody></table>
+<!-- InstanceEndEditable -->
+
+
+
+</body><!-- InstanceEnd --></html>
