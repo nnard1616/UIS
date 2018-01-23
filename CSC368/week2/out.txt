@@ -1,0 +1,43 @@
+Problem 1
+1a.) who | grep 'root' >> prints root along with some information about them, such as date/time of login and ip address, if root is logged in. If root is not logged in, this prints nothing.
+1b.) ps aux | sort >> prints all of the processes running on the server, sorted in ascending order by characters.
+1c.) date | cut -c12-16 >> prints the current HH:MM time.
+
+Problem 2
+2a.) who | grep '^[A-Za-z0-9_-]\{4,\}' | cut --delimiter=' ' -f1 >> will print all usernames with 4 or more alphanumeric characters.
+nnard2
+2b.) cat /etc/passwd | grep '^[A-Za-z0-9_-]\{8,\}' | cut -d: -f1 >> will print all users with ids 8 or more characters in length.
+shutdown
+operator
+nfsnobody
+haldaemon
+saslauth
+oprofile
+its_services
+avahi-autoipd
+mailnull
+systemd-bus-proxy
+systemd-network
+2c.) cat /etc/passwd | grep -c '^[A-Za-z0-9_-]\{8,\}' >> will print the number of users with ids 8 or more characters in length.
+11
+2d.) ls -alS ~ | grep '^-' | tr -s ' ' ' ' | cut --delimiter=' ' -f6,10 >> will print all files in home directory in decreasing size.
+8297 .bash_history
+6780 .viminfo
+412 .bashrc
+334 .emacs
+231 .bashrc.rpmnew
+193 .bash_profile
+18 .bash_logout
+17 .vimrc
+
+Problem 3
+3a.) The purpose of grep (global regular expression print) is to search for a provided string pattern in a one or more files, or the standard input when no file is provided. It will print every full line that contains the query string pattern.
+3b.) Grep cannot be used to alter files alone, its purpose is simply to read through files. It has no functionality to alter files.
+3c.) who | grep 'root' >> will print information about root if they are logged in, nothing otherwise.
+
+Problem 4
+4a.) grep 'UNIX' intro >> will print all lines that contain the string 'Unix'.
+The UNIX operating system was pioneered by Ken
+the design of the UNIX system was to create an
+4b.) grep '[0-9]\+' intro >> will print all lines that contain a number.
+in the late 1960s. One of the primary goals in
