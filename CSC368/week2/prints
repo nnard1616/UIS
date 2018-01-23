@@ -1,0 +1,2 @@
+1b.) ps aux | sort all of the processes running on the server, sorted.
+1c.) date | cut -c12-16 the current HH:MM time.

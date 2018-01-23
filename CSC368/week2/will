@@ -1,0 +1,2 @@
+2a.) who | grep '^\w\{4,\}' | cut --delimiter='' '' -f1 print all usernames with 4 or more alphanumeric characters
+2b.) cat /etc/passwd | grep '^[A-Za-z0-9_-]\{8,\}' | cut -d: -f1 print all users with ids 8 or more characters in length.
