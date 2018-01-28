@@ -71,9 +71,6 @@ public class DirectoryLister
             //create File object for base case.
             File baseFile = new File(basePath);
             
-            
-            
-            
             enumerateDirectory(baseFile);
 	}
 	
@@ -87,7 +84,7 @@ public class DirectoryLister
 	{
             //Add current directory to gui table
             gui.updateListing(f.getAbsolutePath(), 
-                              getSizeString(f.getTotalSpace()), 
+                              getSizeString(fileSize(f)), 
                               "Folder", 
                               formattedDateString(f.lastModified()));
             
@@ -99,7 +96,7 @@ public class DirectoryLister
                                               .sorted()
                                               .filter(n -> n.isFile());
             
-            //create folder stream because I want to learn more about streams/lamdas.
+            //create folder stream because I want to learn more about streams/lambdas.
             Stream<File> folderStream = Stream.of(children)
                                               .sorted()
                                               .filter(n -> n.isDirectory());
@@ -114,6 +111,32 @@ public class DirectoryLister
                                                       formattedDateString(n.lastModified())));
 	}
         
+        //It appears streams "close" (?) in between recursion steps, so I will 
+        //have to use this separate traditional for loop/recursive function to
+        //get folder size, as a sum of the file sizes.
+        private long fileSize(File in){
+            long sum = 0;
+            
+            //if in is a file
+            if (in.isFile())
+                
+                //return file size
+                return in.length();
+            
+            //else in is a folder
+            else { 
+                
+                //iterate through folder contents
+                for (File f : in.listFiles()){
+                    
+                    //add content size to working sum
+                    sum += fileSize(f);
+                }
+                
+                //return total folder size (as a sum of its file sizes)
+                return sum;
+            }
+        }
 	
 	
 	/**
