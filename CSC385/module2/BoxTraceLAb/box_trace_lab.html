@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><!-- InstanceBegin template="/Templates/blackboard.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<!-- InstanceBeginEditable name="doctitle" -->
+<title></title>
+<!-- InstanceEndEditable -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
+<!--
+.verd10 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: normal;
+	color: #000000;
+}
+.verd10bold {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: bold;
+	color: #000000;
+}
+.verd10red {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: normal;
+	color: #FF0000;
+}
+.verd10red_bold {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: bold;
+	color: #FF0000;
+}
+.verd12 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	color: #000000;
+}
+.verd12red {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	color: #FF0000;
+}
+.verd12red_bold {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: bold;
+	color: #FF0000;
+}
+.verd12b {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: bold;
+	color: #000000;
+}
+.verd14b {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: bold;
+	color: #000000;
+}
+.courier12 {
+	font-family: "Courier New", Courier, mono;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	color: #000000;
+}
+.courier12b {
+	font-family: "Courier New", Courier, mono;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: bold;
+	color: #000000;
+}
+.verd12u {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	color: #000000;
+	text-decoration: underline;
+}
+.times14i {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 14px;
+	font-style: italic;
+	font-weight: normal;
+	color: #000000;
+}
+.letter-list {
+	list-style-position: outside;
+	list-style-type: lower-alpha;
+}
+.small_roman_list {
+	list-style-position: outside;
+	list-style-type: lower-roman;
+}
+-->
+</style>
+<!-- InstanceBeginEditable name="head" -->
+<script src="AC_RunActiveContent.js" type="text/javascript"></script>
+<!-- InstanceEndEditable -->
+</head>
+
+<body>
+<!-- InstanceBeginEditable name="Content" -->
+<table width="100%"  border="0" align="left" cellpadding="5">
+	<tr>
+		<td class="verd14b">Module 2: Box Trace Lab </td>
+	</tr>
+	<tr>
+		<td class="verd12"><p>This lab will help you  become familiar with using the box
+				trace method to trace a recursive algorithm.</p>
+		</td>
+	</tr>
+	<tr>
+		<td class="verd12">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="verd12b">Introduction</td>
+	</tr>
+	<tr>
+		<td class="verd12"><p>Tracing the execution of a recursive algorithm can be
+				tricky.&nbsp; The
+				difficulty lies in the fact that you need to keep track of multiple
+				instances of the recursive method.&nbsp; One thing that is important to remember
+				is that when a recursive call is made, execution of the current instance
+				of the method is suspended and a new instance of the recursive method
+				is created.&nbsp; New method instances are created until the base case is
+				reached.&nbsp; Once the base case has been reached, and a concrete value
+				can be returned, execution traces back through the method instances in reverse
+			order until the original recursive call can return a value. </p>
+			<p>Commonly a stack is used to illustrate this process.&nbsp; An alternative
+			method of tracing a recursive algorithm is known as the Box Trace method.&nbsp; This
+			method is sort of like a stack placed on its side, but it uses arrows
+			to indicate the flow of execution.</p>
+	  </td>
+	</tr>
+	<tr>
+		<td class="verd12b">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="verd12b">Instructions</td>
+	</tr>
+	<tr>
+		<td class="verd12"><p>The Flash animation below will allow you to trace through
+				a recursive algorithm for calculating factorial values.&nbsp; The algorithm
+			is shown in the lower pane.&nbsp; The currently executing statement is highlighted.</p>
+			<p>To slowly trace step-by-step through the algorithm, click the &quot;Step&quot; button.&nbsp; Click
+				the &quot;Play&quot; button to let the algorithm run without pauses.&nbsp; When
+				playing you can click the &quot;Stop&quot; button to stop execution, and click
+				&quot;Play&quot; again to resume.</p>
+			<p>By default the algorithm will compute the value of 7 factorial.&nbsp; To
+				change this value, click the &quot;input&quot; button. </p>
+	  </td>
+	</tr>
+	<tr>
+		<td class="verd12"><script type="text/javascript">
+AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0','width','640','height','480','src','N_factorial','loop','false','quality','high','pluginspage','http://www.macromedia.com/go/getflashplayer','movie','N_factorial' ); //end AC code
+</script><noscript><object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,29,0" width="640" height="480">
+      	<param name="movie" value="N_factorial.swf">
+      	<param name="quality" value="high"><param name="LOOP" value="false">
+      	<embed src="N_factorial.swf" width="640" height="480" loop="false" quality="high" pluginspage="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash"></embed>
+		</object></noscript></td>
+	</tr>
+</table>
+<!-- InstanceEndEditable -->
+
+</body>
+<!-- InstanceEnd --></html>
