@@ -3,7 +3,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.awt.*;
 import java.util.stream.Stream;
-
+import javax.swing.JOptionPane;
 
 /**
  * DirectoryLister class.
@@ -68,12 +68,28 @@ public class DirectoryLister
 	 */
 	public void showDirectoryContents(String basePath)
 	{
-            //create File object for base case.
-            File baseFile = new File(basePath);
-            
-            enumerateDirectory(baseFile);
+            try{
+                if(basePath == null)
+                    throw new Exception("You did not choose a directory,\nso I'm not going to do anything.");
+                
+                //create File object for base case.
+                File baseFile = new File(basePath);
+                
+                //scan through base case File and add its contents to the table.
+                enumerateDirectory(baseFile);
+                
+            }catch(NullPointerException npe){
+                JOptionPane.showMessageDialog(null, 
+                                              "The specified filename is invalid.", 
+                                              "Error", 
+                                              JOptionPane.ERROR_MESSAGE);
+            }catch(Exception e){ 
+                JOptionPane.showMessageDialog(null, 
+                                              e.getMessage(), 
+                                              "FYI", 
+                                              JOptionPane.INFORMATION_MESSAGE);
+            }
 	}
-	
 	
 	/**
 	 *	Recursive method to enumerate the contents of a directory.
@@ -84,53 +100,58 @@ public class DirectoryLister
 	{
             //Add current directory to gui table
             gui.updateListing(f.getAbsolutePath(), 
-                              getSizeString(fileSize(f)), 
+                              getSizeString(f.length()), // can alternatively use method folderSize, defined below.
                               "Folder", 
                               formattedDateString(f.lastModified()));
             
             //obtain children File/Folder array
             File[] children = f.listFiles();
             
-            //create file stream because I don't feel like using for loops.
+            //create file stream 
             Stream<File> fileStream   = Stream.of(children)
                                               .sorted()
                                               .filter(n -> n.isFile());
             
-            //create folder stream because I want to learn more about streams/lambdas.
+            //create folder stream 
             Stream<File> folderStream = Stream.of(children)
                                               .sorted()
                                               .filter(n -> n.isDirectory());
             
-            //funcitonal for loop to recurse through Folders
+            //recurse through Folders
             folderStream.forEach(n -> enumerateDirectory(n));
             
-            //functional for loop to add current Folder's Files to gui table
+            //add current Folder's Files to gui table
             fileStream.forEach(n -> gui.updateListing(n.getAbsolutePath(), 
                                                       getSizeString(n.length()), 
                                                       "File", 
                                                       formattedDateString(n.lastModified())));
 	}
         
-        //It appears streams "close" (?) in between recursion steps, so I will 
-        //have to use this separate traditional for loop/recursive function to
-        //get folder size, as a sum of the file sizes.
-        private long fileSize(File in){
+        // BONUS
+        /**
+	 *	Recursive method to calculate the size of a folder as a sum of
+	 *      the sizes of the files contained within the folder and sub-folders.
+         * 
+	 *	@param	f	folder to compute size of.
+         *      @return         folder size in bytes.
+	 */
+        private long folderSize(File f){
             long sum = 0;
             
-            //if in is a file
-            if (in.isFile())
+            //if f is a file
+            if (f.isFile())
                 
                 //return file size
-                return in.length();
+                return f.length();
             
-            //else in is a folder
+            //else f is a folder
             else { 
                 
                 //iterate through folder contents
-                for (File f : in.listFiles()){
+                for (File ff : f.listFiles()){
                     
                     //add content size to working sum
-                    sum += fileSize(f);
+                    sum += folderSize(ff);
                 }
                 
                 //return total folder size (as a sum of its file sizes)
@@ -140,17 +161,17 @@ public class DirectoryLister
 	
 	
 	/**
-	 *	Convert a size from bytes to kilobytes, rounded down, and return an appropriate descriptive string.
-	 *	Example: 123456 bytes returns 120 KB
+	 *	Convert a size from bytes to kibibytes, rounded down, and return an appropriate descriptive string.
+	 *	Example: 123456 bytes returns 120 KiB
 	 *
 	 *	@param size		size, in bytes
-	 *	@return			size, in kilobytes (rounded down) + "KB"
+	 *	@return			size, in kibibytes (rounded down) + "KiB"
 	 */
 	private String getSizeString(long size)
 	{
-		long kbSize = size / 1024;
+		long kibSize = size / 1024;
 		
-		return "" + kbSize + " KB";
+		return "" + kibSize + " KiB";
 	}
 	
 	
