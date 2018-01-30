@@ -13,7 +13,7 @@ if [[ $# != 1 ]] ; then
    exit 2
 fi
 
-# Check if argument is a number.
+# Check if argument is a integer. 
 re='^[0-9]+$'
 if ! [[ $1 =~ $re ]] ; then
    echo "Error: Not an integer";
