@@ -32,7 +32,7 @@ public class Main{
         String[][] fruits = new String[][] {fruits1, fruits2, fruits3};
         
         
-        CommonElements u = new CommonElements();
+        CommonElementsBS u = new CommonElementsBS();
         Comparable[] result = u.findCommonElements(fruits);
         
         for (Comparable r : result)
@@ -55,27 +55,31 @@ public class Main{
             largeTestCopy[k] = collection.clone();
         }
         
-        CommonElementsOLD old = new CommonElementsOLD();
-        CommonElements neo = new CommonElements();
+        CommonElements seq  = new CommonElements();
+        CommonElementsBS bs = new CommonElementsBS();
         
-        Comparable[] oldResults = old.findCommonElements(largeTest);
-        Comparable[] newResults = neo.findCommonElements(largeTestCopy);
+        Comparable[] seqResults = seq.findCommonElements(largeTest);
+        Comparable[] bsResults = bs.findCommonElements(largeTestCopy);
         
-        System.out.println("Here are the old results: " + old.getComparisons());
-        System.out.println(oldResults.length);
-        if (oldResults.length <6)
-            for (Comparable c : oldResults)
+        System.out.println("Here are the BS results: " + bs.getComparisons());
+        System.out.println(seqResults.length);
+        if (seqResults.length <6)
+            for (Comparable c : seqResults)
                 System.out.println(c);
         
-        System.out.println("Here are the new results: " + neo.getComparisons());
-        System.out.println(newResults.length);
-        if (newResults.length < 6)
-            for (Comparable c : newResults)
+        System.out.println("Here are the seq results: " + seq.getComparisons());
+        System.out.println(bsResults.length);
+        if (bsResults.length < 6)
+            for (Comparable c : bsResults)
                 System.out.println(c);
         
         
         Statistics computation = new Statistics(largeTest[7]);
         System.out.println(computation.getVariance());
+        
+        int test = 4;
+        System.out.println(test + ": " + ++test);
+        System.out.println(test + ": " + --test);
         
     }
     
