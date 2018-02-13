@@ -32,7 +32,7 @@ public class Main{
         String[][] fruits = new String[][] {fruits1, fruits2, fruits3};
         
         
-        CommonElementsBS u = new CommonElementsBS();
+        CommonElements u = new CommonElements();
         Comparable[] result = u.findCommonElements(fruits);
         
         for (Comparable r : result)
@@ -43,7 +43,7 @@ public class Main{
         int N = 1000;
         int K = 100;
         int P = 200; //range of numbers to randomize over
-        
+       
         Integer[][] largeTest = new Integer[K][];
         Integer[][] largeTestCopy = new Integer[K][];
         for (int k = 0; k<K; k++){
@@ -55,31 +55,42 @@ public class Main{
             largeTestCopy[k] = collection.clone();
         }
         
+        Integer[] avg1         = {0,0,0,0,1,3,3,4,4,4};
+        Integer[] avg2         = {0,0,1,1,1,2,2,3,4,4};
+        Integer[] avg3         = {0,1,2,2,2,3,3,3,3,3};
+        Integer[] avg4         = {0,1,1,1,2,2,3,3,3,3};
+        Integer[] avg5         = {0,0,1,1,1,2,2,3,4,4};
+        
+        Integer[] worst1       = {0,0,0,0,2,2,3,3,4,4};
+        Integer[] worst2       = {0,0,0,0,1,2,3,4,4,4};
+        Integer[] worst3       = {0,0,0,1,1,2,2,3,4,4};
+        Integer[] worst4       = {0,1,2,2,2,3,3,3,4,4};
+        Integer[] worst5       = {0,0,0,0,0,1,2,3,3,3};
+        
+        Integer[] worstJagged1 = {0,0,1,2,2,2,3,4,5,7};
+        Integer[] worstJagged2 = {0,1,1,2,3,4,4,5,5,6,6,7,7};
+        Integer[] worstJagged3 = {0,0,0,1,1,1,2,2,3,3,3,3,4,5,5,7};
+        Integer[] worstJagged4 = {0,0,0,1,1,1,1,2,3,4,4,4,5,6,6,6,6,7,7};
+        Integer[] worstJagged5 = {0,0,0,1,1,1,1,1,1,1,2,2,2,2,2,3,4,4,5,5,6,6};
+        
+        Integer[][] avgTest         = {avg1, avg2, avg3, avg4, avg5};
+        Integer[][] worstTest       = {worst1, worst2, worst3, worst4, worst5};
+        Integer[][] worstJaggedTest = {worstJagged1, worstJagged2, worstJagged3, worstJagged4, worstJagged5};
+        Integer[][] emptyTest       = {};
+        Integer[][] oneEmptyTest    = {avg1, {}, avg2, avg3, avg4, avg5};
+        
         CommonElements seq  = new CommonElements();
-        CommonElementsBS bs = new CommonElementsBS();
         
         Comparable[] seqResults = seq.findCommonElements(largeTest);
-        Comparable[] bsResults = bs.findCommonElements(largeTestCopy);
         
-        System.out.println("Here are the BS results: " + bs.getComparisons());
-        System.out.println(seqResults.length);
-        if (seqResults.length <6)
+        System.out.println("Here are the seq comparisons: " + seq.getComparisons());
+        System.out.println("Here are the seq number of results: " + seqResults.length);
+        
+        if (seq.getComparisons() > 40)
+            seq.writeToFile();
+        if (seqResults.length <15)
             for (Comparable c : seqResults)
                 System.out.println(c);
-        
-        System.out.println("Here are the seq results: " + seq.getComparisons());
-        System.out.println(bsResults.length);
-        if (bsResults.length < 6)
-            for (Comparable c : bsResults)
-                System.out.println(c);
-        
-        
-        Statistics computation = new Statistics(largeTest[7]);
-        System.out.println(computation.getVariance());
-        
-        int test = 4;
-        System.out.println(test + ": " + ++test);
-        System.out.println(test + ": " + --test);
         
     }
     

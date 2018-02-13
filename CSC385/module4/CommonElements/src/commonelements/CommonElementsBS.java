@@ -57,7 +57,7 @@ public class CommonElementsBS {
                     
                 // If we've reached the end of the next array we're examining for commonalities,
                 // then we're done looking for commonalities as well, break and move on to next array.
-                nextArrayCurrentElementIndex == nextArray.length - 1)
+                nextArrayCurrentElementIndex == nextArray.length)
                 break;
             
             comparisons++;
@@ -75,7 +75,7 @@ public class CommonElementsBS {
             
             
             // Threshold for sequential search over binary search.
-            int cutoff = 5;
+            int cutoff = 7;
 
             // if commonality is smaller than current element in next array, then move on to the next
             // commonality to check.
@@ -92,7 +92,9 @@ public class CommonElementsBS {
             // if commonality is bigger than current element in next array,
             // then search for commonality in next array, 
             } else if (compResult > 0){
-                if (arrayElementsToCommonalityRatio <= cutoff){ //Cutoff for deciding between sequential and binary search.
+                
+                //Cutoff for deciding between sequential and binary search.
+                if (arrayElementsToCommonalityRatio> cutoff){ 
                     //sequential search
                     nextArrayCurrentElementIndex++;  //move to next element in nextArray
                     n--;                             //stay on this commonality.
@@ -164,6 +166,8 @@ public class CommonElementsBS {
         while (low <= high){
             mid = (low + high)/2;
             
+            
+            
             comparisons++;
             int compResult = objArray[mid].compareTo(searchObj);
             if (compResult < 0)
@@ -171,11 +175,12 @@ public class CommonElementsBS {
             else if (compResult > 0)
                 high = mid - 1;
             else if (low != mid){ //necessary for finding first occurrence
-                do{
-                    comparisons++;
-                    compResult = objArray[--mid].compareTo(searchObj);
-                } while (compResult == 0);
-                return ++mid;
+                high = mid;
+//                do{
+//                    comparisons++;
+//                    compResult = objArray[--mid].compareTo(searchObj);
+//                } while (compResult == 0);
+//                return ++mid;
             }
             else
                 return mid;
