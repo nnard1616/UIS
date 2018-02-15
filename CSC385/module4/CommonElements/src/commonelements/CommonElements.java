@@ -19,10 +19,10 @@ public class CommonElements {
         return comparisons;
     }
     
-    //User side findCommonElements
-    /**Returns an array of elements common to a series of arrays
+    /**Returns an array of elements common to a series of arrays.
      *  @param  collections          2D Array of arrays to search for common 
-     *                               elements within.
+     *                               elements within.  Assumes user passes a 2D 
+     *                               array with no null elements.
      *  @return                      Returns array of Comparable elements that 
      *                               are common between all of the arrays.
      */
@@ -34,7 +34,7 @@ public class CommonElements {
         
         // if collections has stuff, do work
         if (collections.length >0)
-            return trimNulls(findCommonElementsRecursively(1, collections[0]));
+            return trimTrailingNulls(findCommonElementsRecursively(1, collections[0]));
         
         // otherwise, nothing to do. Return empty array.
         else
@@ -69,7 +69,7 @@ public class CommonElements {
         Comparable[] revisedQuery = new Comparable[query.length];
         
         // keep track of where to add common element to revisedQuery
-        int currentRevisedCommonalityIndex = 0;
+        int revisedQueryIndex = 0;
         
         // keep track of where we are in the next array's elements.
         int nextArrayCurrentElementIndex = 0;
@@ -89,27 +89,32 @@ public class CommonElements {
             comparisons++;
             int compResult = query[n].compareTo(collections[ indexOfNextArray ][ nextArrayCurrentElementIndex ]);
             
+            // if query element is smaller than the element in the next array,
+            // then move on to the next query element.
+            if (compResult < 0)
+                continue;
+            
             // if query element is the same as the element in next array,
             // then add element to revisedQuery
             if (compResult == 0){
-                revisedQuery[ currentRevisedCommonalityIndex ] = query[ n ];
-                currentRevisedCommonalityIndex++; //move to next slot in revisedQuery
+                revisedQuery[ revisedQueryIndex ] = query[ n ];
+                revisedQueryIndex++;              //move to next slot in revisedQuery
                 nextArrayCurrentElementIndex++;   //move to next element in nextArray.
                 
-            // if commonality is bigger than element in next array,
+            // if query element is bigger than element in next array,
             // then move on to next element in next array, but keep the 
-            // current commonality that we're querying with.
+            // current query element that we're querying with.
             } else if (compResult > 0){
                 nextArrayCurrentElementIndex++;  //move to next element in nextArray
-                n--;                             //stay on this commonality.
+                n--;                             //stay on this query element.
             }  
         }
         
-        // TAIL RECURSION
+        // TAIL RECURSION, move on to next array with revised query
         return findCommonElementsRecursively(++indexOfNextArray, revisedQuery);
     }
     
-    private Comparable[] trimNulls(Comparable[] in){
+    private Comparable[] trimTrailingNulls(Comparable[] in){
         return Arrays.copyOf(in, countNotNulls(in));
     }
     

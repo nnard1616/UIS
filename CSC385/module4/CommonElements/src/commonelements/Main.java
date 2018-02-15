@@ -40,8 +40,8 @@ public class Main{
         System.out.println(u.getComparisons());
         
         
-        int N = 1000;
-        int K = 100;
+        int N = 10;
+        int K = 5;
         int P = 200; //range of numbers to randomize over
        
         Integer[][] largeTest = new Integer[K][];
@@ -81,7 +81,7 @@ public class Main{
         
         CommonElements seq  = new CommonElements();
         
-        Comparable[] seqResults = seq.findCommonElements(largeTest);
+        Comparable[] seqResults = seq.findCommonElements(avgTest);
         
         System.out.println("Here are the seq comparisons: " + seq.getComparisons());
         System.out.println("Here are the seq number of results: " + seqResults.length);
