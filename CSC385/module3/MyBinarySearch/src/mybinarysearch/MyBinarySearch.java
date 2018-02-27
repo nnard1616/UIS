@@ -35,8 +35,6 @@ public class MyBinarySearch {
         }
         
         // query was not present in array, and is between the bounds.
-        //    even length array, add 1 to result
-        //    odd  length array, return result as is
-        return (objArray.length % 2 == 0) ? ++mid : mid;
+        return (high+low)/2+1;
     }
 }
