@@ -12,5 +12,5 @@ import java.util.Random;
  * @author nathan
  */
 public class Randomizer {
-    public static Random Do = new Random();
+    public static Random Give = new Random();
 }

@@ -5,8 +5,12 @@
  */
 package antcolonysimulation.environment;
 
+import antcolonysimulation.ants.Bala;
 import antcolonysimulation.ants.Enemy;
+import antcolonysimulation.ants.Forager;
 import antcolonysimulation.ants.Friendly;
+import antcolonysimulation.ants.Scout;
+import antcolonysimulation.ants.Soldier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -18,6 +22,11 @@ import java.util.Set;
 public class Space {
     private Map<Integer, Enemy> enemyAnts;
     private Map<Integer, Friendly> friendlyAnts;
+    private int scoutCount = 0;
+    private int foragerCount = 0;
+    private int soldierCount = 0;
+    private int queenCount   = 0;
+    private int balaCount    = 0;
     private int food;
     private final int[] coordinates;
     private int pheromone = 0;
@@ -52,21 +61,32 @@ public class Space {
         return explored;
     }
     
-    public void toggleExplored(){
-        this.explored = !explored;
-    }
-    
     public void addEnemy(Enemy enemy){
         this.enemyAnts.put(enemy.getUID(), enemy);
+        if (enemy.getClass().equals(Bala.class))
+            balaCount++;
     }
     
     public void addFriendly(Friendly friendly){
         this.friendlyAnts.put(friendly.getUID(), friendly);
+        if (friendly.getClass().equals(Forager.class))
+            foragerCount++;
+        else if (friendly.getClass().equals(Scout.class))
+            scoutCount++;
+        else if (friendly.getClass().equals(Soldier.class))
+            soldierCount++;
+        else
+            queenCount++;
     }
     
     public Enemy popEnemy(Integer UID){
         try{
-            return this.enemyAnts.remove(UID);
+            Enemy enemy = this.enemyAnts.remove(UID);
+            
+            if (enemy.getClass().equals(Bala.class))
+                balaCount--;
+            
+            return enemy;
         }catch(NullPointerException n){
             System.out.println("tried popping enemy not in hashmap");
             return null;
@@ -75,7 +95,19 @@ public class Space {
     
     public Friendly popFriendly(int UID){
         try{
-            return this.friendlyAnts.remove(UID); 
+            System.out.println(getCoordinates()[0] + ", " + getCoordinates()[1]);
+            Friendly friendly = this.friendlyAnts.remove(UID);
+            
+            if (friendly.getClass().equals(Forager.class))
+                foragerCount--;
+            else if (friendly.getClass().equals(Scout.class))
+                scoutCount--;
+            else if (friendly.getClass().equals(Soldier.class))
+                soldierCount--;
+            else
+                queenCount--;
+            
+            return friendly;
         }catch(NullPointerException n){
             System.out.println("tried popping friendly not in hashmap");
             return null;
@@ -119,9 +151,29 @@ public class Space {
     public int getPheromone() {
         return pheromone;
     }
+
+    public int getScoutCount() {
+        return scoutCount;
+    }
+
+    public int getForagerCount() {
+        return foragerCount;
+    }
+
+    public int getSoldierCount() {
+        return soldierCount;
+    }
+
+    public int getQueenCount() {
+        return queenCount;
+    }
+
+    public int getBalaCount() {
+        return balaCount;
+    }
     
-    public HashMap<Direction, Space> getNeighbors(){
-        return this.neighbors;
+    public Set<Direction> getNeighbors(){
+        return this.neighbors.keySet();
     }
     
     public Space getNeighbor(Direction d){
@@ -134,6 +186,10 @@ public class Space {
 
     public void setPheromone(int pheromone) {
         this.pheromone = pheromone;
+    }
+    
+    public void setExplored(boolean b){
+        this.explored = b;
     }
     
     public boolean decrementFood(){

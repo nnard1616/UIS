@@ -105,10 +105,10 @@ public class Environment {
     }
     
     private int generateFood(){
-        double roll = Randomizer.Do.nextDouble();
+        double roll = Randomizer.Give.nextDouble();
         if (roll <= 0.25)
             //between 500 and 1000 units of food
-            return Randomizer.Do.nextInt(FOODMIN+1) + (FOODMAX-FOODMIN); 
+            return Randomizer.Give.nextInt(FOODMIN+1) + (FOODMAX-FOODMIN); 
         else
             return 0;
     }

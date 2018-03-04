@@ -7,6 +7,7 @@ package antcolonysimulation.ants;
 
 import antcolonysimulation.environment.Direction;
 import antcolonysimulation.environment.Space;
+import antcolonysimulation.simulation.Randomizer;
 
 /**
  *
@@ -20,17 +21,42 @@ public class Scout extends Friendly implements Actionable, Movable{
     
     @Override
     public void act() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        if (!isAlive())
+            return;
+        
+        if (isOld()){
+            die();
+            return;
+        }
+        
+        moveTo(chooseDirection());
+        
+        revealSpace();
+        
+        incrementAge();
+        
     }
 
     @Override
     public void moveTo(Direction next) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //Remove self from current space, place self in next space
+        space.getNeighbor(next).addFriendly(space.popFriendly(getUID()));
+        
+        //Update Ant's space pointer.
+        space = space.getNeighbor(next);
     }
 
     @Override
     public Direction chooseDirection() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Object[] directions = space.getNeighbors().toArray();
+        int numberOfDirections = directions.length;
+        
+        return (Direction)directions[Randomizer.Give.nextInt(numberOfDirections)];
+    }
+    
+    public void revealSpace(){
+        space.setExplored(true);
     }
     
 }

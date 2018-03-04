@@ -48,7 +48,7 @@ public class QueenTest {
         q.act();
         Simulation.incrementTurn();
         assertEquals("Queen should be dead", false, q.isAlive());
-        assertEquals("Wrong number of babies made", 1001, e.getSpace(1, 1).getFriendliesUIDs().size());
+        assertEquals("Wrong number of babies made", 1000, e.getSpace(1, 1).getFriendliesUIDs().size());
         
         int foragerCount = 0;
         int scoutCount   = 0;
@@ -61,8 +61,23 @@ public class QueenTest {
             if (e.getSpace(1, 1).getFriendly(uid).getClass().equals(Soldier.class))
                 soldierCount++;
         }
-        assertEquals("Should have 50% Foragers" + foragerCount, true, foragerCount/1000.0 >= 0.47 && foragerCount/1000.0 <= 0.53);
-        assertEquals("Should have 25% Scouts", true, scoutCount/1000.0 >= 0.22 && scoutCount/1000.0 <= 0.28);
-        assertEquals("Should have 25% Soldiers", true, soldierCount/1000.0 >= 0.22 && soldierCount/1000.0 <= 0.28);
+        assertEquals("Should have 50% Foragers" + foragerCount, true, foragerCount/1000.0 >= 0.45 && foragerCount/1000.0 <= 0.55);
+        assertEquals("Should have 25% Scouts", true, scoutCount/1000.0 >= 0.20 && scoutCount/1000.0 <= 0.30);
+        assertEquals("Should have 25% Soldiers", true, soldierCount/1000.0 >= 0.20 && soldierCount/1000.0 <= 0.30);
+    }
+    
+    @Test
+    public void testAging(){
+        Queen q2 = new Queen(e.getSpace(0,0));
+        e.getSpace(0, 0).setFood(1000000000);
+        e.getSpace(0, 0).addFriendly(q2);
+        Simulation.setTurn(0);
+        
+        while(q2.isAlive()){
+            Simulation.incrementTurn();
+            q2.act();
+        }
+        assertEquals("Queen should be dead at turn " + Lifespan.QUEEN.getValue(), Lifespan.QUEEN.getValue(), Simulation.getTurn()-1);
+        assertEquals("Queen should be this old: " + Lifespan.QUEEN.getValue(), Lifespan.QUEEN.getValue(), q2.getAge());
     }
 }

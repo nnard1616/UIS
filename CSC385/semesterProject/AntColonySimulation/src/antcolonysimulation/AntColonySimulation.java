@@ -5,6 +5,8 @@
  */
 package antcolonysimulation;
 
+import antcolonysimulation.environment.Direction;
+
 /**
  *
  * @author nathan
@@ -15,6 +17,8 @@ public class AntColonySimulation {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        Direction[] l = Direction.values();
+        System.out.println(l[0]);
     }
     
 }

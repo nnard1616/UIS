@@ -24,4 +24,8 @@ public class Simulation {
     public static void end(){
         running = !running;
     }
+    
+    public static void setTurn(int i){
+        turn = i;
+    }
 }

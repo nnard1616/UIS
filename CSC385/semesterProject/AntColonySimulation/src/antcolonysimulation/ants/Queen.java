@@ -16,32 +16,36 @@ import antcolonysimulation.simulation.Simulation;
 public class Queen extends Friendly implements Actionable{
     public Queen(Space space){
         super(Lifespan.QUEEN, space);
+        space.setExplored(true);
     }
     
     @Override
     public void act(){
         
-        //Can't do anything if we're dead, if dead end simulation
-        if (!isAlive()){
-            Simulation.end();
+        //may not need this?
+        if (!isAlive())
+            return;
+        
+        if (isOld()){
+            die();
             return;
         }
         
         eat();
         
-        //If no food, queen died, end simulation
-        if (!isAlive()){
-            Simulation.end();
+        //If no food, queen died, end turn
+        if (!isAlive())
             return;
-        }
         
         //Make baby at start of day.
         if (Simulation.getTurn() % 10 == 0)
             hatchAnt();
+        
+        incrementAge();
     }
     
     public Friendly hatchAnt(){
-        double roll = Randomizer.Do.nextDouble();
+        double roll = Randomizer.Give.nextDouble();
         Friendly baby;
         
         if (roll <= 0.50){
@@ -67,4 +71,12 @@ public class Queen extends Friendly implements Actionable{
             //then die
             die();
     }
+
+//    @Override
+//    public void die() {
+//        super.die();
+//        Simulation.end();
+//    }
+    
+    
 }

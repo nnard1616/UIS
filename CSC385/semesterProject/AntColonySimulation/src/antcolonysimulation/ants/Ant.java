@@ -32,7 +32,6 @@ public class Ant {
         this.age = 0;
         //TODO:  figure out the number of actions assignment.
         this.actions = 1;
-        this.coordinates = space.getCoordinates();
         this.space = space;
     }
     
@@ -61,7 +60,7 @@ public class Ant {
     }
 
     public int[] getCoordinates() {
-        return coordinates;
+        return space.getCoordinates();
     }
 
     public Space getSpace() {
@@ -85,12 +84,13 @@ public class Ant {
     public void setActions(int actions) {
         this.actions = actions;
     }
-
+    
     public void setSpace(Space space) {
         this.space = space;
     }
     
     public void die(){
         this.alive = false;
+        this.space.popFriendly(UID);
     }
 }
