@@ -33,9 +33,11 @@ public class Soldier extends Friendly implements Actionable, Movable{
         if (!isAlive())
             return;
         
+        //If enemies present, switch to attack mode
         if (space.getBalaCount() > 0 && isScouting())
             toggleScouting();
         
+        //if enemies are not present, switch to scout mode
         if (space.getBalaCount() == 0 && !isScouting())
             toggleScouting();
         
@@ -59,7 +61,7 @@ public class Soldier extends Friendly implements Actionable, Movable{
     @Override
     public Direction chooseDirection() {
         //Get array of potential directions
-        Object[] directions = space.getNeighbors().toArray();
+        Object[] directions = space.getNeighbors().stream().sorted().toArray();
         
         int maxEnemyCount = 0;
         int neighborEnemyCount = 0;
@@ -68,11 +70,12 @@ public class Soldier extends Friendly implements Actionable, Movable{
         
         
         
-        //determine which neighbor has largest number of enemies
+        //determine which explored neighbor has largest number of enemies
         for (Object d : directions){
+            //only look at areas that are explored.
             if (space.getNeighbor((Direction)d).isExplored()){
                 exploredDirections.add((Direction)d);
-                neighborEnemyCount = space.getBalaCount();
+                neighborEnemyCount = space.getNeighbor((Direction)d).getBalaCount();
                 if (neighborEnemyCount > maxEnemyCount ){
                     maxEnemyCount = neighborEnemyCount;
                     nextD = (Direction)d;

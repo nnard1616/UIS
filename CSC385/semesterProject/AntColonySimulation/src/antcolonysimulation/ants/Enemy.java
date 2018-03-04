@@ -15,4 +15,10 @@ public class Enemy extends Ant{
     public Enemy(Lifespan lifespan, Space space){
         super(lifespan, space);
     }
+    
+    @Override
+    public void die(){
+        super.die();
+        this.space.popEnemy(getUID());
+    }
 }

@@ -91,6 +91,5 @@ public class Ant {
     
     public void die(){
         this.alive = false;
-        this.space.popFriendly(UID);
     }
 }

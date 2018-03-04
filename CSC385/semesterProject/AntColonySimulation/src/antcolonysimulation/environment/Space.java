@@ -95,7 +95,6 @@ public class Space {
     
     public Friendly popFriendly(int UID){
         try{
-            System.out.println(getCoordinates()[0] + ", " + getCoordinates()[1]);
             Friendly friendly = this.friendlyAnts.remove(UID);
             
             if (friendly.getClass().equals(Forager.class))
@@ -206,6 +205,11 @@ public class Space {
 
     public Map<Integer, Enemy> getEnemyAnts() {
         return enemyAnts;
+    }
+    
+    @Override
+    public String toString(){
+        return "(" + coordinates[0] + ", " + coordinates[1] + ")";
     }
     
     

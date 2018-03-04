@@ -15,4 +15,10 @@ public class Friendly extends Ant{
     public Friendly(Lifespan lifespan, Space space){
         super(lifespan, space);
     }
+    
+    @Override
+    public void die(){
+        super.die();
+        this.space.popFriendly(getUID());
+    }
 }
