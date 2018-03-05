@@ -104,6 +104,18 @@ public class Environment {
         }
     }
     
+    public void revealAll(){
+        for (Space[] row : grid)
+            for (Space s: row)
+                s.setExplored(true);
+    }
+    
+    public void setAllFood(int f){
+        for (Space[] row : grid)
+            for (Space s: row)
+                s.setFood(f);
+    }
+    
     private int generateFood(){
         double roll = Randomizer.Give.nextDouble();
         if (roll <= 0.25)
@@ -111,6 +123,28 @@ public class Environment {
             return Randomizer.Give.nextInt(FOODMIN+1) + (FOODMAX-FOODMIN); 
         else
             return 0;
+    }
+    
+    public String printPheromones(){
+        String result = "";
+        for (Space[] row : grid){
+            for (Space s : row){
+                result += s.getPheromone() + "\t";
+            }
+            result += "\n";
+        }
+        return result;
+    }
+    
+    public String printFoods(){
+        String result = "";
+        for (Space[] row : grid){
+            for (Space s : row){
+                result += s.getFood()+ "\t";
+            }
+            result += "\n";
+        }
+        return result;
     }
     
 }

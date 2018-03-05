@@ -5,12 +5,12 @@
  */
 package antcolonysimulation.environment;
 
-import antcolonysimulation.ants.Bala;
-import antcolonysimulation.ants.Enemy;
-import antcolonysimulation.ants.Forager;
-import antcolonysimulation.ants.Friendly;
-import antcolonysimulation.ants.Scout;
-import antcolonysimulation.ants.Soldier;
+import antcolonysimulation.ants.enemy.Bala;
+import antcolonysimulation.ants.enemy.Enemy;
+import antcolonysimulation.ants.friendly.Forager;
+import antcolonysimulation.ants.friendly.Friendly;
+import antcolonysimulation.ants.friendly.Scout;
+import antcolonysimulation.ants.friendly.Soldier;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;

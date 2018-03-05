@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package antcolonysimulation.ants;
+package antcolonysimulation.ants.enemy;
 
+import antcolonysimulation.ants.Actionable;
+import antcolonysimulation.ants.Lifespan;
+import antcolonysimulation.ants.Movable;
 import antcolonysimulation.environment.Direction;
 import antcolonysimulation.environment.Space;
 
@@ -24,7 +27,7 @@ public class Bala extends Enemy implements Actionable, Movable{
     }
 
     @Override
-    public void moveTo(Direction next) {
+    public void moveTo(Space space) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

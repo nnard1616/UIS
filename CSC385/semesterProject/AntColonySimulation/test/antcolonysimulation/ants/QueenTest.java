@@ -5,6 +5,10 @@
  */
 package antcolonysimulation.ants;
 
+import antcolonysimulation.ants.friendly.Scout;
+import antcolonysimulation.ants.friendly.Soldier;
+import antcolonysimulation.ants.friendly.Queen;
+import antcolonysimulation.ants.friendly.Forager;
 import antcolonysimulation.environment.Environment;
 import antcolonysimulation.simulation.Simulation;
 import org.junit.Test;
@@ -23,7 +27,6 @@ public class QueenTest {
     public static void prep() {
         e = new Environment(3);
         q = new Queen(e.getSpace(1, 1));
-        e.getSpace(1, 1).addFriendly(q);
         e.getSpace(1, 1).setFood(10000);
     }
 
@@ -70,7 +73,6 @@ public class QueenTest {
     public void testAging(){
         Queen q2 = new Queen(e.getSpace(0,0));
         e.getSpace(0, 0).setFood(1000000000);
-        e.getSpace(0, 0).addFriendly(q2);
         Simulation.setTurn(0);
         
         while(q2.isAlive()){

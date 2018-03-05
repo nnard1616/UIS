@@ -5,10 +5,10 @@
  */
 package antcolonysimulation.environment;
 
-import antcolonysimulation.ants.Bala;
-import antcolonysimulation.ants.Enemy;
-import antcolonysimulation.ants.Friendly;
-import antcolonysimulation.ants.Queen;
+import antcolonysimulation.ants.enemy.Bala;
+import antcolonysimulation.ants.enemy.Enemy;
+import antcolonysimulation.ants.friendly.Friendly;
+import antcolonysimulation.ants.friendly.Queen;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;

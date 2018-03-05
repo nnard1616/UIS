@@ -23,4 +23,29 @@ public enum Direction {
     private final int[] d;
     Direction(int[] d) { this.d = d;}
     public int[] getValue() { return d; }
+    
+    public Direction invert(){
+        switch(this){
+            case N:
+                return S;
+            case NE:
+                return SW;
+            case E:
+                return W;
+            case SE:
+                return NW;
+            case S:
+                return N;
+            case SW:
+                return NE;
+            case W:
+                return E;
+            case NW:
+                return SE;
+            default:
+                return null;
+        }
+    }
+    
+    
 }

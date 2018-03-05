@@ -5,6 +5,7 @@
  */
 package antcolonysimulation.ants;
 
+import antcolonysimulation.ants.friendly.Scout;
 import antcolonysimulation.environment.Direction;
 import antcolonysimulation.environment.Environment;
 import antcolonysimulation.environment.Space;
@@ -25,7 +26,6 @@ public class ScoutTest {
     public static void prep() {
         e = new Environment(3);
         s = new Scout(e.getSpace(1, 1));
-        e.getSpace(1, 1).addFriendly(s);
     }
     
     /**
@@ -35,11 +35,10 @@ public class ScoutTest {
     public void testMoveTo() {
         System.out.println("moveTo");
         s = new Scout(e.getSpace(1, 1));
-        e.getSpace(1, 1).addFriendly(s);
         Direction next = (Direction)(s.getSpace().getNeighbors().toArray()[0]);
         Space nextSpace = s.getSpace().getNeighbor(next);
         Space oldSpace  = s.getSpace();
-        s.moveTo(next);
+        s.moveTo(nextSpace);
         
         assertEquals("Scout did not move to correct space", nextSpace, s.getSpace());
         assertEquals("Scout should be known by space", nextSpace.getFriendly(s.getUID()), s);

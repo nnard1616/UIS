@@ -6,11 +6,12 @@
 package antcolonysimulation.ants;
 
 import antcolonysimulation.environment.Direction;
+import antcolonysimulation.environment.Space;
 /**
  *
  * @author nathan
  */
 public interface Movable {
-    public void moveTo(Direction next);
+    public void moveTo(Space space);
     public Direction chooseDirection();
 }

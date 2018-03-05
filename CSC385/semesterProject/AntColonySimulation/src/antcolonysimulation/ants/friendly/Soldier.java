@@ -3,8 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package antcolonysimulation.ants;
+package antcolonysimulation.ants.friendly;
 
+import antcolonysimulation.ants.Actionable;
+import antcolonysimulation.ants.enemy.Enemy;
+import antcolonysimulation.ants.Lifespan;
+import antcolonysimulation.ants.Movable;
 import antcolonysimulation.environment.Direction;
 import antcolonysimulation.environment.Space;
 import antcolonysimulation.simulation.Randomizer;
@@ -50,12 +54,14 @@ public class Soldier extends Friendly implements Actionable, Movable{
     }
 
     @Override
-    public void moveTo(Direction next) {
+    public void moveTo(Space space) {
+        
+        
         //Remove self from current space, place self in next space
-        space.getNeighbor(next).addFriendly(space.popFriendly(getUID()));
+        space.addFriendly(this.space.popFriendly(getUID()));
         
         //Update Ant's space pointer.
-        space = space.getNeighbor(next);
+        this.space = space;
     }
 
     @Override
@@ -85,6 +91,9 @@ public class Soldier extends Friendly implements Actionable, Movable{
         
         int numberOfDirections = exploredDirections.size();
         
+        if (numberOfDirections == 0)
+            return null;
+        
         //if enemies are present, choose space with largest number
         if (nextD != null)
             return nextD;
@@ -102,7 +111,12 @@ public class Soldier extends Friendly implements Actionable, Movable{
     }
     
     public void scout(){
-        moveTo(chooseDirection());
+        Direction nextDirection = chooseDirection();
+        //null means nowhere to move, so don't move
+        if (nextDirection == null)
+            return;
+        
+        moveTo(space.getNeighbor(nextDirection));
     }
     
     public void attack(){

@@ -5,7 +5,8 @@
  */
 package antcolonysimulation.ants;
 
-import antcolonysimulation.environment.Direction;
+import antcolonysimulation.ants.enemy.Bala;
+import antcolonysimulation.ants.friendly.Soldier;
 import antcolonysimulation.environment.Environment;
 import antcolonysimulation.environment.Space;
 import org.junit.Test;
@@ -24,18 +25,6 @@ public class SoldierTest {
     }
 
     /**
-     * Test of act method, of class Soldier.
-     */
-    @Test
-    public void testAct() {
-        System.out.println("act");
-        Soldier instance = null;
-        instance.act();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of moveTo method, of class Soldier.
      */
     @Test
@@ -44,19 +33,18 @@ public class SoldierTest {
         
         Space center = e.getSpace(1,1);
         Soldier s = new Soldier(center);
-        center.addFriendly(s);
         center.setExplored(true);
         
-        e.getSpace(0, 0).addEnemy(new Bala(e.getSpace(0, 0)));
+        new Bala(e.getSpace(0, 0));
         e.getSpace(0, 0).setExplored(true);
         
-        e.getSpace(0, 1).addEnemy(new Bala(e.getSpace(0, 1)));
-        e.getSpace(0, 1).addEnemy(new Bala(e.getSpace(0, 1)));
+        new Bala(e.getSpace(0, 1));
+        new Bala(e.getSpace(0, 1));
         e.getSpace(0, 1).setExplored(true);
         
-        e.getSpace(0, 2).addEnemy(new Bala(e.getSpace(0, 2)));
-        e.getSpace(0, 2).addEnemy(new Bala(e.getSpace(0, 2)));
-        e.getSpace(0, 2).addEnemy(new Bala(e.getSpace(0, 2)));
+        new Bala(e.getSpace(0, 2));
+        new Bala(e.getSpace(0, 2));
+        new Bala(e.getSpace(0, 2));
         
         
         s.act();
@@ -96,30 +84,6 @@ public class SoldierTest {
         assertEquals("Soldier should not be on board", null, s.getSpace().getFriendly(s.getUID()));
         assertEquals("Space should have 0 soldierCount", 0, s.getSpace().getSoldierCount());
         assertEquals("Top right corner should still have enemies", 3, e.getSpace(0, 2).getBalaCount());
-    }
-
-    /**
-     * Test of scout method, of class Soldier.
-     */
-    @Test
-    public void testScout() {
-        System.out.println("scout");
-        Soldier instance = null;
-        instance.scout();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of attack method, of class Soldier.
-     */
-    @Test
-    public void testAttack() {
-        System.out.println("attack");
-        Soldier instance = null;
-        instance.attack();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

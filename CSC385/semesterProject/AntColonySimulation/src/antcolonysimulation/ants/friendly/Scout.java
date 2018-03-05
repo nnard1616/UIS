@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package antcolonysimulation.ants;
+package antcolonysimulation.ants.friendly;
 
+import antcolonysimulation.ants.Actionable;
+import antcolonysimulation.ants.Lifespan;
+import antcolonysimulation.ants.Movable;
 import antcolonysimulation.environment.Direction;
 import antcolonysimulation.environment.Space;
 import antcolonysimulation.simulation.Randomizer;
@@ -30,7 +33,7 @@ public class Scout extends Friendly implements Actionable, Movable{
             return;
         }
         
-        moveTo(chooseDirection());
+        moveTo(space.getNeighbor(chooseDirection()));
         
         revealSpace();
         
@@ -39,12 +42,12 @@ public class Scout extends Friendly implements Actionable, Movable{
     }
 
     @Override
-    public void moveTo(Direction next) {
+    public void moveTo(Space space) {
         //Remove self from current space, place self in next space
-        space.getNeighbor(next).addFriendly(space.popFriendly(getUID()));
+        space.addFriendly(this.space.popFriendly(getUID()));
         
         //Update Ant's space pointer.
-        space = space.getNeighbor(next);
+        this.space = space;
     }
 
     @Override

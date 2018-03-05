@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package antcolonysimulation.ants;
+package antcolonysimulation.ants.friendly;
 
+import antcolonysimulation.ants.Actionable;
+import antcolonysimulation.ants.Lifespan;
 import antcolonysimulation.environment.Space;
 import antcolonysimulation.simulation.Randomizer;
 import antcolonysimulation.simulation.Simulation;

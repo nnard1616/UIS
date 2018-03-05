@@ -5,7 +5,8 @@
  */
 package antcolonysimulation;
 
-import antcolonysimulation.environment.Direction;
+import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  *
@@ -17,8 +18,11 @@ public class AntColonySimulation {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Direction[] l = Direction.values();
-        System.out.println(l[0]);
+        Queue<Integer> fuck = new ArrayBlockingQueue<>(10);
+        if (!fuck.offer(10)){
+            System.out.println("shit");
+        }
+        System.out.println(fuck.peek());
     }
     
 }
