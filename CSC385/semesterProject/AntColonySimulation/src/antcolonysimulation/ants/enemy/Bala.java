@@ -8,8 +8,14 @@ package antcolonysimulation.ants.enemy;
 import antcolonysimulation.ants.Actionable;
 import antcolonysimulation.ants.Lifespan;
 import antcolonysimulation.ants.Movable;
+import antcolonysimulation.ants.friendly.Forager;
+import antcolonysimulation.ants.friendly.Friendly;
+import antcolonysimulation.ants.friendly.Queen;
+import antcolonysimulation.ants.friendly.Scout;
+import antcolonysimulation.ants.friendly.Soldier;
 import antcolonysimulation.environment.Direction;
 import antcolonysimulation.environment.Space;
+import antcolonysimulation.simulation.Randomizer;
 
 /**
  *
@@ -21,23 +27,61 @@ public class Bala extends Enemy implements Actionable, Movable{
         super(Lifespan.OTHER, space);
     }
     
+    
     @Override
     public void act() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        if (!isAlive())
+            return;
+        
+        if (isOld()){
+            die();
+            return;
+        }
+        
+        if(space.containsFriendlies())
+            attack();
+        else
+            moveTo(space.getNeighbor(chooseDirection()));
+        
+        incrementAge();
+        
     }
 
     @Override
     public void moveTo(Space space) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //Remove self from current space, place self in next space
+        space.addFriendly(this.space.popFriendly(getUID()));
+        
+        //Update Ant's space pointer.
+        this.space = space;
     }
 
     @Override
     public Direction chooseDirection() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Object[] directions = space.getNeighbors().toArray();
+        int numberOfDirections = directions.length;
+        
+        return (Direction)directions[Randomizer.Give.nextInt(numberOfDirections)];
     }
 
     public void attack(){
-        throw new UnsupportedOperationException("not supported yet.");
+        Friendly target = null;
+        for (int fUID : space.getFriendliesUIDs()){
+            if (space.getFriendly(fUID).getClass().equals(Queen.class)){
+                target = space.getFriendly(fUID);
+                break;
+            }else if (space.getFriendly(fUID).getClass().equals(Soldier.class)){
+                target = space.getFriendly(fUID);
+                break;
+            }else if (space.getFriendly(fUID).getClass().equals(Forager.class))
+                target = space.getFriendly(fUID);
+            else if (space.getFriendly(fUID).getClass().equals(Scout.class))
+                target = space.getFriendly(fUID);
+        }
+        
+        if (Randomizer.Give.nextDouble() <= 0.5)
+            target.die();
     }
     
     

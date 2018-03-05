@@ -6,7 +6,6 @@
 package antcolonysimulation.ants;
 
 import antcolonysimulation.ants.friendly.Forager;
-import antcolonysimulation.environment.Direction;
 import antcolonysimulation.environment.Environment;
 import antcolonysimulation.environment.Space;
 import org.junit.Test;
@@ -19,45 +18,6 @@ import static org.junit.Assert.*;
 public class ForagerTest {
     
     public ForagerTest() {
-    }
-
-    /**
-     * Test of act method, of class Forager.
-     */
-    @Test
-    public void testAct() {
-        System.out.println("act");
-        Forager instance = null;
-        instance.act();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of moveTo method, of class Forager.
-     */
-    @Test
-    public void testMoveTo() {
-        System.out.println("moveTo");
-        Direction next = null;
-        Forager instance = null;
-        instance.moveTo(null);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of chooseDirection method, of class Forager.
-     */
-    @Test
-    public void testChooseDirection() {
-        System.out.println("chooseDirection");
-        Forager instance = null;
-        Direction expResult = null;
-        Direction result = instance.chooseDirection();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -86,11 +46,11 @@ public class ForagerTest {
         e.getSpace(0, 0).setPheromone(1);
         
         System.out.println("pheromones:");
-        System.out.println(e.printPheromones());
+        System.out.println(e.pheromonesToString());
         System.out.println("");
         e.setAllFood(0);
         System.out.println("foods:");
-        System.out.println(e.printFoods());
+        System.out.println(e.foodsToString());
         
         Forager f = new Forager(e.getSpace(0, 0), 15);
         
@@ -129,21 +89,28 @@ public class ForagerTest {
         e.getSpace(1, 0).setPheromone(3);
         e.getSpace(1, 1).setPheromone(4);
         
-        System.out.println(e.printPheromones());
+        System.out.println(e.pheromonesToString());
         Forager f = new Forager(e.getSpace(0, 0));
         
         f.act();
         f.act();
         f.act();
         
-        assertEquals("Should be at 0,1", e.getSpace(0, 1), f.getSpace());
+        assertEquals("A) Should be at 0,1", e.getSpace(0, 1), f.getSpace());
         f.act();
-        assertEquals("Should be at 0,1", e.getSpace(0, 1), f.getSpace());
+        assertEquals("B) Should be at 1,1", e.getSpace(1, 1), f.getSpace());
+        assertEquals("Travelhistory should be trimmed", 2, f.getTravelHistory().size());
         f.act();
-        assertEquals("Should be at 1,1", e.getSpace(1, 1), f.getSpace());
-        
-        
-        
+        assertEquals("C) Should be at 1,0", e.getSpace(1, 0), f.getSpace());
+        f.act();
+        assertEquals("D) Should be at 0,0", e.getSpace(0, 0), f.getSpace());
+        f.act();
+        assertEquals("E) Should be at 1,1", e.getSpace(1, 1), f.getSpace());
+        assertEquals("Travelhistory should be trimmed", 2, f.getTravelHistory().size());
+        f.act();
+        f.act();
+        assertEquals("E) Should be at 0,1", e.getSpace(0, 1), f.getSpace());
+        assertEquals("Travelhistory should be trimmed", 4, f.getTravelHistory().size());
     }
 
     /**
@@ -167,86 +134,36 @@ public class ForagerTest {
     @Test
     public void testBacktrack() {
         System.out.println("backtrack");
-        Forager instance = null;
-        instance.backtrack();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Environment e = new Environment(3);
+        e.revealAll();
+        e.setAllFood(0);
+        
+        e.getSpace(0, 0).setPheromone(1);
+        e.getSpace(0, 1).setPheromone(2);
+        e.getSpace(0, 2).setPheromone(3);
+        e.getSpace(1, 2).setPheromone(4);
+        e.getSpace(2, 2).setPheromone(5);
+        e.getSpace(2, 2).setFood(1);
+        
+        Forager f = new Forager(e.getSpace(0, 0));
+        
+        f.act();
+        f.act();
+        f.act();
+        assertEquals("Forager should be at 2,2", e.getSpace(2, 2), f.getSpace());
+        assertEquals("Forager should be done foraging", false, f.isForaging());
+        f.act();
+        assertEquals("A) Forager should be at 1,2", e.getSpace(1, 2), f.getSpace());
+        f.act();
+        assertEquals("B) Forager should be at 0,1", e.getSpace(0, 1), f.getSpace());
+        f.act();
+        assertEquals("C) Forager should be at 0,0", e.getSpace(0, 0), f.getSpace());
+        assertEquals("Forager should be back to foraging", true, f.isForaging());
+        assertEquals("Food should have been deposited", 1, f.getSpace().getFood());
+        System.out.println(e.pheromonesToString());
+        f.act();
+        assertEquals("D) Forager should be at 0,1", e.getSpace(0, 1), f.getSpace());
+        assertEquals("Should be foraging", true, f.isForaging());
+        System.out.println(e.foodsToString());
     }
-
-    /**
-     * Test of isForaging method, of class Forager.
-     */
-    @Test
-    public void testIsForaging() {
-        System.out.println("isForaging");
-        Forager instance = null;
-        boolean expResult = false;
-        boolean result = instance.isForaging();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of foodPresent method, of class Forager.
-     */
-    @Test
-    public void testFoodPresent() {
-        System.out.println("foodPresent");
-        Forager instance = null;
-        boolean expResult = false;
-        boolean result = instance.foodPresent();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of pickUpFood method, of class Forager.
-     */
-    @Test
-    public void testPickUpFood() {
-        System.out.println("pickUpFood");
-        Forager instance = null;
-        instance.pickUpFood();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of depositPheromone method, of class Forager.
-     */
-    @Test
-    public void testDepositPheromone() {
-        System.out.println("depositPheromone");
-        Forager instance = null;
-        instance.depositPheromone();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of depositFood method, of class Forager.
-     */
-    @Test
-    public void testDepositFood() {
-        System.out.println("depositFood");
-        Forager instance = null;
-        instance.depositFood();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of die method, of class Forager.
-     */
-    @Test
-    public void testDie() {
-        System.out.println("die");
-        Forager instance = null;
-        instance.die();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
 }

@@ -125,7 +125,7 @@ public class Environment {
             return 0;
     }
     
-    public String printPheromones(){
+    public String pheromonesToString(){
         String result = "";
         for (Space[] row : grid){
             for (Space s : row){
@@ -136,7 +136,7 @@ public class Environment {
         return result;
     }
     
-    public String printFoods(){
+    public String foodsToString(){
         String result = "";
         for (Space[] row : grid){
             for (Space s : row){

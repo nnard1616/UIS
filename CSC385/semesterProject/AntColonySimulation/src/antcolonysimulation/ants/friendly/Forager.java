@@ -12,7 +12,6 @@ import antcolonysimulation.environment.Direction;
 import antcolonysimulation.environment.Space;
 import antcolonysimulation.simulation.Randomizer;
 import java.util.ArrayList;
-import java.util.EmptyStackException;
 import java.util.List;
 import java.util.Queue;
 import java.util.Stack;
@@ -27,17 +26,17 @@ public class Forager extends Friendly implements Actionable, Movable{
     private int food = 0;
     private Stack<Space> travelHistory = new Stack<>();
     private Queue<Space> recentVisits;
-    private int visitMemory;
+    private int visitMemoryCapacity;
     
     public Forager(Space space){
         this(space, 5);
     }
     
-    public Forager(Space space, int visitMemory){
+    public Forager(Space space, int visitMemoryCapacity){
         super(Lifespan.OTHER, space);
-        space.addFriendly(this);
-        this.visitMemory = visitMemory;
-        recentVisits =  new ArrayBlockingQueue<Space>(visitMemory);
+        this.visitMemoryCapacity = visitMemoryCapacity;
+        recentVisits =  new ArrayBlockingQueue<Space>(visitMemoryCapacity);
+        travelHistory.add(space);
     }
     
     @Override
@@ -52,17 +51,20 @@ public class Forager extends Friendly implements Actionable, Movable{
         }
         
         if (isForaging()){
-            //if no food present, move to next space
-            if (!foodPresent())
-                moveTo(null);
-            else{
-                //else pick up 1 food.
+            
+            Direction nextDirection = chooseDirection();
+            //null means nowhere to move, so don't move
+            if (nextDirection != null)
+                moveTo(space.getNeighbor(chooseDirection()));
+            
+            //if food present, pick it up
+            if (foodPresent()){
+                
                 pickUpFood();
 
                 //forget last few steps
                 recentVisits.clear();
-
-                //TODO optimize return path
+                travelHistory.pop();
             }
         }
         else
@@ -74,19 +76,20 @@ public class Forager extends Friendly implements Actionable, Movable{
 
     @Override
     public void moveTo(Space space) {
-        //null means nowhere to move, don't move anywhere.
-        if (next == null)
-            return;
+        if (travelHistory.contains(space))
+            trimTravelHistory(space);
         
         //record movement
-        travelHistory.push(next);
-        addRecentVisit();
+        if (isForaging()){
+            travelHistory.push(space);
+            addRecentVisit();
+        }
         
         //Remove self from current space, place self in next space
-        space.getNeighbor(next).addFriendly(space.popFriendly(getUID()));
+        space.addFriendly(this.space.popFriendly(getUID()));
         
         //Update Ant's space pointer.
-        space = space.getNeighbor(next);
+        this.space = space;
     }
 
     @Override
@@ -137,14 +140,21 @@ public class Forager extends Friendly implements Actionable, Movable{
     }
     
     public void backtrack(){
-        try{
-            //if there's backstepping to do, do it, otherwise we're done backtracking (throw exception)
-            Direction backStep = travelHistory.pop().invert();
+        if (travelHistory.size() > 1){
+            //we're not at base yet, backtrack
+            Space backStep = travelHistory.pop();
                     
             depositPheromone();
-            moveTo(null);
-        }catch(EmptyStackException ese){
+            moveTo(backStep);
+        }else if (travelHistory.size() == 1){
+            Space backStep = travelHistory.peek();
+            
+            depositPheromone();
+            moveTo(backStep);
+            
+            //we're home, deposit food
             depositFood();
+            recentVisits.clear();
         }
     }
     
@@ -215,10 +225,18 @@ public class Forager extends Friendly implements Actionable, Movable{
         return recentVisits.contains(s);
     }
     
-    public void trimTravelHistory(){
-        if (travelHistory.size() > visitMemory)
-            for (int i = )
+    public void trimTravelHistory(Space space){
+        if (travelHistory.contains(space)){
+            while (travelHistory.peek() != space)
+                travelHistory.pop();
+            travelHistory.pop();
+        }
     }
+
+    public Stack<Space> getTravelHistory() {
+        return travelHistory;
+    }
+    
     @Override
     public void die(){
         super.die();
