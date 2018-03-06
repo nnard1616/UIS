@@ -6,6 +6,8 @@
 package antcolonysimulation.environment;
 
 import antcolonysimulation.simulation.Randomizer;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -13,6 +15,7 @@ import antcolonysimulation.simulation.Randomizer;
  */
 public class Environment {
     private Space[][] grid;
+    private List<Space> borderSpaces;
     private final int SIZE;
     private final int FOODMIN;
     private final int FOODMAX;
@@ -31,12 +34,22 @@ public class Environment {
         this.FOODMAX = foodmax;
         
         grid = new Space[SIZE][SIZE];
+        borderSpaces = new ArrayList<>();
         
-        for(int i = 0; i < SIZE; i++)
-            for(int j = 0; j < SIZE; j++)
+        for(int i = 0; i < SIZE; i++){
+            for(int j = 0; j < SIZE; j++){
                 grid[i][j] = new Space(i, j, generateFood() );
+                if (i == 0 || j == 0 || i == SIZE-1 || j == SIZE-1)
+                    borderSpaces.add(grid[i][j]);
+            }
+        }
+                
         
         addNeighbors();
+    }
+    
+    public Space getBorder(int i){
+        return borderSpaces.get(i);
     }
     
     private void addNeighbors(){

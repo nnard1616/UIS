@@ -207,6 +207,19 @@ public class Space {
         return enemyAnts;
     }
     
+    public void clear(){
+        scoutCount   = 0;
+        foragerCount = 0;
+        soldierCount = 0;
+        queenCount   = 0;
+        balaCount    = 0;
+        food         = 0;
+        pheromone    = 0;
+        friendlyAnts.clear();
+        enemyAnts.clear();
+        explored     = false;
+    }
+    
     @Override
     public String toString(){
         return "(" + coordinates[0] + ", " + coordinates[1] + ")";

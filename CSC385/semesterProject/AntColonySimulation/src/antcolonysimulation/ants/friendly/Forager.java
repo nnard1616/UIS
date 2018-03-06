@@ -34,6 +34,7 @@ public class Forager extends Friendly implements Actionable, Movable{
     
     public Forager(Space space, int visitMemoryCapacity){
         super(Lifespan.OTHER, space);
+        setActive(true);
         this.visitMemoryCapacity = visitMemoryCapacity;
         recentVisits =  new ArrayBlockingQueue<Space>(visitMemoryCapacity);
         travelHistory.add(space);
@@ -53,9 +54,8 @@ public class Forager extends Friendly implements Actionable, Movable{
         if (isForaging()){
             
             Direction nextDirection = chooseDirection();
-            //null means nowhere to move, so don't move
-            if (nextDirection != null)
-                moveTo(space.getNeighbor(chooseDirection()));
+            
+            moveTo(space.getNeighbor(chooseDirection()));
             
             //if food present, pick it up
             if (foodPresent()){
@@ -121,15 +121,11 @@ public class Forager extends Friendly implements Actionable, Movable{
         int numberOfDirections = exploredAndTopPheromonicDirections.size();
         
         //nowhere to move and we aren't at base
-        if (numberOfDirections == 0 && space.getQueenCount() == 0){
+        if (numberOfDirections == 0 ){
             recentVisits.clear();
             return chooseDirection();
         }
         
-        //nowhere to move and at base:
-        if (numberOfDirections == 0 && space.getQueenCount() == 1){
-            return null;
-        }
             
         return exploredAndTopPheromonicDirections.get(Randomizer.Give.nextInt(numberOfDirections));
     }
@@ -226,11 +222,15 @@ public class Forager extends Friendly implements Actionable, Movable{
     }
     
     public void trimTravelHistory(Space space){
-        if (travelHistory.contains(space)){
+        if (travelHistory.contains(space) && travelHistory.size() > 1){
             while (travelHistory.peek() != space)
                 travelHistory.pop();
             travelHistory.pop();
         }
+    }
+
+    public int getFood() {
+        return food;
     }
 
     public Stack<Space> getTravelHistory() {

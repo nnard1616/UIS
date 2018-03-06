@@ -92,6 +92,6 @@ public class ColonyView extends JPanel
 		this.add(nodeView);
 		
 		// contents of node should initially be hidden
-//		nodeView.hideNode();
+		nodeView.hideNode();
 	}
 }

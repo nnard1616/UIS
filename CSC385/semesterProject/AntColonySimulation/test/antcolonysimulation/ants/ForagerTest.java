@@ -6,8 +6,11 @@
 package antcolonysimulation.ants;
 
 import antcolonysimulation.ants.friendly.Forager;
+import antcolonysimulation.ants.friendly.Queen;
 import antcolonysimulation.environment.Environment;
 import antcolonysimulation.environment.Space;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -165,5 +168,56 @@ public class ForagerTest {
         assertEquals("D) Forager should be at 0,1", e.getSpace(0, 1), f.getSpace());
         assertEquals("Should be foraging", true, f.isForaging());
         System.out.println(e.foodsToString());
+    }
+    
+    @Test
+    public void testNoFoodAnywhere(){
+        System.out.println("testNoFoodAnywhere");
+        Environment e = new Environment(3);
+        List<Actionable> l = new ArrayList<>();
+        e.revealAll();
+        e.setAllFood(0);
+        Queen q = new Queen(e.getSpace(0, 0), l);
+        
+        Forager f = new Forager(e.getSpace(0, 0));
+        
+        while (f.isAlive()){
+            Space prev = f.getSpace();
+            f.act();
+            Space next = f.getSpace();
+            
+            if (f.isAlive())    
+                assertEquals("There should be continuous movement when no food present, got stuck at" + prev, false, prev == next); 
+        }
+        assertEquals("Forager should be dead", false, f.isAlive());
+        
+    }
+    
+    @Test
+    public void testFoodLowerRightCorner(){
+        System.out.println("testFoodLowerRightCorner");
+        Environment e = new Environment(3);
+        List<Actionable> l = new ArrayList<>();
+        e.revealAll();
+        e.setAllFood(0);
+        e.getSpace(2, 2).setFood(50);
+        Queen q = new Queen(e.getSpace(0, 0), l);
+        
+        Forager f = new Forager(e.getSpace(0, 0));
+        
+        while (f.isAlive()){
+            Space prev = f.getSpace();
+            f.act();
+            Space next = f.getSpace();
+            
+            if (f.isAlive()){
+                System.out.println(f.getFood());
+                assertEquals("travelHistory should never be empty", false, f.getTravelHistory().isEmpty());
+                assertEquals("There should be continuous movement when no food present, got stuck at" + prev + "with this food: " + f.getFood(), false, prev == next); 
+                assertEquals("Forager should have only 0 or 1 food", true, f.getFood() == 1 || f.getFood() == 0);
+            }
+        }
+        assertEquals("Forager should be dead", false, f.isAlive());
+        
     }
 }

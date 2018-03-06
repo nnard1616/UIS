@@ -25,6 +25,7 @@ public class Bala extends Enemy implements Actionable, Movable{
 
     public Bala(Space space){
         super(Lifespan.OTHER, space);
+        setActive(true);
     }
     
     
@@ -51,7 +52,7 @@ public class Bala extends Enemy implements Actionable, Movable{
     @Override
     public void moveTo(Space space) {
         //Remove self from current space, place self in next space
-        space.addFriendly(this.space.popFriendly(getUID()));
+        space.addEnemy(this.space.popEnemy(getUID()));
         
         //Update Ant's space pointer.
         this.space = space;

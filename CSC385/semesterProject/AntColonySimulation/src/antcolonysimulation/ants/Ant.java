@@ -15,7 +15,7 @@ public class Ant {
     private final int UID;
     private final int LIFESPAN;
     private int age;
-    private int actions;
+    private boolean active = false;
     private boolean alive = true;
     
     private static int antCount = 0;
@@ -30,8 +30,6 @@ public class Ant {
         this.UID = this.antCount++;
         this.LIFESPAN = lifespan.getValue();
         this.age = 0;
-        //TODO:  figure out the number of actions assignment.
-        this.actions = 1;
         this.space = space;
     }
     
@@ -49,10 +47,6 @@ public class Ant {
 
     public int getAge() {
         return age;
-    }
-
-    public int getActions() {
-        return actions;
     }
 
     public static int getAntCount() {
@@ -74,15 +68,15 @@ public class Ant {
     }
     
     public boolean isActive(){
-        return this.actions > 0;
+        return active;
     }
     
     public boolean isAlive() {
         return this.alive;
     }
 
-    public void setActions(int actions) {
-        this.actions = actions;
+    public void setActive(boolean b) {
+        this.active = b;
     }
     
     public void setSpace(Space space) {

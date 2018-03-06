@@ -20,6 +20,7 @@ public class Scout extends Friendly implements Actionable, Movable{
 
     public Scout (Space space){
         super(Lifespan.OTHER, space);
+        setActive(true);
     }
     
     @Override

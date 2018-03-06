@@ -17,8 +17,7 @@ public class AntColonySimulation {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Simulation sim = new Simulation(3);
-        sim.playTurn();
+        Simulation sim = new Simulation();
         
     }
     

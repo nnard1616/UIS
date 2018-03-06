@@ -25,6 +25,7 @@ public class Soldier extends Friendly implements Actionable, Movable{
     
     public Soldier(Space space){
         super(Lifespan.OTHER, space);
+        setActive(true);
     }
     
     @Override

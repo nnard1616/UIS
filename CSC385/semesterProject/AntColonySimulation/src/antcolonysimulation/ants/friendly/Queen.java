@@ -22,6 +22,7 @@ public class Queen extends Friendly implements Actionable{
     
     public Queen(Space space, List<Actionable> ants){
         super(Lifespan.QUEEN, space);
+        setActive(true);
         this.ants = ants;
         space.setExplored(true);
         for ( Direction d : space.getNeighbors())
@@ -33,7 +34,7 @@ public class Queen extends Friendly implements Actionable{
     public void act(){
         
         //may not need this?
-        if (!isAlive())
+        if (!isAlive() || !isActive())
             return;
         
         if (isOld()){

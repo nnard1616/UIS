@@ -11,6 +11,8 @@ import antcolonysimulation.ants.friendly.Queen;
 import antcolonysimulation.ants.friendly.Forager;
 import antcolonysimulation.environment.Environment;
 import antcolonysimulation.simulation.Simulation;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
@@ -22,11 +24,12 @@ import org.junit.BeforeClass;
 public class QueenTest {
     private static Environment e;
     private static Queen q;
+    private static List<Actionable> ants = new ArrayList<>();
             
     @BeforeClass
     public static void prep() {
         e = new Environment(3);
-        q = new Queen(e.getSpace(1, 1));
+        q = new Queen(e.getSpace(1, 1), ants);
         e.getSpace(1, 1).setFood(10000);
     }
 
@@ -71,7 +74,7 @@ public class QueenTest {
     
     @Test
     public void testAging(){
-        Queen q2 = new Queen(e.getSpace(0,0));
+        Queen q2 = new Queen(e.getSpace(0,0), ants);
         e.getSpace(0, 0).setFood(1000000000);
         Simulation.setTurn(0);
         
