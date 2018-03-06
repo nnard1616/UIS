@@ -5,8 +5,7 @@
  */
 package antcolonysimulation;
 
-import java.util.Queue;
-import java.util.concurrent.ArrayBlockingQueue;
+import antcolonysimulation.simulation.Simulation;
 
 /**
  *
@@ -18,11 +17,9 @@ public class AntColonySimulation {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Queue<Integer> fuck = new ArrayBlockingQueue<>(10);
-        if (!fuck.offer(10)){
-            System.out.println("shit");
-        }
-        System.out.println(fuck.peek());
+        Simulation sim = new Simulation(3);
+        sim.playTurn();
+        
     }
     
 }

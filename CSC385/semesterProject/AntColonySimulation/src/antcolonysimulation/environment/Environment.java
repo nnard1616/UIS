@@ -86,6 +86,12 @@ public class Environment {
                 }
             }
     }
+    
+    public void halveAllPheromone(){
+        for (Space[] row : grid)
+            for (Space s: row)
+                s.setPheromone(s.getPheromone()/2);
+    }
 
     public Space[][] getGrid() {
         return grid;

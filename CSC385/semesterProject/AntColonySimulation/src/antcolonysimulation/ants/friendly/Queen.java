@@ -7,18 +7,26 @@ package antcolonysimulation.ants.friendly;
 
 import antcolonysimulation.ants.Actionable;
 import antcolonysimulation.ants.Lifespan;
+import antcolonysimulation.environment.Direction;
 import antcolonysimulation.environment.Space;
 import antcolonysimulation.simulation.Randomizer;
 import antcolonysimulation.simulation.Simulation;
+import java.util.List;
 
 /**
  *
  * @author nathan
  */
 public class Queen extends Friendly implements Actionable{
-    public Queen(Space space){
+    private List<Actionable> ants;
+    
+    public Queen(Space space, List<Actionable> ants){
         super(Lifespan.QUEEN, space);
+        this.ants = ants;
         space.setExplored(true);
+        for ( Direction d : space.getNeighbors())
+            space.getNeighbor(d).setExplored(true);
+        
     }
     
     @Override
@@ -46,23 +54,31 @@ public class Queen extends Friendly implements Actionable{
         incrementAge();
     }
     
-    public Friendly hatchAnt(){
+    public void hatchAnt(){
         double roll = Randomizer.Give.nextDouble();
-        Friendly baby;
         
         if (roll <= 0.50){
-            baby = new Forager(space);
-            space.addFriendly(baby);
-            return baby;
+            hatchForager(1);
         }else if (roll <= 0.75){
-            baby = new Scout(space);
-            space.addFriendly(baby);
-            return baby;
+            hatchScout(1);
         }else{
-            baby = new Soldier(space);
-            space.addFriendly(baby);
-            return baby;
+            hatchSoldier(1);
         }
+    }
+    
+    public void hatchForager(int n){
+        for (int i = 0; i < n; i++ )
+            ants.add( new Forager(space));
+    }
+    
+    public void hatchScout(int n){
+        for (int i = 0; i < n; i++ )
+            ants.add( new Scout(space));
+    }
+    
+    public void hatchSoldier(int n){
+        for (int i = 0; i < n; i++ )
+            ants.add( new Soldier(space));
     }
     
     public void eat(){
