@@ -1,7 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright (C) 2018 Nathan Nard
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package antcolonysimulation.environment;
 
@@ -14,11 +25,14 @@ import java.util.List;
  * @author nathan
  */
 public class Environment {
+    
     private Space[][] grid;
     private List<Space> borderSpaces;
     private final int SIZE;
     private final int FOODMIN;
     private final int FOODMAX;
+    
+    /**************************************************************************/
     
     public Environment(){
         this(27, 500, 1000);//default grid size is 27x27
@@ -50,6 +64,27 @@ public class Environment {
     
     public Space getBorder(int i){
         return borderSpaces.get(i);
+    }
+    
+    public Space[][] getGrid() {
+        return grid;
+    }
+
+    public int getSIZE() {
+        return SIZE;
+    }
+    
+    public Space getSpace(int x, int y){
+        try{
+            return this.grid[x][y];
+        }catch(ArrayIndexOutOfBoundsException oob){
+            System.out.println("out of bounds indices were passed to Environment.getSpace");
+            return null;
+        }
+    }
+    
+    public int borderCount(){
+        return borderSpaces.size();
     }
     
     private void addNeighbors(){
@@ -100,29 +135,6 @@ public class Environment {
             }
     }
     
-    public void halveAllPheromone(){
-        for (Space[] row : grid)
-            for (Space s: row)
-                s.setPheromone(s.getPheromone()/2);
-    }
-
-    public Space[][] getGrid() {
-        return grid;
-    }
-
-    public int getSIZE() {
-        return SIZE;
-    }
-    
-    public Space getSpace(int x, int y){
-        try{
-            return this.grid[x][y];
-        }catch(ArrayIndexOutOfBoundsException oob){
-            System.out.println("out of bounds indices were passed to Environment.getSpace");
-            return null;
-        }
-    }
-    
     public void revealAll(){
         for (Space[] row : grid)
             for (Space s: row)
@@ -138,10 +150,16 @@ public class Environment {
     private int generateFood(){
         double roll = Randomizer.Give.nextDouble();
         if (roll <= 0.25)
-            //between 500 and 1000 units of food
+            //between 500 and 1000 units of food by default
             return Randomizer.Give.nextInt(FOODMIN+1) + (FOODMAX-FOODMIN); 
         else
             return 0;
+    }
+    
+    public void halveAllPheromone(){
+        for (Space[] row : grid)
+            for (Space s: row)
+                s.setPheromone(s.getPheromone()/2);
     }
     
     public String pheromonesToString(){
@@ -165,5 +183,4 @@ public class Environment {
         }
         return result;
     }
-    
 }

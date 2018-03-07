@@ -1,7 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright (C) 2018 Nathan Nard
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package antcolonysimulation.simulation;
 
@@ -16,23 +27,34 @@ import antsimgui.ColonyNodeView;
 import antsimgui.ColonyView;
 import antsimgui.SimulationEvent;
 import antsimgui.SimulationEventListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 /**
  *
  * @author nathan
  */
-public class Simulation implements SimulationEventListener{
+public class Simulation implements SimulationEventListener, ActionListener{
+    
     private static int turn = 0;
-    private static boolean running = false;
     private Environment environment;
     private List<Actionable> ants;
     private AntSimGUI gui;
     private ColonyNodeView[][] guiNodes;
     private Queen q;
     private final int BOARDSIZE;
+    private Timer timer;
+    
+    /**************************************************************************/
+    
+    public Simulation(){
+        this(27);
+    }
     
     public Simulation(int boardSize){
         this.BOARDSIZE = boardSize;
@@ -54,10 +76,6 @@ public class Simulation implements SimulationEventListener{
         
     }
     
-    public Simulation(){
-        this(27);
-    }
-    
     public void normalSetup(){
         clear();
         this.environment = new Environment(BOARDSIZE);
@@ -75,7 +93,6 @@ public class Simulation implements SimulationEventListener{
                 readSpaceIntoGUI(guiNodes[i][j], environment.getSpace(i, j));
             }
         }
-        running = true;
         turn = 0;
     }
     
@@ -100,7 +117,6 @@ public class Simulation implements SimulationEventListener{
                 readSpaceIntoGUI(guiNodes[i][j], environment.getSpace(i, j));
             }
         }
-        running = true;
         turn = 0;
     }
     
@@ -125,7 +141,6 @@ public class Simulation implements SimulationEventListener{
                 readSpaceIntoGUI(guiNodes[i][j], environment.getSpace(i, j));
             }
         }
-        running = true;
         turn = 0;
     }
     
@@ -251,30 +266,40 @@ public class Simulation implements SimulationEventListener{
         turn++;
     }
     
-    public static void end(){
-        running = !running;
-    }
-    
     public static void setTurn(int i){
         turn = i;
     }
     
     public void generateBala(){
-        int numberOfBorders = 4*BOARDSIZE -4;
+        int numberOfBorders = environment.borderCount();
         int i = Randomizer.Give.nextInt(numberOfBorders);
         ants.add(new Bala(environment.getBorder(i)));
     }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(!q.isAlive())
+            timer.stop();
+        else
+            runOnce();
+    }
     
     public void runContinuously(){
-        while (running){
+        this.timer = new Timer(100, this);
+        timer.start();
+    }
+    
+    public void runOnce(){
+        
+        if (q.isAlive()){
             q.act();
-            
+
             if (Randomizer.Give.nextDouble() <= 0.03)
                 generateBala();
-            
+
             ListIterator<Actionable> litr = ants.listIterator();
             while (litr.hasNext()){
-                if ( Simulation.running){
+                if ( q.isAlive()){
                     Actionable curr = litr.next();
                     Space oldSpace = ((Ant)curr).getSpace();
 
@@ -305,79 +330,29 @@ public class Simulation implements SimulationEventListener{
                 }else
                     break;
             }
-            
-            if (!q.isAlive()){
-                running = false;
-            }
 
-            if (this.running){
+            if (q.isAlive()){
                 incrementTurn();
                 if (this.turn % 10 == 0 ){
                     environment.halveAllPheromone();
                     updateBoard();
                 }
             }else{
-                System.out.println("DONE in " + turn + " turns!");
+                //simulation is over
+                
+                String endMessage = "Queen has died after " + turn + " turns to the Balas' attack!";
+                if (q.getSpace().getFood() == 0)
+                    endMessage = "Queen has died after " + turn + " turns to starvation!";
+                if (q.isOld())
+                    endMessage = "Queen has died of old age with no heir, or dear!";
+                
+                JOptionPane.showMessageDialog(null, 
+                                              endMessage, 
+                                              "Simulation Over", 
+                                              JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
         }
-    }
-    
-    public void runOnce(){
-        if (running){
-            q.act();
-
-            if (Randomizer.Give.nextDouble() <= 0.03)
-                    generateBala();
-
-            ListIterator<Actionable> litr = ants.listIterator();
-            while (litr.hasNext()){
-                if ( Simulation.running){
-                    Actionable curr = litr.next();
-                    Space oldSpace = ((Ant)curr).getSpace();
-
-                    curr.act();
-                    Space newSpace = ((Ant)curr).getSpace();
-                    if (oldSpace == newSpace){
-                        int row = newSpace.getCoordinates()[0];
-                        int col = newSpace.getCoordinates()[1];
-
-                        ColonyNodeView cnv = guiNodes[row][col];
-                        updateColonyNodeViewFromSpace(cnv, newSpace);
-                    }else{
-                        int orow = oldSpace.getCoordinates()[0];
-                        int ocol = oldSpace.getCoordinates()[1];
-                        int nrow = newSpace.getCoordinates()[0];
-                        int ncol = newSpace.getCoordinates()[1];
-
-                        ColonyNodeView ocnv = guiNodes[orow][ocol];
-                        ColonyNodeView ncnv = guiNodes[nrow][ncol];
-                        updateColonyNodeViewFromSpace(ocnv, oldSpace);
-                        updateColonyNodeViewFromSpace(ncnv, newSpace);
-                    }
-
-                    if (!((Ant)curr).isAlive())
-                        litr.remove();
-
-
-                }else
-                    break;
-            }
-
-            if (!q.isAlive()){
-                running = false;
-            }
-
-            if (this.running){
-                    incrementTurn();
-                    if (this.turn % 10 == 0 ){
-                        environment.halveAllPheromone();
-                        updateBoard();
-                    }
-            }else{
-                System.out.println("DONE in " + turn + " turns!");
-                return;
-            }
-        }
+        gui.setTime("Day: " + turn/10 + " Turn: " + turn + " Ants: " + (ants.size()+1));
     }
 }
