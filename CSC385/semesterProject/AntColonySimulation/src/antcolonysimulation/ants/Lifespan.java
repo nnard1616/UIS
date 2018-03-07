@@ -21,10 +21,23 @@ package antcolonysimulation.ants;
  * @author nathan
  */
 public enum Lifespan {
+
+    /**
+     *
+     */
     QUEEN(73000),
+
+    /**
+     *
+     */
     OTHER(3650);
     
     private final int ls;
     Lifespan(int ls) { this.ls = ls;}
+
+    /**
+     *
+     * @return
+     */
     public int getValue() { return ls; }
 }

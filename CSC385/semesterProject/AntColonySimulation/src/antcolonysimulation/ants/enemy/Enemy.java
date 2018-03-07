@@ -26,11 +26,19 @@ import antcolonysimulation.environment.Space;
  */
 public class Enemy extends Ant{
     
+    /**
+     *
+     * @param lifespan
+     * @param space
+     */
     public Enemy(Lifespan lifespan, Space space){
         super(lifespan, space);
         space.addEnemy(this);
     }
     
+    /**
+     *
+     */
     @Override
     public void die(){
         super.die();

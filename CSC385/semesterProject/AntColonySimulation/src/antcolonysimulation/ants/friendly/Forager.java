@@ -39,12 +39,18 @@ public class Forager extends Friendly implements Actionable, Movable{
     private Queue<Space> recentVisits;
     private int visitMemoryCapacity;
     
-    /**************************************************************************/
+    /**
+     * @param space************************************************************************/
     
     public Forager(Space space){
         this(space, 5);
     }
     
+    /**
+     *
+     * @param space
+     * @param visitMemoryCapacity
+     */
     public Forager(Space space, int visitMemoryCapacity){
         super(Lifespan.OTHER, space);
         setActive(true);
@@ -53,6 +59,9 @@ public class Forager extends Friendly implements Actionable, Movable{
         travelHistory.add(space);
     }
     
+    /**
+     *
+     */
     @Override
     public void act() {
         
@@ -87,6 +96,10 @@ public class Forager extends Friendly implements Actionable, Movable{
         incrementAge();
     }
 
+    /**
+     *
+     * @param space
+     */
     @Override
     public void moveTo(Space space) {
         if (travelHistory.contains(space))
@@ -105,6 +118,10 @@ public class Forager extends Friendly implements Actionable, Movable{
         this.space = space;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public Direction chooseDirection() {
         //Get array of potential directions
@@ -143,11 +160,19 @@ public class Forager extends Friendly implements Actionable, Movable{
         return exploredAndTopPheromonicDirections.get(Randomizer.Give.nextInt(numberOfDirections));
     }
     
+    /**
+     *
+     * @param receiver
+     * @param giver
+     */
     public void addPairs(int[] receiver, int[] giver){
         receiver[0] += giver[0];
         receiver[1] += giver[1];
     }
     
+    /**
+     *
+     */
     public void backtrack(){
         if (travelHistory.size() > 1){
             //we're not at base yet, backtrack
@@ -167,19 +192,33 @@ public class Forager extends Friendly implements Actionable, Movable{
         }
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean isForaging(){
         return food == 0;
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean foodPresent(){
         return space.getFood() > 0 && space.getQueenCount() == 0;
     }
     
+    /**
+     *
+     */
     public void pickUpFood(){
         food++;
         space.setFood(space.getFood()-1);
     }
     
+    /**
+     *
+     */
     public void depositPheromone(){
         int pheromoneLevel = space.getPheromone();
         int depositAmount = 10;
@@ -188,11 +227,18 @@ public class Forager extends Friendly implements Actionable, Movable{
             space.setPheromone(pheromoneLevel+depositAmount);
     }
     
+    /**
+     *
+     */
     public void depositFood(){
         space.setFood(space.getFood()+1);
         food--;
     }
     
+    /**
+     *
+     * @return
+     */
     public int maxNeighborPheromoneCount(){
         
         Object[] directions = space.getNeighbors().stream().sorted().toArray();
@@ -218,6 +264,9 @@ public class Forager extends Friendly implements Actionable, Movable{
         return maxPheromone;
     }
     
+    /**
+     *
+     */
     public void addRecentVisit(){
         //if unsuccessful adding the space to the queue,
         if (!recentVisits.offer(space)){
@@ -230,10 +279,19 @@ public class Forager extends Friendly implements Actionable, Movable{
         }
     }
     
+    /**
+     *
+     * @param s
+     * @return
+     */
     public boolean recentlyVisited(Space s){
         return recentVisits.contains(s);
     }
     
+    /**
+     *
+     * @param space
+     */
     public void trimTravelHistory(Space space){
         if (travelHistory.contains(space) && travelHistory.size() > 1){
             while (travelHistory.peek() != space)
@@ -242,14 +300,25 @@ public class Forager extends Friendly implements Actionable, Movable{
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int getFood() {
         return food;
     }
 
+    /**
+     *
+     * @return
+     */
     public Stack<Space> getTravelHistory() {
         return travelHistory;
     }
     
+    /**
+     *
+     */
     @Override
     public void die(){
         super.die();

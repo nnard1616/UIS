@@ -22,19 +22,59 @@ package antcolonysimulation.environment;
  */
 public enum Direction {
     
+    /**
+     *
+     */
     N (new int[] {-1, 0}),
+
+    /**
+     *
+     */
     NE(new int[] {-1, 1}),
+
+    /**
+     *
+     */
     E (new int[] { 0, 1}),
+
+    /**
+     *
+     */
     SE(new int[] { 1, 1}),
+
+    /**
+     *
+     */
     S (new int[] { 1, 0}),
+
+    /**
+     *
+     */
     SW(new int[] { 1,-1}),
+
+    /**
+     *
+     */
     W (new int[] { 0,-1}),
+
+    /**
+     *
+     */
     NW(new int[] {-1,-1});
     
     private final int[] d;
     Direction(int[] d) { this.d = d;}
+
+    /**
+     *
+     * @return
+     */
     public int[] getValue() { return d; }
     
+    /**
+     *
+     * @return
+     */
     public Direction invert(){
         switch(this){
             case N:

@@ -38,10 +38,20 @@ public class Environment {
         this(27, 500, 1000);//default grid size is 27x27
     }
     
+    /**
+     *
+     * @param size
+     */
     public Environment(int size){
         this(size, 500, 1000);
     }
     
+    /**
+     *
+     * @param size
+     * @param foodmin
+     * @param foodmax
+     */
     public Environment(int size, int foodmin, int foodmax){
         this.SIZE = size;
         this.FOODMIN = foodmin;
@@ -62,27 +72,50 @@ public class Environment {
         addNeighbors();
     }
     
+    /**
+     *
+     * @param i
+     * @return
+     */
     public Space getBorder(int i){
         return borderSpaces.get(i);
     }
     
+    /**
+     *
+     * @return
+     */
     public Space[][] getGrid() {
         return grid;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getSIZE() {
         return SIZE;
     }
     
+    /**
+     *
+     * @param x
+     * @param y
+     * @return
+     */
     public Space getSpace(int x, int y){
         try{
             return this.grid[x][y];
         }catch(ArrayIndexOutOfBoundsException oob){
-            System.out.println("out of bounds indices were passed to Environment.getSpace");
+            System.out.println("out of bounds indices were passed to Environment.getSpace: " + x +", " + y );
             return null;
         }
     }
     
+    /**
+     *
+     * @return
+     */
     public int borderCount(){
         return borderSpaces.size();
     }
@@ -135,12 +168,19 @@ public class Environment {
             }
     }
     
+    /**
+     *
+     */
     public void revealAll(){
         for (Space[] row : grid)
             for (Space s: row)
                 s.setExplored(true);
     }
     
+    /**
+     *
+     * @param f
+     */
     public void setAllFood(int f){
         for (Space[] row : grid)
             for (Space s: row)
@@ -156,12 +196,19 @@ public class Environment {
             return 0;
     }
     
+    /**
+     *
+     */
     public void halveAllPheromone(){
         for (Space[] row : grid)
             for (Space s: row)
                 s.setPheromone(s.getPheromone()/2);
     }
     
+    /**
+     *
+     * @return
+     */
     public String pheromonesToString(){
         String result = "";
         for (Space[] row : grid){
@@ -173,6 +220,10 @@ public class Environment {
         return result;
     }
     
+    /**
+     *
+     * @return
+     */
     public String foodsToString(){
         String result = "";
         for (Space[] row : grid){

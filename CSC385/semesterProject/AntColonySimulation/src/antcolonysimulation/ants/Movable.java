@@ -23,6 +23,16 @@ import antcolonysimulation.environment.Space;
  * @author nathan
  */
 public interface Movable {
+
+    /**
+     *
+     * @param space
+     */
     public void moveTo(Space space);
+
+    /**
+     *
+     * @return
+     */
     public Direction chooseDirection();
 }

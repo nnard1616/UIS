@@ -46,7 +46,10 @@ public class Space {
     private HashMap<Direction, Space> neighbors;
     
     
-    /**************************************************************************/
+    /**
+     * @param x
+     * @param y*
+     * @param food***********************************************************************/
     
     public Space(int x, int y, int food){
         this.enemyAnts = new HashMap<>();
@@ -56,28 +59,53 @@ public class Space {
         neighbors = new HashMap<>();
     }
     
+    /**
+     *
+     * @param direction
+     * @param space
+     */
     public void addNeighbor(Direction direction, Space space){
         neighbors.put(direction, space);
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean containsEnemies(){
         return !enemyAnts.isEmpty();
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean containsFriendlies(){
         return !friendlyAnts.isEmpty();
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean isExplored(){
         return explored;
     }
     
+    /**
+     *
+     * @param enemy
+     */
     public void addEnemy(Enemy enemy){
         this.enemyAnts.put(enemy.getUID(), enemy);
         if (enemy.getClass().equals(Bala.class))
             balaCount++;
     }
     
+    /**
+     *
+     * @param friendly
+     */
     public void addFriendly(Friendly friendly){
         this.friendlyAnts.put(friendly.getUID(), friendly);
         if (friendly.getClass().equals(Forager.class))
@@ -90,6 +118,11 @@ public class Space {
             queenCount++;
     }
     
+    /**
+     *
+     * @param UID
+     * @return
+     */
     public Enemy popEnemy(Integer UID){
         try{
             Enemy enemy = this.enemyAnts.remove(UID);
@@ -104,6 +137,11 @@ public class Space {
         }
     }
     
+    /**
+     *
+     * @param UID
+     * @return
+     */
     public Friendly popFriendly(int UID){
         try{
             Friendly friendly = this.friendlyAnts.remove(UID);
@@ -124,6 +162,11 @@ public class Space {
         }
     }
 
+    /**
+     *
+     * @param UID
+     * @return
+     */
     public Enemy getEnemy(int UID){
         try{
             return this.enemyAnts.get(UID); 
@@ -133,6 +176,11 @@ public class Space {
         }
     }
     
+    /**
+     *
+     * @param UID
+     * @return
+     */
     public Friendly getFriendly(int UID){
         try{
             return this.friendlyAnts.get(UID); 
@@ -142,66 +190,131 @@ public class Space {
         }
     }
     
+    /**
+     *
+     * @return
+     */
     public Set<Integer> getEnemiesUIDs(){
         return enemyAnts.keySet();
     }
     
+    /**
+     *
+     * @return
+     */
     public Set<Integer> getFriendliesUIDs(){
         return friendlyAnts.keySet();
     }
     
+    /**
+     *
+     * @return
+     */
     public int getFood() {
         return food;
     }
 
+    /**
+     *
+     * @return
+     */
     public int[] getCoordinates() {
         return coordinates;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getPheromone() {
         return pheromone;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getScoutCount() {
         return scoutCount;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getForagerCount() {
         return foragerCount;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getSoldierCount() {
         return soldierCount;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getQueenCount() {
         return queenCount;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getBalaCount() {
         return balaCount;
     }
     
+    /**
+     *
+     * @return
+     */
     public Set<Direction> getNeighbors(){
         return this.neighbors.keySet();
     }
     
+    /**
+     *
+     * @param d
+     * @return
+     */
     public Space getNeighbor(Direction d){
         return this.neighbors.get(d);
     }
 
+    /**
+     *
+     * @param food
+     */
     public void setFood(int food) {
         this.food = food;
     }
 
+    /**
+     *
+     * @param pheromone
+     */
     public void setPheromone(int pheromone) {
         this.pheromone = pheromone;
     }
     
+    /**
+     *
+     * @param b
+     */
     public void setExplored(boolean b){
         this.explored = b;
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean decrementFood(){
         if (food == 0)
             return false;
@@ -209,10 +322,17 @@ public class Space {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     public Map<Integer, Enemy> getEnemyAnts() {
         return enemyAnts;
     }
     
+    /**
+     *
+     */
     public void clear(){
         scoutCount   = 0;
         foragerCount = 0;
@@ -226,6 +346,10 @@ public class Space {
         explored     = false;
     }
     
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString(){
         return "(" + coordinates[0] + ", " + coordinates[1] + ")";

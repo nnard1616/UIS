@@ -34,13 +34,17 @@ public class Soldier extends Friendly implements Actionable, Movable{
 
     private boolean scouting = true;
     
-    /**************************************************************************/
+    /**
+     * @param space************************************************************************/
     
     public Soldier(Space space){
         super(Lifespan.OTHER, space);
         setActive(true);
     }
     
+    /**
+     *
+     */
     @Override
     public void act() {
         if (isOld()){
@@ -67,6 +71,10 @@ public class Soldier extends Friendly implements Actionable, Movable{
         incrementAge();
     }
 
+    /**
+     *
+     * @param space
+     */
     @Override
     public void moveTo(Space space) {
         
@@ -78,6 +86,10 @@ public class Soldier extends Friendly implements Actionable, Movable{
         this.space = space;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public Direction chooseDirection() {
         //Get array of potential directions
@@ -116,6 +128,10 @@ public class Soldier extends Friendly implements Actionable, Movable{
         return exploredDirections.get(Randomizer.Give.nextInt(numberOfDirections));
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isScouting() {
         return scouting;
     }
@@ -124,6 +140,9 @@ public class Soldier extends Friendly implements Actionable, Movable{
         scouting = !scouting;
     }
     
+    /**
+     *
+     */
     public void scout(){
         Direction nextDirection = chooseDirection();
         //null means nowhere to move, so don't move
@@ -133,6 +152,9 @@ public class Soldier extends Friendly implements Actionable, Movable{
         moveTo(space.getNeighbor(nextDirection));
     }
     
+    /**
+     *
+     */
     public void attack(){
         //Pick an enemy
         Enemy enemy = space.getEnemy((Integer)space.getEnemiesUIDs().toArray()[0]);

@@ -31,10 +31,21 @@ public class Ant {
     
     private static int antCount = 0;
     
+    /**
+     *
+     */
     protected int[] coordinates;
+
+    /**
+     *
+     */
     protected Space space;
     
-    /**************************************************************************/
+    /**
+     * @param lifespan
+     * @param lifespan
+     * @param space
+     * @param space************************************************************************/
     
     
     public Ant(Lifespan lifespan, Space space){
@@ -44,56 +55,106 @@ public class Ant {
         this.space = space;
     }
     
+    /**
+     *
+     */
     public void incrementAge(){
         this.age++;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getUID() {
         return UID;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getLIFESPAN() {
         return LIFESPAN;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getAge() {
         return age;
     }
 
+    /**
+     *
+     * @return
+     */
     public static int getAntCount() {
         return antCount;
     }
 
+    /**
+     *
+     * @return
+     */
     public int[] getCoordinates() {
         return space.getCoordinates();
     }
 
+    /**
+     *
+     * @return
+     */
     public Space getSpace() {
         return space;
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean isOld(){
         if (this.age > this.LIFESPAN)
             throw new IllegalStateException("Ants should not age past their lifespan!");
         return this.age == this.LIFESPAN;
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean isActive(){
         return active;
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean isAlive() {
         return this.alive;
     }
 
+    /**
+     *
+     * @param b
+     */
     public void setActive(boolean b) {
         this.active = b;
     }
     
+    /**
+     *
+     * @param space
+     */
     public void setSpace(Space space) {
         this.space = space;
     }
     
+    /**
+     *
+     */
     public void die(){
         this.alive = false;
     }

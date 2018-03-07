@@ -25,11 +25,20 @@ import antcolonysimulation.environment.Space;
  * @author nathan
  */
 public class Friendly extends Ant{
+
+    /**
+     *
+     * @param lifespan
+     * @param space
+     */
     public Friendly(Lifespan lifespan, Space space){
         super(lifespan, space);
         space.addFriendly(this);
     }
     
+    /**
+     *
+     */
     @Override
     public void die(){
         super.die();

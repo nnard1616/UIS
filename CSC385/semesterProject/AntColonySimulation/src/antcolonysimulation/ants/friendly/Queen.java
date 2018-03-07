@@ -32,7 +32,9 @@ public class Queen extends Friendly implements Actionable{
     
     private List<Actionable> ants;
     
-    /**************************************************************************/
+    /**
+     * @param space*
+     * @param ants***********************************************************************/
     
     public Queen(Space space, List<Actionable> ants){
         super(Lifespan.QUEEN, space);
@@ -44,6 +46,9 @@ public class Queen extends Friendly implements Actionable{
         
     }
     
+    /**
+     *
+     */
     @Override
     public void act(){
         
@@ -69,6 +74,9 @@ public class Queen extends Friendly implements Actionable{
         incrementAge();
     }
     
+    /**
+     *
+     */
     public void hatchAnt(){
         double roll = Randomizer.Give.nextDouble();
         
@@ -81,21 +89,36 @@ public class Queen extends Friendly implements Actionable{
         }
     }
     
+    /**
+     *
+     * @param n
+     */
     public void hatchForager(int n){
         for (int i = 0; i < n; i++ )
             ants.add( new Forager(space));
     }
     
+    /**
+     *
+     * @param n
+     */
     public void hatchScout(int n){
         for (int i = 0; i < n; i++ )
             ants.add( new Scout(space));
     }
     
+    /**
+     *
+     * @param n
+     */
     public void hatchSoldier(int n){
         for (int i = 0; i < n; i++ )
             ants.add( new Soldier(space));
     }
     
+    /**
+     *
+     */
     public void eat(){
         
         //try eating, if no food available

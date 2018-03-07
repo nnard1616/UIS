@@ -47,15 +47,31 @@ public class Simulation implements SimulationEventListener, ActionListener{
     private AntSimGUI gui;
     private ColonyNodeView[][] guiNodes;
     private Queen q;
-    private final int BOARDSIZE;
+    private int BOARDSIZE;
     private Timer timer;
+    private boolean makeBalas = true;
     
     /**************************************************************************/
+    /*  Constructors                                                          */
+    /**************************************************************************/
     
+    /**
+     * Default constructor that makes a Simulation with a board size of 27.
+     * Instantiating a Simulation object has the side effect of running the 
+     * simulation GUI, but does not start the simulation until the appropriate
+     * button is pressed in the GUI.
+     */
     public Simulation(){
         this(27);
     }
     
+    /**
+     * Constructor that makes a Simulation with user supplied board size. 
+     * Instantiating a Simulation object has the side effect of running the 
+     * simulation GUI, but does not start the simulation until the appropriate
+     * button is pressed in the GUI.
+     * @param boardSize     Size of the simulation square board.
+     */
     public Simulation(int boardSize){
         this.BOARDSIZE = boardSize;
         this.environment = new Environment(BOARDSIZE);
@@ -76,92 +92,10 @@ public class Simulation implements SimulationEventListener, ActionListener{
         
     }
     
-    public void normalSetup(){
-        clear();
-        this.environment = new Environment(BOARDSIZE);
-        Space start = environment.getSpace(BOARDSIZE/2, BOARDSIZE/2);
-        q = new Queen(start, ants);
-        
-        q.hatchForager(50);
-        q.hatchScout(4);
-        q.hatchSoldier(10);
-        start.setFood(1000);
-
-        
-        for( int i = 0; i < BOARDSIZE; i++){
-            for( int j = 0; j < BOARDSIZE; j++){
-                readSpaceIntoGUI(guiNodes[i][j], environment.getSpace(i, j));
-            }
-        }
-        turn = 0;
-    }
+    /**************************************************************************/
+    /*  Overrides                                                             */
+    /**************************************************************************/
     
-    public void foragerTest(){
-        clear();
-        this.environment = new Environment(BOARDSIZE);
-        Space start = environment.getSpace(0, 0);
-        q = new Queen(start, ants);
-        
-        q.hatchForager(1);
-        q.setActive(false);
-        environment.setAllFood(0);
-        environment.revealAll();
-        start.setFood(1000);
-        environment.getSpace(2, 2).setFood(50);
- 
-        
-        ColonyView cView = new ColonyView(BOARDSIZE,BOARDSIZE);
-        
-        for( int i = 0; i < BOARDSIZE; i++){
-            for( int j = 0; j < BOARDSIZE; j++){
-                readSpaceIntoGUI(guiNodes[i][j], environment.getSpace(i, j));
-            }
-        }
-        turn = 0;
-    }
-    
-    public void soldierTest(){
-        clear();
-        this.environment = new Environment(BOARDSIZE);
-        Space start = environment.getSpace(BOARDSIZE/2, BOARDSIZE/2);
-        q = new Queen(start, ants);
-        
-        q.hatchSoldier(2);
-        q.setActive(false);
-        generateBala();
-        environment.setAllFood(0);
-        environment.revealAll();
-        start.setFood(1000);
- 
-        
-        ColonyView cView = new ColonyView(BOARDSIZE,BOARDSIZE);
-        
-        for( int i = 0; i < BOARDSIZE; i++){
-            for( int j = 0; j < BOARDSIZE; j++){
-                readSpaceIntoGUI(guiNodes[i][j], environment.getSpace(i, j));
-            }
-        }
-        turn = 0;
-    }
-    
-    public void clear(){
-        for( int i = 0; i < BOARDSIZE; i++){
-            for( int j = 0; j < BOARDSIZE; j++){
-                environment.getSpace(i, j).clear();
-                ants.clear();
-                updateColonyNodeViewFromSpace(guiNodes[i][j], environment.getSpace(i, j));
-            }
-        }
-    }
-    
-    public void updateBoard(){
-        for( int i = 0; i < BOARDSIZE; i++){
-            for( int j = 0; j < BOARDSIZE; j++){
-                updateColonyNodeViewFromSpace(guiNodes[i][j], environment.getSpace(i, j));
-            }
-        }
-    }
-
     @Override
     public void simulationEventOccurred(SimulationEvent simEvent) {
         switch (simEvent.getEventType()){
@@ -189,7 +123,130 @@ public class Simulation implements SimulationEventListener, ActionListener{
         }
     }
     
-    public void readSpaceIntoGUI(ColonyNodeView cnv, Space space){
+    /**
+     * Method required for implementing ActionListener interface.  Fixes
+     * timings of GUI animations.  Associated Timer object, timer, will call 
+     * this method.
+     * @param e
+     */
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(!q.isAlive())
+            timer.stop();
+        else
+            runOnce();
+    }
+    
+    /**************************************************************************/
+    /*  Simulation Setup & Test Methods                                       */
+    /**************************************************************************/
+    
+    /**
+     * Method for setting up the normal simulation environment and starting 
+     * conditions.
+     */
+    private void normalSetup(){
+        clear();
+        this.makeBalas = true;
+        this.environment = new Environment(BOARDSIZE);
+        Space start = environment.getSpace(BOARDSIZE/2, BOARDSIZE/2);
+        q = new Queen(start, ants);
+        
+        q.hatchForager(50);
+        q.hatchScout(4);
+        q.hatchSoldier(10);
+        start.setFood(1000);
+        
+        updateBoard();
+        
+        turn = 0;
+    }
+    
+    /**
+     * Test method for testing Forager ants.
+     */
+    private void foragerTest(){
+        clear();
+        this.makeBalas = false;
+        this.BOARDSIZE = 3;
+        this.environment = new Environment(BOARDSIZE);
+        Space start = environment.getSpace(0, 0);
+        q = new Queen(start, ants);
+        
+        q.hatchForager(1);
+        q.setActive(false);
+        environment.setAllFood(0);
+        environment.revealAll();
+        start.setFood(1000);
+        environment.getSpace(2, 2).setFood(50);
+        
+        updateBoard();
+        
+        turn = 0;
+    }
+    
+    /**
+     * Test method for testing Soldier ants.
+     */
+    private void soldierTest(){
+        clear();
+        this.BOARDSIZE = 5;
+        this.makeBalas = true;
+        this.environment = new Environment(BOARDSIZE);
+        Space start = environment.getSpace(BOARDSIZE/2, BOARDSIZE/2);
+        q = new Queen(start, ants);
+        
+        q.hatchSoldier(2);
+        q.setActive(false);
+        generateBala();
+        environment.setAllFood(0);
+        environment.revealAll();
+        start.setFood(1000);
+        
+        this.makeBalas = false;
+        
+        updateBoard();
+        
+        turn = 0;
+    }
+    
+    /**************************************************************************/
+    /*  Methods for Updating the GUI Environment                              */
+    /**************************************************************************/
+    
+    /**
+     * Clears all actors and resources from current simulation and makes all 
+     * spaces hidden.
+     */
+    private void clear(){
+        for( int i = 0; i < BOARDSIZE; i++){
+            for( int j = 0; j < BOARDSIZE; j++){
+                environment.getSpace(i, j).clear();
+                ants.clear();
+                updateColonyNodeViewFromSpace(guiNodes[i][j], environment.getSpace(i, j));
+            }
+        }
+    }
+    
+    /**
+     * Updates the GUI's view by reading the information from each space on 
+     * the grid in the Environment object.
+     */
+    private void updateBoard(){
+        for( int i = 0; i < BOARDSIZE; i++){
+            for( int j = 0; j < BOARDSIZE; j++){
+                updateColonyNodeViewFromSpace(guiNodes[i][j], environment.getSpace(i, j));
+            }
+        }
+    }
+    
+    /**
+     * Updates ColonyNodeView object with information from corresponding Space 
+     * object from the associated Environment object, environment.
+     * @param cnv           ColonyNodeView object to update.
+     * @param space         Space object to read from.
+     */
+    private void updateColonyNodeViewFromSpace(ColonyNodeView cnv, Space space){
         
         if (space.isExplored())
             cnv.showNode();
@@ -198,36 +255,16 @@ public class Simulation implements SimulationEventListener, ActionListener{
         
         cnv.setID(space.toString());
         
-        if (space.getQueenCount() == 1){
-            cnv.setQueen(true);
-            cnv.showQueenIcon();
-        }
-        if (space.getBalaCount() > 0){
-            cnv.showBalaIcon();
-        }
-        if (space.getScoutCount() > 0){
-            cnv.showScoutIcon();
-        }
-        if (space.getSoldierCount() > 0){
-            cnv.showSoldierIcon();
-        }
-        if (space.getForagerCount() > 0){
-            cnv.showForagerIcon();
-        }
-        
-        cnv.setForagerCount(space.getForagerCount());
-        cnv.setScoutCount(space.getScoutCount());
-        cnv.setSoldierCount(space.getSoldierCount());
-        cnv.setBalaCount(space.getBalaCount());
-        cnv.setFoodAmount(space.getFood());
-        cnv.setPheromoneLevel(space.getPheromone());
-    }
-    
-    public void updateColonyNodeViewFromSpace(ColonyNodeView cnv, Space space){
-        
         if (space.isExplored())
             cnv.showNode();
         
+        if (space.getQueenCount() == 1){
+            cnv.setQueen(true);
+            cnv.showQueenIcon();
+        }else{
+            cnv.setQueen(false);
+            cnv.hideQueenIcon();
+        }
         if (space.getBalaCount() > 0){
             cnv.showBalaIcon();
         }else{
@@ -255,41 +292,62 @@ public class Simulation implements SimulationEventListener, ActionListener{
         cnv.setBalaCount(space.getBalaCount());
         cnv.setFoodAmount(space.getFood());
         cnv.setPheromoneLevel(space.getPheromone());
-            
     }
     
+    /**
+     * Generates Bala ants in a random border Space object.
+     */
+    private void generateBala(){
+        if (makeBalas){
+            int numberOfBorders = environment.borderCount();
+            int i = Randomizer.Give.nextInt(numberOfBorders);
+            ants.add(new Bala(environment.getBorder(i)));
+        }
+    }
+    
+    /**************************************************************************/
+    /*  Static Methods for Interacting with Static Attribute: turn            */
+    /**************************************************************************/
+    
+    /**
+     * Returns the current turn value of the Simulation.
+     * @return          Current integer value of the attribute: turn.
+     */
     public static int getTurn(){
         return turn;
     }
     
+    /**
+     * Increments the integer attribute: turn, by 1.
+     */
     public static void incrementTurn(){
         turn++;
     }
     
+    /**
+     * Sets the current turn value to the user provided integer.
+     * @param i         Integer value to give the attribute: turn.
+     */
     public static void setTurn(int i){
         turn = i;
     }
     
-    public void generateBala(){
-        int numberOfBorders = environment.borderCount();
-        int i = Randomizer.Give.nextInt(numberOfBorders);
-        ants.add(new Bala(environment.getBorder(i)));
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if(!q.isAlive())
-            timer.stop();
-        else
-            runOnce();
-    }
+    /**************************************************************************/
+    /*  Methods for Running the Simulation                                    */
+    /**************************************************************************/
     
-    public void runContinuously(){
+    /**
+     * Runs the simulation continuously.
+     */
+    private void runContinuously(){
         this.timer = new Timer(100, this);
         timer.start();
     }
     
-    public void runOnce(){
+    /**
+     * Runs only one turn of the simulation.
+     */
+    private void runOnce(){
         
         if (q.isAlive()){
             q.act();
@@ -298,13 +356,21 @@ public class Simulation implements SimulationEventListener, ActionListener{
                 generateBala();
 
             ListIterator<Actionable> litr = ants.listIterator();
+            
             while (litr.hasNext()){
                 if ( q.isAlive()){
+                    
                     Actionable curr = litr.next();
+                    
+                    //Current space occupied before acting the turn.
                     Space oldSpace = ((Ant)curr).getSpace();
 
                     curr.act();
+                    
+                    //Space occupied after acting the turn.
                     Space newSpace = ((Ant)curr).getSpace();
+                    
+                    //Update the space(s)
                     if (oldSpace == newSpace){
                         int row = newSpace.getCoordinates()[0];
                         int col = newSpace.getCoordinates()[1];
@@ -322,14 +388,14 @@ public class Simulation implements SimulationEventListener, ActionListener{
                         updateColonyNodeViewFromSpace(ocnv, oldSpace);
                         updateColonyNodeViewFromSpace(ncnv, newSpace);
                     }
-
+                    
+                    //remove the ant from the registry if it died.
                     if (!((Ant)curr).isAlive())
                         litr.remove();
 
-
                 }else
-                    break;
-            }
+                    break; //queen is dead
+            }// end while
 
             if (q.isAlive()){
                 incrementTurn();

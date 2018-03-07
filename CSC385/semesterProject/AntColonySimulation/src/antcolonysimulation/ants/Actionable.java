@@ -21,5 +21,9 @@ package antcolonysimulation.ants;
  * @author nathan
  */
 public interface Actionable {
+
+    /**
+     *
+     */
     public void act();
 }

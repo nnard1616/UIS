@@ -23,5 +23,9 @@ import java.util.Random;
  * @author nathan
  */
 public class Randomizer {
+
+    /**
+     *
+     */
     public static Random Give = new Random();
 }

@@ -29,11 +29,18 @@ import antcolonysimulation.simulation.Randomizer;
  */
 public class Scout extends Friendly implements Actionable, Movable{
 
+    /**
+     *
+     * @param space
+     */
     public Scout (Space space){
         super(Lifespan.OTHER, space);
         setActive(true);
     }
     
+    /**
+     *
+     */
     @Override
     public void act() {
         
@@ -53,6 +60,10 @@ public class Scout extends Friendly implements Actionable, Movable{
         
     }
 
+    /**
+     *
+     * @param space
+     */
     @Override
     public void moveTo(Space space) {
         //Remove self from current space, place self in next space
@@ -62,6 +73,10 @@ public class Scout extends Friendly implements Actionable, Movable{
         this.space = space;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public Direction chooseDirection() {
         Object[] directions = space.getNeighbors().toArray();
@@ -70,6 +85,9 @@ public class Scout extends Friendly implements Actionable, Movable{
         return (Direction)directions[Randomizer.Give.nextInt(numberOfDirections)];
     }
     
+    /**
+     *
+     */
     public void revealSpace(){
         space.setExplored(true);
     }
