@@ -1,0 +1,123 @@
+mysql> describe flight;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| Num      | smallint(6) | NO   | PRI | NULL    |       |
+| Origin   | varchar(3)  | YES  |     | NULL    |       |
+| Dest     | varchar(3)  | YES  |     | NULL    |       |
+| Dep_Time | varchar(5)  | YES  |     | NULL    |       |
+| Arr_Time | varchar(5)  | YES  |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select * from plane;
++--------+----------+
+| Maker  | Model_No |
++--------+----------+
+| Airbus | A310     |
+| Airbus | A320     |
+| Airbus | A330     |
+| Airbus | A340     |
+| Boeing | B727     |
+| Boeing | B747     |
+| Boeing | B757     |
+| MD     | DC10     |
+| MD     | DC9      |
++--------+----------+
+9 rows in set (0.00 sec)
+
+mysql> select * from flight where origin = 'ORD';
++-----+--------+------+----------+----------+
+| Num | Origin | Dest | Dep_Time | Arr_Time |
++-----+--------+------+----------+----------+
+| 334 | ORD    | MIA  | 12:00    | 14:14    |
+| 336 | ORD    | MIA  | 18:00    | 20:14    |
++-----+--------+------+----------+----------+
+2 rows in set (0.00 sec)
+
+mysql> select * from employee join pilot using(emp_no);
++--------+--------+----------+
+| Emp_No | Name   | Salary   |
++--------+--------+----------+
+|   1001 | Jones  | 50000.00 |
+|   1002 | Peters | 45000.00 |
+|   1003 | Rowe   | 35000.00 |
++--------+--------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select * from aircraft join plane using(model_no);
++----------+-----------+--------+
+| Model_No | Serial_No | Maker  |
++----------+-----------+--------+
+| A310     |        70 | Airbus |
+| A320     |        80 | Airbus |
+| B727     |        11 | Boeing |
+| B727     |        13 | Boeing |
+| B747     |        10 | Boeing |
+| B747     |        13 | Boeing |
+| B757     |        22 | Boeing |
+| B757     |        93 | Boeing |
+| DC10     |        21 | MD     |
+| DC9      |        21 | MD     |
+| DC9      |        22 | MD     |
+| DC9      |        23 | MD     |
+| DC9      |        24 | MD     |
++----------+-----------+--------+
+13 rows in set (0.00 sec)
+
+mysql> select * from flight join departure using(num) where dep_date = 'Oct 31';
++-----+--------+------+----------+----------+----------+
+| Num | Origin | Dest | Dep_Time | Arr_Time | Dep_Date |
++-----+--------+------+----------+----------+----------+
+| 100 | SLC    | BOS  | 08:00    | 17:50    | Oct 31   |
+| 112 | DCA    | DEN  | 14:00    | 18:07    | Oct 31   |
+| 206 | DFW    | STL  | 09:00    | 11:40    | Oct 31   |
+| 334 | ORD    | MIA  | 12:00    | 14:14    | Oct 31   |
+| 335 | MIA    | ORD  | 15:00    | 17:14    | Oct 31   |
+| 337 | MIA    | ORD  | 20:30    | 23:53    | Oct 31   |
+| 449 | CDG    | DEN  | 10:00    | 19:29    | Oct 31   |
++-----+--------+------+----------+----------+----------+
+7 rows in set (0.00 sec)
+
+mysql> select * from booked_on join flight using(num) order by name;
++-----+----------+----------+--------+------+----------+----------+
+| Num | Name     | Dep_Date | Origin | Dest | Dep_Time | Arr_Time |
++-----+----------+----------+--------+------+----------+----------+
+| 100 | Clark    | Nov  1   | SLC    | BOS  | 08:00    | 17:50    |
+| 449 | Edwards  | Oct 31   | CDG    | DEN  | 10:00    | 19:29    |
+| 991 | Gates    | Nov  1   | BOS    | ORD  | 17:00    | 18:22    |
+| 206 | Green    | Oct 31   | DFW    | STL  | 09:00    | 11:40    |
+| 334 | Hooper   | Oct 31   | ORD    | MIA  | 12:00    | 14:14    |
+| 991 | MacBride | Nov  1   | BOS    | ORD  | 17:00    | 18:22    |
+| 100 | Peters   | Nov  1   | SLC    | BOS  | 08:00    | 17:50    |
+| 449 | Phillips | Oct 31   | CDG    | DEN  | 10:00    | 19:29    |
+| 100 | Rowe     | Nov  1   | SLC    | BOS  | 08:00    | 17:50    |
+| 991 | Smith    | Nov  1   | BOS    | ORD  | 17:00    | 18:22    |
+| 100 | Smith    | Oct 31   | SLC    | BOS  | 08:00    | 17:50    |
+| 449 | Warnock  | Oct 31   | CDG    | DEN  | 10:00    | 19:29    |
++-----+----------+----------+--------+------+----------+----------+
+12 rows in set (0.00 sec)
+
+mysql> select * from booked_on join flight using(num) where name = 'Gates';
++-----+-------+----------+--------+------+----------+----------+
+| Num | Name  | Dep_Date | Origin | Dest | Dep_Time | Arr_Time |
++-----+-------+----------+--------+------+----------+----------+
+| 991 | Gates | Nov  1   | BOS    | ORD  | 17:00    | 18:22    |
++-----+-------+----------+--------+------+----------+----------+
+1 row in set (0.00 sec)
+
+mysql> select * from employee join can_fly using(emp_no) where model_no = 'B757';
++--------+--------+----------+----------+
+| Emp_No | Name   | Salary   | Model_No |
++--------+--------+----------+----------+
+|   1002 | Peters | 45000.00 | B757     |
++--------+--------+----------+----------+
+1 row in set (0.00 sec)
+
+mysql> select count(name), max(salary), min(salary), sum(salary) from employee;
++-------------+-------------+-------------+-------------+
+| count(name) | max(salary) | min(salary) | sum(salary) |
++-------------+-------------+-------------+-------------+
+|           7 |  5000000.00 |    25000.00 |  5805000.00 |
++-------------+-------------+-------------+-------------+
+1 row in set (0.00 sec)
