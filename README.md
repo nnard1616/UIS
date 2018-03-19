@@ -18,7 +18,10 @@ CSC385
 ------
 
 Data Structures & Algorithms
-Final Project Directory:
-Final Project Source Files Directory:
-[Final Project JAR](https://github.com/nnard1616/UIS/blob/master/CSC385/semesterProject/AntColonySimulation/dist/AntColonySimulation.jar)
+
+[Final Project Directory](https://github.com/nnard1616/UIS/tree/master/CSC385/semesterProject)
+
+[Final Project Source Files Directory](https://github.com/nnard1616/UIS/tree/master/CSC385/semesterProject/AntColonySimulation/src)
+
+[Final Project JAR](https://github.com/nnard1616/UIS/raw/master/CSC385/semesterProject/AntColonySimulation/dist/AntColonySimulation.jar)
 
