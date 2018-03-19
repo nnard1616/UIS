@@ -3,6 +3,7 @@ package antsimgui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.net.URL;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -190,23 +191,23 @@ public class ColonyNodeView extends JPanel
 		pheromoneLabel.setForeground(LABEL_COLOR);
 		
 		// indicates presence of queen ant
-		queenIcon = new JLabel(new ImageIcon("images/queen.gif"));
+		queenIcon = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("images/queen.gif")));
 		queenIcon.setVisible(false);
 		
 		// indicates presence of scout ant
-		scoutIcon = new JLabel(new ImageIcon("images/scout.gif"));
+		scoutIcon = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("images/scout.gif")));
 		scoutIcon.setVisible(false);
 		
 		// indicates presence of forager ant
-		foragerIcon = new JLabel(new ImageIcon("images/forager.gif"));
+		foragerIcon = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("images/forager.gif")));
 		foragerIcon.setVisible(false);
 		
 		// indicates presence of soldier ant
-		soldierIcon = new JLabel(new ImageIcon("images/soldier.gif"));
+		soldierIcon = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("images/soldier.gif")));
 		soldierIcon.setVisible(false);
 		
 		// indicates presence of Bala ant
-		balaIcon = new JLabel(new ImageIcon("images/bala.gif"));
+		balaIcon = new JLabel(new ImageIcon(getClass().getClassLoader().getResource("images/bala.gif")));
 		balaIcon.setVisible(false);		
 	}
 	
