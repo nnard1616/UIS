@@ -16,6 +16,7 @@
  */
 package antcolonysimulation;
 
+import antcolonysimulation.ants.enemy.Bala;
 import antcolonysimulation.simulation.Simulation;
 
 /**
@@ -28,7 +29,8 @@ public class AntColonySimulation {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Simulation sim = new Simulation();
+        new Simulation();
+        
     }
     
 }

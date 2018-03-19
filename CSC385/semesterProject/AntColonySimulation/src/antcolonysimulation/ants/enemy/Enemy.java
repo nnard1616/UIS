@@ -27,7 +27,9 @@ import antcolonysimulation.environment.Space;
 public class Enemy extends Ant{
     
     /**
-     *
+     * Default constructor of Enemy object.  Calls the Ant constructor and 
+     * also updates the Space's list of contained Enemies to include this newly
+     * made Enemy.
      * @param lifespan
      * @param space
      */
@@ -37,7 +39,8 @@ public class Enemy extends Ant{
     }
     
     /**
-     *
+     * Same as Ant's die method, but also updates the Space's list of contained
+     * Enemies to remove this Enemy.
      */
     @Override
     public void die(){

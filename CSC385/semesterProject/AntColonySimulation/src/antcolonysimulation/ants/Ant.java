@@ -30,24 +30,17 @@ public class Ant {
     private boolean alive = true;
     
     private static int antCount = 0;
-    
-    /**
-     *
-     */
-    protected int[] coordinates;
-
-    /**
-     *
-     */
     protected Space space;
     
+    /**************************************************************************/
+    
     /**
-     * @param lifespan
-     * @param lifespan
-     * @param space
-     * @param space************************************************************************/
-    
-    
+     * Default constructor of Ant object. Additional side effects include set-
+     * -ting the Unit Identification Number (UID) and its age initialized to 0.
+     * 
+     * @param lifespan How old the ant can live, see Lifespan enumeration.
+     * @param space    The space on which the ant starts.
+    */
     public Ant(Lifespan lifespan, Space space){
         this.UID = this.antCount++;
         this.LIFESPAN = lifespan.getValue();
@@ -55,97 +48,100 @@ public class Ant {
         this.space = space;
     }
     
-    /**
-     *
-     */
-    public void incrementAge(){
-        this.age++;
-    }
+    /**************************************************************************/
+    /*  Getters                                                               */
+    /**************************************************************************/
 
     /**
-     *
-     * @return
+     * Returns the Unit Identification Number of the Ant object.
+     * @return UID
      */
     public int getUID() {
         return UID;
     }
 
     /**
-     *
-     * @return
+     * Returns the lifespan of the Ant object.
+     * @return LIFESPAN
      */
     public int getLIFESPAN() {
         return LIFESPAN;
     }
 
     /**
-     *
-     * @return
+     * Returns the Ant object's current age.
+     * @return age
      */
     public int getAge() {
         return age;
     }
 
     /**
-     *
-     * @return
+     * Returns the number of Ants created so far.
+     * @return antCount
      */
     public static int getAntCount() {
         return antCount;
     }
 
     /**
-     *
-     * @return
+     * Returns the coordinates of the Space object that the Ant occupies.
+     * @return Doublet of ints.
      */
     public int[] getCoordinates() {
         return space.getCoordinates();
     }
 
     /**
-     *
-     * @return
+     * Returns reference of the Space object currently occupied.
+     * @return Space reference
      */
     public Space getSpace() {
         return space;
     }
     
     /**
-     *
-     * @return
+     * Returns true when the Ant's age equals its lifespan, false otherwise.
+     * Throws an IllegalStateException when age exceeds lifespan.
+     * @return Boolean
      */
     public boolean isOld(){
         if (this.age > this.LIFESPAN)
-            throw new IllegalStateException("Ants should not age past their lifespan!");
+            throw new IllegalStateException("Ants should not age past their "
+                                            + "lifespan!");
         return this.age == this.LIFESPAN;
     }
     
     /**
-     *
-     * @return
+     * Returns true when the Ant is able to act, false otherwise.
+     * @return Boolean
      */
     public boolean isActive(){
         return active;
     }
     
     /**
-     *
-     * @return
+     * Returns true when the Ant is alive, false otherwise.
+     * @return Boolean
      */
     public boolean isAlive() {
-        return this.alive;
+        return alive;
     }
+    
+    /**************************************************************************/
+    /*  Setters                                                               */
+    /**************************************************************************/
 
     /**
-     *
-     * @param b
+     * Sets the active state of the Ant
+     * @param b True or False.
      */
     public void setActive(boolean b) {
         this.active = b;
     }
     
     /**
-     *
+     * Set the Space reference on which the Ant occupies.
      * @param space
      */
     public void setSpace(Space space) {
@@ -153,7 +149,14 @@ public class Ant {
     }
     
     /**
-     *
+     * Increases Ant's age by 1.
+     */
+    public void incrementAge(){
+        this.age++;
+    }
+    
+    /**
+     * Sets alive attribute to false.
      */
     public void die(){
         this.alive = false;

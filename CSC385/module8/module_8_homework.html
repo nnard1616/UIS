@@ -1,0 +1,265 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><!-- InstanceBegin template="/Templates/blackboard.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+<!-- InstanceBeginEditable name="doctitle" -->
+<title></title>
+<!-- InstanceEndEditable -->
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
+<!--
+.verd10 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: normal;
+	color: #000000;
+}
+.verd10bold {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: bold;
+	color: #000000;
+}
+.verd10red {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: normal;
+	color: #FF0000;
+}
+.verd10red_bold {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: bold;
+	color: #FF0000;
+}
+.verd12 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	color: #000000;
+}
+.verd12red {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	color: #FF0000;
+}
+.verd12red_bold {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: bold;
+	color: #FF0000;
+}
+.verd12b {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: bold;
+	color: #000000;
+}
+.verd14b {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: bold;
+	color: #000000;
+}
+.courier12 {
+	font-family: "Courier New", Courier, mono;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	color: #000000;
+}
+.courier12b {
+	font-family: "Courier New", Courier, mono;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: bold;
+	color: #000000;
+}
+.verd12u {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: normal;
+	color: #000000;
+	text-decoration: underline;
+}
+.times14i {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 14px;
+	font-style: italic;
+	font-weight: normal;
+	color: #000000;
+}
+.letter-list {
+	list-style-position: outside;
+	list-style-type: lower-alpha;
+}
+.small_roman_list {
+	list-style-position: outside;
+	list-style-type: lower-roman;
+}
+-->
+</style>
+<!-- InstanceBeginEditable name="head" --><!-- InstanceEndEditable -->
+</head>
+
+<body>
+<!-- InstanceBeginEditable name="Content" -->
+<table width="100%"  border="0" align="left" cellpadding="5">
+	<tr>
+		<td width="100%" class="verd14b"><p>CSC 385
+		  <br>
+	      Module 8 Homework: Binary Tree Traversals; Building a Simple OrderedLinkedList </p>
+		  <p>30 points</p></td>
+	</tr>
+	<tr>
+		<td class="verd12">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="verd12"><p class="verd12b">Instructions</p>		</td>
+	</tr>
+	<tr>
+					<td class="verd12"><blockquote>
+					  <p class="verd12b">Note: This assignment has 2 parts to it. The first part is located on Blackboard in the section for Module 8, and is labeled, &quot;Module 8 Assignment, Part 1&quot;. Part 1 deals with the different tree traversals we discussed in Module 8. The second part is a short programming assignment that is described below. You must complete both parts of the assignment to receive full credit for it.</p>
+		</blockquote></td>
+	</tr>
+	<tr>
+					<td class="verd12">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="verd12"><blockquote>
+			<p class="verd12b">Part 2.</p>
+			<p>First, some background is in order to explain why linked lists are relevant to the topic of binary trees. In this module we discussed the basic binary tree, in which items are added without regard to their relative ordering. In the next module we will talk about ordered binary trees, where the items are stored in a binary tree in sorted order; the resulting trees are called &quot;search trees&quot;. As we will discuss in modules 10 &amp; 11, the implementations of search trees can be complicated, but the advantage is that searches can be performed in O(log <em>N</em>) time, something that cannot be accomplished with a standard linked list (although it is possible for an array-based list). One alternative to the binary search tree that more closely resembles a linked list is known as the <span class="verd12b">skip list</span>. A skip list has as its base a linked list structure, but overlays this linked list with one or more levels of indexing. The indexes consist of nodes that skip over one or more nodes of the linked list, as shown in the diagram below:</p>
+			<blockquote>
+				<p>&nbsp;</p>
+				</blockquote>
+			<p><img src="skip_list.gif" width="643" height="121"></p>
+			<blockquote>
+				<p>&nbsp;</p>
+				</blockquote>
+			<p>One prerequisite for the skip list is that the items must be stored in sorted order, or the indexing won't work. With a skip list, to find an item one begins with the first node at the highest index level (level 2 in the diagram above), and traverses the nodes in that index level. As long as the item indexed is less than the item being searched for, the traversal continues at that index level. If an item is greater than the item being searched for, or the last node in that index level has been reached, it is necessary to back up to the previous index node on that level, then go down to the corresponding index node on the next lowest level, and begin traversing at that level. Eventually, it will become necessary to jump down to the list itself to continue the search. In a large list, this can considerably shorten the search time. The index nodes are similar to the nodes in a tree. For example, index node 1.1 would be the parent of nodes A &amp; B, and index node 1.2 would be the parent of nodes C &amp; D, etc. All the index nodes on a given level are siblings. </p>
+			<p>Skip lists can be rather tricky to implement. The way in which the index nodes are updated when items are added or removed can result in poor performance if not done properly. Additionally, it is important to conserve space, which entails minimizing the number of node references each node contains. Because of these problems, all I am asking you to do for the second part of this assignment is to complete the first step in creating a skip list: implement a very basic, ordered linked list. I have provided the framework of the class for you: class <a href="OrderedLinkedList.java">OrderedLinkedList</a>. All you need to do is implement three parts of the list:</p>
+			<ol>
+				<li>the nested <span class="courier12b">OrderedListNode</span> class</li>
+				<li>the <span class="courier12b">add(Comparable obj)</span> method</li>
+				<li>the <span class="courier12b">remove(Comparable obj)</span> method</li>
+				</ol>
+			<p>Please follow these guidelines when implementing your class:</p>
+			<ol>
+				<li>Remember that because the items in the list must be stored in sorted order, you will need to use data items of type <span class="courier12">Comparable</span> rather than type <span class="courier12">Object</span>.<br>  
+					<br>
+					<br>
+					</li>
+				<li>Do not extend any of the data structure classes or interfaces I have provided for this course (doing so will be more trouble than it is worth). <br>  
+					<br>  
+					<br>
+					</li>
+				<li>You do not need to add any additional methods beyond those listed above.<br>  
+					<br>
+					<br>
+					</li>
+				<li>You may store the items in either ascending or descending order, whichever you prefer, but choose only one ordering. <br>  
+					<br>
+					<br>
+					</li>
+				<li>The <span class="courier12">OrderedListNode</span> class must be a nested class (i.e., it must be an inner class declared as <span class="courier12">static</span>). The implementation should be similar to the nested class <span class="courier12">ListNode</span> of the <span class="courier12">LinkedList</span> class, except it should store a data item of type <span class="courier12">Comparable</span> rather than type <span class="courier12">Object</span>.<br>  
+					<br>  
+					<br>
+					</li>
+				<li>Be sure  to test your <span class="courier12">OrderLinkedList</span> implementation. Remember that you do not need to create your own <span class="courier12">Comparable</span> items to use as test data; just use <span class="courier12">String</span> objects or <span class="courier12">Integer</span> objects. </li>
+				</ol>
+		</blockquote></td>
+	</tr>
+	<tr>
+	  <td class="verd12">&nbsp;</td>
+  </tr>
+	<tr>
+	  <td class="verd12b">What you need to do: </td>
+  </tr>
+	<tr>
+	  <td class="verd12"><ol>
+	    <li>Complete Part 1 on Blackboard.<br>
+	      <br>
+	      <br>
+	    </li>
+	    <li>Turn in your <span class="courier12">OrderedLinkedList</span> class containing the implementations described above.</li>
+      </ol></td>
+  </tr>
+	<tr>
+	  <td class="verd12">&nbsp;</td>
+  </tr>
+	<tr>
+	  <td class="verd12b">Grading Rubric </td>
+  </tr>
+	<tr>
+	  <td class="verd12"><blockquote><table width="50%"  border="1" cellspacing="0" cellpadding="5">
+        <tr>
+          <td width="62%" class="verd12">&nbsp;</td>
+          <td width="38%" class="verd12b">Points</td>
+        </tr>
+        <tr>
+          <td align="left" class="verd12b">Part 1: Binary Tree Traversals </td>
+          <td class="verd12">&nbsp;</td>
+        </tr>
+        <tr>
+          <td align="right" class="verd12">Correct postorder traversal</td>
+          <td class="verd12">2.5</td>
+        </tr>
+        <tr>
+          <td align="right" class="verd12">Correct inorder traversal</td>
+          <td class="verd12">2.5</td>
+        </tr>
+        <tr>
+          <td align="right" class="verd12">Correct preorder traversal</td>
+          <td class="verd12">2.5</td>
+        </tr>
+        <tr>
+          <td align="right" class="verd12">Correct level-order traversal</td>
+          <td class="verd12">2.5</td>
+        </tr>
+        <tr>
+          <td align="right" class="verd12">&nbsp;</td>
+          <td class="verd12">&nbsp;</td>
+        </tr>
+        <tr>
+          <td align="left" class="verd12b">Part 2: OrderedLinkedList </td>
+          <td class="verd12">&nbsp;</td>
+        </tr>
+        <tr>
+          <td align="right" class="verd12"><span class="courier12">OrderedListNode</span> inner class </td>
+          <td class="verd12">5</td>
+        </tr>
+        <tr>
+          <td align="right" class="verd12"><span class="courier12">add(Comparable obj)</span> method </td>
+          <td class="verd12">8</td>
+        </tr>
+        <tr>
+          <td align="right" class="verd12"><span class="courier12">remove(Comparable obj)</span> method </td>
+          <td class="verd12">7</td>
+        </tr>
+        <tr>
+          <td align="right" class="verd12">&nbsp;</td>
+          <td class="verd12">&nbsp;</td>
+        </tr>
+        <tr>
+          <td align="right" class="verd12b">Total:</td>
+          <td class="verd12b">30</td>
+        </tr>
+      </table>
+	      <p>I will give partial credit for traversals that are partially correct.</p>
+	  </blockquote>      </td>
+  </tr>
+</table>
+<!-- InstanceEndEditable -->
+
+</body>
+<!-- InstanceEnd --></html>

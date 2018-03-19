@@ -35,17 +35,13 @@ import antcolonysimulation.simulation.Randomizer;
 public class Bala extends Enemy implements Actionable, Movable{
 
     /**
-     *
+     * Default constructor, calls Enemy's default constructor.
      * @param space
      */
     public Bala(Space space){
         super(Lifespan.OTHER, space);
-        setActive(true);
     }
     
-    /**
-     *
-     */
     @Override
     public void act() {
         
@@ -65,11 +61,7 @@ public class Bala extends Enemy implements Actionable, Movable{
         incrementAge();
         
     }
-
-    /**
-     *
-     * @param space
-     */
+    
     @Override
     public void moveTo(Space space) {
         //Remove self from current space, place self in next space
@@ -78,10 +70,11 @@ public class Bala extends Enemy implements Actionable, Movable{
         //Update Ant's space pointer.
         this.space = space;
     }
-
+    
     /**
-     *
-     * @return
+     * Picks a random direction to move in, regardless of the Space being 
+     * revealed or not.
+     * @return 
      */
     @Override
     public Direction chooseDirection() {
@@ -92,7 +85,8 @@ public class Bala extends Enemy implements Actionable, Movable{
     }
 
     /**
-     *
+     * Method that picks a Friendly from the Friendly list on the current space
+     * and 50% kills it.  Favors Queen, Soldier, Forager, and then Scout.
      */
     public void attack(){
         Friendly target = null;

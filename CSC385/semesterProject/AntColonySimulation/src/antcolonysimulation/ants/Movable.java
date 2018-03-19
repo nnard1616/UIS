@@ -25,13 +25,13 @@ import antcolonysimulation.environment.Space;
 public interface Movable {
 
     /**
-     *
+     * Method to move the Movable actor to the specified Space.
      * @param space
      */
     public void moveTo(Space space);
 
     /**
-     *
+     * Determines which Direction to move in.
      * @return
      */
     public Direction chooseDirection();

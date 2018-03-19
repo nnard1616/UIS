@@ -12,6 +12,8 @@ import org.junit.Test;
 public class MyBinarySearchTest {
     private final Integer[] odd     = new Integer[] {3, 5, 6, 8, 9};
     private final Integer[] even    = new Integer[] {3, 4, 5, 6, 8, 9};
+    private final Integer[] rubOdd  = new Integer[] {3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23};
+    private final Integer[] rubEven = new Integer[] {3, 5, 7, 9, 11, 13, 15, 17, 19, 21};
     private final Integer[] empty   = new Integer[] {};
     private final MyBinarySearch bs = new MyBinarySearch();
     
@@ -90,23 +92,23 @@ public class MyBinarySearchTest {
     @Test
     public void nonExistentQueryBetweenLowerAndUpperBoundShouldReturnIntermediateForEvenArray(){
         //Given
-        Integer query = 7;
+        Integer query = 12;
         
         //Then 
         Assert.assertEquals("Non existent query should return the proper index for orderly insertion into even numbered array.", 
-                            4, 
-                            bs.binarySearch(even, query));
+                            5, 
+                            bs.binarySearch(rubEven, query));
     }
     
     @Test
     public void nonExistentQueryBetweenLowerAndUpperBoundShouldReturnIntermediateForOddArray(){
         //Given
-        Integer query = 7;
+        Integer query = 12;
         
         //Then 
         Assert.assertEquals("Non existent query should return the proper index for orderly insertion into odd numbered array.", 
-                            3, 
-                            bs.binarySearch(odd, query));
+                            5, 
+                            bs.binarySearch(rubOdd, query));
     }
     
     @Test

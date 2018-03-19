@@ -89,7 +89,6 @@ public class Simulation implements SimulationEventListener, ActionListener{
         }
         
         this.gui.initGUI(cView);
-        
     }
     
     /**************************************************************************/
@@ -103,6 +102,7 @@ public class Simulation implements SimulationEventListener, ActionListener{
                 normalSetup();
                 break;
             case SimulationEvent.QUEEN_TEST_EVENT:
+                queenTest();
                 break;
             case SimulationEvent.SCOUT_TEST_EVENT:
                 break;
@@ -163,6 +163,26 @@ public class Simulation implements SimulationEventListener, ActionListener{
     }
     
     /**
+     * Test method for testing Queen ant.
+     */
+    private void queenTest(){
+        clear();
+        this.BOARDSIZE = 5;
+        this.makeBalas = false;
+        this.environment = new Environment(BOARDSIZE);
+        Space start = environment.getSpace(BOARDSIZE/2, BOARDSIZE/2);
+        q = new Queen(start, ants);
+        
+        environment.setAllFood(0);
+        environment.revealAll();
+        start.setFood(1000);
+        
+        updateBoard();
+        
+        turn = 0;
+    }
+    
+    /**
      * Test method for testing Forager ants.
      */
     private void foragerTest(){
@@ -186,7 +206,7 @@ public class Simulation implements SimulationEventListener, ActionListener{
     }
     
     /**
-     * Test method for testing Soldier ants.
+     * Test method for testing Soldier & Bala ants.
      */
     private void soldierTest(){
         clear();
@@ -223,7 +243,8 @@ public class Simulation implements SimulationEventListener, ActionListener{
             for( int j = 0; j < BOARDSIZE; j++){
                 environment.getSpace(i, j).clear();
                 ants.clear();
-                updateColonyNodeViewFromSpace(guiNodes[i][j], environment.getSpace(i, j));
+                updateColonyNodeViewFromSpace(guiNodes[i][j], 
+                                              environment.getSpace(i, j));
             }
         }
     }
@@ -235,7 +256,8 @@ public class Simulation implements SimulationEventListener, ActionListener{
     private void updateBoard(){
         for( int i = 0; i < BOARDSIZE; i++){
             for( int j = 0; j < BOARDSIZE; j++){
-                updateColonyNodeViewFromSpace(guiNodes[i][j], environment.getSpace(i, j));
+                updateColonyNodeViewFromSpace(guiNodes[i][j], 
+                                              environment.getSpace(i, j));
             }
         }
     }
@@ -350,8 +372,16 @@ public class Simulation implements SimulationEventListener, ActionListener{
     private void runOnce(){
         
         if (q.isAlive()){
+            
             q.act();
+            
+            //update Queen's ColonyNodeView after acting her turn.
+            int row = q.getCoordinates()[0];
+            int col = q.getCoordinates()[1];
+            ColonyNodeView cnv = guiNodes[row][col];
+            updateColonyNodeViewFromSpace(cnv, q.getSpace());
 
+            //Make the bala
             if (Randomizer.Give.nextDouble() <= 0.03)
                 generateBala();
 
@@ -372,10 +402,10 @@ public class Simulation implements SimulationEventListener, ActionListener{
                     
                     //Update the space(s)
                     if (oldSpace == newSpace){
-                        int row = newSpace.getCoordinates()[0];
-                        int col = newSpace.getCoordinates()[1];
+                        row = newSpace.getCoordinates()[0];
+                        col = newSpace.getCoordinates()[1];
 
-                        ColonyNodeView cnv = guiNodes[row][col];
+                        cnv = guiNodes[row][col];
                         updateColonyNodeViewFromSpace(cnv, newSpace);
                     }else{
                         int orow = oldSpace.getCoordinates()[0];
@@ -406,11 +436,14 @@ public class Simulation implements SimulationEventListener, ActionListener{
             }else{
                 //simulation is over
                 
-                String endMessage = "Queen has died after " + turn + " turns to the Balas' attack!";
+                String endMessage = "Queen has died after " + turn 
+                                  + " turns to the Balas' attack!";
                 if (q.getSpace().getFood() == 0)
-                    endMessage = "Queen has died after " + turn + " turns to starvation!";
+                    endMessage = "Queen has died after " + turn 
+                               + " turns to starvation!";
                 if (q.isOld())
-                    endMessage = "Queen has died of old age with no heir, or dear!";
+                    endMessage = "Queen has died of old age with no heir, "
+                               + "or dear!";
                 
                 JOptionPane.showMessageDialog(null, 
                                               endMessage, 
@@ -419,6 +452,7 @@ public class Simulation implements SimulationEventListener, ActionListener{
                 return;
             }
         }
-        gui.setTime("Day: " + turn/10 + " Turn: " + turn + " Ants: " + (ants.size()+1));
+        gui.setTime("Day: " + turn/10 + " Turn: " + turn + " Ants: " 
+                                                         + (ants.size()+1));
     }
 }

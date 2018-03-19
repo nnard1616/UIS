@@ -32,10 +32,12 @@ public class Queen extends Friendly implements Actionable{
     
     private List<Actionable> ants;
     
-    /**
-     * @param space*
-     * @param ants***********************************************************************/
+    /**************************************************************************/
     
+    /*
+     * @param space
+     * @param ants
+    */
     public Queen(Space space, List<Actionable> ants){
         super(Lifespan.QUEEN, space);
         setActive(true);

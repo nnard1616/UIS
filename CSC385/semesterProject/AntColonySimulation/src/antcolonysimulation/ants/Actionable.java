@@ -23,7 +23,7 @@ package antcolonysimulation.ants;
 public interface Actionable {
 
     /**
-     *
+     * Method that executes actor's turn.
      */
     public void act();
 }
