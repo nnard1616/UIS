@@ -19,6 +19,10 @@ CSC385
 
 Data Structures & Algorithms
 
+Final Project:  Ant Colony Simulation.
+
+After launching the application, click on "Normal Setup" and then "Run" to see the simulation in action.  You may need to scroll right and down to see the start of the colony.
+
 [Final Project Directory](https://github.com/nnard1616/UIS/tree/master/CSC385/semesterProject)
 
 [Final Project Source Files Directory](https://github.com/nnard1616/UIS/tree/master/CSC385/semesterProject/AntColonySimulation/src)
