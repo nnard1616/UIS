@@ -5,17 +5,53 @@
  */
 package csc385datastructures;
 
+import dataStructures.HashFunction;
+import dataStructures.HashMap;
+
 /**
  *
  * @author nathan
  */
 public class Csc385DataStructures {
+    static String[] values =  new String[] {"Patriots",
+                                            "Steelers",
+                                            "Chargers",
+                                            "Texans",
+                                            "Packers",
+                                            "49ers",
+                                            "Saints",
+                                            "Giants"};
+    static Integer[] hashes = new Integer[]    {1342415383,
+                                                700056533,
+                                                330628742,
+                                                532139483,
+                                                217142585,
+                                                2112979549,
+                                                207265348,
+                                                1631149803};
+    
+    private static class IdentityHashFunction extends HashFunction{
 
+        @Override
+        public int hashValue(Object key) {
+            if (key.getClass() != Integer.class)
+                throw new IllegalArgumentException("IdentityHashFunction only receives Integer objects");   
+            return (Integer)key;
+        }
+        
+    }
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        IdentityHashFunction hf = new IdentityHashFunction();
+        HashMap hMap = new HashMap(hf);
+        
+        for (int i = 0; i < 8; i++)
+            hMap.add(hashes[i], values[i]);
+        
+        System.out.println(hMap);
+
     }
     
 }
