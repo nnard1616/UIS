@@ -3,7 +3,7 @@
 # Nathan Nard
 # nnard2
 # CSC 368 - Project 2
-# April 14, 2018
+# April 15, 2018
 #------------------------------
 $num = int(rand(50))+1;
 $guess = 0;
@@ -24,6 +24,7 @@ while ($guess ne $num){
     last;
   } else{
     print "\nUsage: enter number between 1 and 50\n Type 'exit' to quit.\n Type 'quit' to quit.\n\nTry again: ";
+    $numberOfGuesses+=1;
   }
   $guess = <STDIN>;
   chomp($guess);
