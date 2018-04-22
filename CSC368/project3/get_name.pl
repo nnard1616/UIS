@@ -1,4 +1,4 @@
-#/usr/bin/perl
+#!/usr/bin/perl
 #------------------------------
 # Nathan Nard
 # nnard2
@@ -7,6 +7,8 @@
 #------------------------------
 use strict;
 
-open PASSWD, "/etc/passwd.bak";
+if (! open PASSWD, "/etc/passwd.bak"){
+  die "Could not open passwd.bak: $!";
+}
 
 close PASSWD;
