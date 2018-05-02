@@ -29,7 +29,9 @@ import antcolonysimulation.environment.Space;
 import antcolonysimulation.simulation.Randomizer;
 
 /**
- *
+ * A generic enemy ant that is able to move and perform actions, namely attack
+ * friendly ants, in the simulation.
+ * 
  * @author nathan
  */
 public class Bala extends Enemy implements Actionable, Movable{
@@ -42,6 +44,12 @@ public class Bala extends Enemy implements Actionable, Movable{
         super(Lifespan.OTHER, space);
     }
     
+    /**
+     * Moves randomly regardless if space is explored.  If any friendlies are 
+     * in the same occupied space, attack one of the friendlies at random, but
+     * prioritize in this order:  queen, soldier, forager, scout.  50% chance
+     * to kill attack target.
+     */
     @Override
     public void act() {
         
@@ -62,6 +70,10 @@ public class Bala extends Enemy implements Actionable, Movable{
         
     }
     
+    /**
+     * Method to move the Movable actor to the specified Space.
+     * @param space     Space object that the Bala will move to.
+     */
     @Override
     public void moveTo(Space space) {
         //Remove self from current space, place self in next space
@@ -74,19 +86,20 @@ public class Bala extends Enemy implements Actionable, Movable{
     /**
      * Picks a random direction to move in, regardless of the Space being 
      * revealed or not.
-     * @return 
+     * @return      Direction object that represents direction to move in grid.
      */
     @Override
     public Direction chooseDirection() {
-        Object[] directions = space.getNeighbors().toArray();
+        Object[] directions = space.getNeighborsDirections().toArray();
         int numberOfDirections = directions.length;
         
-        return (Direction)directions[Randomizer.Give.nextInt(numberOfDirections)];
+        return (Direction)directions[Randomizer.Give.nextInt(
+                                                           numberOfDirections)];
     }
 
     /**
      * Method that picks a Friendly from the Friendly list on the current space
-     * and 50% kills it.  Favors Queen, Soldier, Forager, and then Scout.
+     * and 50% chance kills it.  Favors Queen, Soldier, Forager, and then Scout.
      */
     public void attack(){
         Friendly target = null;

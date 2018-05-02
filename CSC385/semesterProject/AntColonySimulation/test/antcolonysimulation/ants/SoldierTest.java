@@ -60,8 +60,8 @@ public class SoldierTest {
             s.act();
         
         System.out.println(s.getSpace());
-        assertEquals("Soldier should have killed enemies at " + e.getSpace(0, 1), 0, e.getSpace(0, 1).getBalaCount());
-        assertEquals("Soldier should not have killed enemies at " + e.getSpace(0, 0), 0, e.getSpace(0, 1).getBalaCount());
+        assertEquals("Soldier should have killed enemies at " + e.getSpace(0, 1), 0, e.getSpace(0, 1).getEnemyCount());
+        assertEquals("Soldier should not have killed enemies at " + e.getSpace(0, 0), 0, e.getSpace(0, 1).getEnemyCount());
         assertEquals("Soldier should have moved to top left", e.getSpace(0, 0), s.getSpace());
         assertEquals("Soldier should be back in scout mode", true, s.isScouting());
         
@@ -72,7 +72,7 @@ public class SoldierTest {
             s.act();
         
         System.out.println(s.getSpace());
-        assertEquals("Soldier should have killed enemies at " + e.getSpace(0, 0), 0, e.getSpace(0, 0).getBalaCount());
+        assertEquals("Soldier should have killed enemies at " + e.getSpace(0, 0), 0, e.getSpace(0, 0).getEnemyCount());
         
         while (s.isAlive()){
             s.act();
@@ -83,7 +83,7 @@ public class SoldierTest {
         assertEquals("Soldier should be dead", false, s.isAlive());
         assertEquals("Soldier should not be on board", null, s.getSpace().getFriendly(s.getUID()));
         assertEquals("Space should have 0 soldierCount", 0, s.getSpace().getSoldierCount());
-        assertEquals("Top right corner should still have enemies", 3, e.getSpace(0, 2).getBalaCount());
+        assertEquals("Top right corner should still have enemies", 3, e.getSpace(0, 2).getEnemyCount());
     }
     
 }

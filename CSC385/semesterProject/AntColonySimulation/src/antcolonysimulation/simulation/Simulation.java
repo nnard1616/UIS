@@ -36,10 +36,15 @@ import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
 /**
- *
+ * Class that runs/handles the simulation and test simulations and reads the 
+ * information into the GUI for visualization.
  * @author nathan
  */
 public class Simulation implements SimulationEventListener, ActionListener{
+    
+    /**************************************************************************/
+    /*  Attributes                                                            */
+    /**************************************************************************/
     
     private static int turn = 0;
     private Environment environment;
@@ -50,6 +55,7 @@ public class Simulation implements SimulationEventListener, ActionListener{
     private int BOARDSIZE;
     private Timer timer;
     private boolean makeBalas = true;
+    
     
     /**************************************************************************/
     /*  Constructors                                                          */
@@ -90,6 +96,7 @@ public class Simulation implements SimulationEventListener, ActionListener{
         
         this.gui.initGUI(cView);
     }
+    
     
     /**************************************************************************/
     /*  Overrides                                                             */
@@ -136,6 +143,7 @@ public class Simulation implements SimulationEventListener, ActionListener{
         else
             runOnce();
     }
+    
     
     /**************************************************************************/
     /*  Simulation Setup & Test Methods                                       */
@@ -230,6 +238,7 @@ public class Simulation implements SimulationEventListener, ActionListener{
         turn = 0;
     }
     
+    
     /**************************************************************************/
     /*  Methods for Updating the GUI Environment                              */
     /**************************************************************************/
@@ -287,7 +296,7 @@ public class Simulation implements SimulationEventListener, ActionListener{
             cnv.setQueen(false);
             cnv.hideQueenIcon();
         }
-        if (space.getBalaCount() > 0){
+        if (space.getEnemyCount() > 0){
             cnv.showBalaIcon();
         }else{
             cnv.hideBalaIcon();
@@ -311,7 +320,7 @@ public class Simulation implements SimulationEventListener, ActionListener{
         cnv.setForagerCount(space.getForagerCount());
         cnv.setScoutCount(space.getScoutCount());
         cnv.setSoldierCount(space.getSoldierCount());
-        cnv.setBalaCount(space.getBalaCount());
+        cnv.setBalaCount(space.getEnemyCount());
         cnv.setFoodAmount(space.getFood());
         cnv.setPheromoneLevel(space.getPheromone());
     }
@@ -326,6 +335,7 @@ public class Simulation implements SimulationEventListener, ActionListener{
             ants.add(new Bala(environment.getBorder(i)));
         }
     }
+    
     
     /**************************************************************************/
     /*  Static Methods for Interacting with Static Attribute: turn            */
@@ -353,6 +363,7 @@ public class Simulation implements SimulationEventListener, ActionListener{
     public static void setTurn(int i){
         turn = i;
     }
+    
     
     /**************************************************************************/
     /*  Methods for Running the Simulation                                    */
@@ -387,6 +398,8 @@ public class Simulation implements SimulationEventListener, ActionListener{
 
             ListIterator<Actionable> litr = ants.listIterator();
             
+            //cycle through all ants, have them perform their actions, if
+            //the queen is alive.  Breaks immediately when queen dies.
             while (litr.hasNext()){
                 if ( q.isAlive()){
                     

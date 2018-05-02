@@ -21,7 +21,9 @@ import antcolonysimulation.ants.Lifespan;
 import antcolonysimulation.environment.Space;
 
 /**
- *
+ * Sub class of Ant that represents enemies of the friendly ants in the 
+ * simulation.
+ * 
  * @author nathan
  */
 public class Enemy extends Ant{

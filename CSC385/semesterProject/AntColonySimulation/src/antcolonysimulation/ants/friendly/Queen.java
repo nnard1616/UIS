@@ -25,7 +25,9 @@ import antcolonysimulation.simulation.Simulation;
 import java.util.List;
 
 /**
- *
+ *  Sub class of Friendly ants that consumes food every turn and produces new 
+ * ants every 10 turns.
+ * 
  * @author nathan
  */
 public class Queen extends Friendly implements Actionable{
@@ -34,22 +36,29 @@ public class Queen extends Friendly implements Actionable{
     
     /**************************************************************************/
     
-    /*
-     * @param space
-     * @param ants
+    /**
+     * Default constructor of Queen object. Additional side effects include set-
+     * -ting the Unit Identification Number (UID) and its age initialized to 0.
+     * 
+     * @param space     The space on which the ant starts.
+     * @param ants      Reference to the simulation's container of ant actors.
     */
     public Queen(Space space, List<Actionable> ants){
         super(Lifespan.QUEEN, space);
         setActive(true);
         this.ants = ants;
         space.setExplored(true);
-        for ( Direction d : space.getNeighbors())
+        for ( Direction d : space.getNeighborsDirections())
             space.getNeighbor(d).setExplored(true);
         
     }
     
     /**
-     *
+     * Every turn Queen consumes 1 food.  If no food, the Queen dies.
+     * Every 10 turns the Queen will hatch a new friendly ant, at these rates:
+     * 50% Forager
+     * 25% Scout
+     * 25% Soldier
      */
     @Override
     public void act(){
@@ -77,7 +86,10 @@ public class Queen extends Friendly implements Actionable{
     }
     
     /**
-     *
+     * Randomly creates a friendly ant with these probabilities:
+     * 50% Forager
+     * 25% Scout
+     * 25% Soldier
      */
     public void hatchAnt(){
         double roll = Randomizer.Give.nextDouble();
@@ -92,8 +104,8 @@ public class Queen extends Friendly implements Actionable{
     }
     
     /**
-     *
-     * @param n
+     * Creates a variable number of friendly forager ants.
+     * @param n     number of friendly foragers to make.
      */
     public void hatchForager(int n){
         for (int i = 0; i < n; i++ )
@@ -101,8 +113,8 @@ public class Queen extends Friendly implements Actionable{
     }
     
     /**
-     *
-     * @param n
+     * Creates a variable number of friendly scout ants.
+     * @param n     number of friendly scouts to make.
      */
     public void hatchScout(int n){
         for (int i = 0; i < n; i++ )
@@ -110,8 +122,8 @@ public class Queen extends Friendly implements Actionable{
     }
     
     /**
-     *
-     * @param n
+     * Creates a variable number of friendly soldier ants.
+     * @param n     number of friendly soldiers to make.
      */
     public void hatchSoldier(int n){
         for (int i = 0; i < n; i++ )
@@ -119,7 +131,7 @@ public class Queen extends Friendly implements Actionable{
     }
     
     /**
-     *
+     *  Attempts to eat from food storage, if nothing there then die.
      */
     public void eat(){
         

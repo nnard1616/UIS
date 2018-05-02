@@ -27,23 +27,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Subclass of Friendly ants that scout for and attempt to kill Enemy ants.
+ * 
  * @author nathan
  */
 public class Soldier extends Friendly implements Actionable, Movable{
 
-    private boolean scouting = true;
+    private boolean scouting = true; //true --> scouting, false --> attacking
+    
+    /**************************************************************************/
     
     /**
-     * @param space************************************************************************/
-    
+     * Default constructor of Soldier object. Additional side effects 
+     * include setting the Unit Identification Number (UID) and its age 
+     * initialized to 0.
+     * 
+     * @param space    The space on which the Soldier starts.
+    */
     public Soldier(Space space){
         super(Lifespan.OTHER, space);
         setActive(true);
     }
     
     /**
-     *
+     * When in scout mode, the soldier chooses a random explored space to move 
+     * to.  If there's an adjacent enemy, soldier enters attack mode and will
+     * choose the direction with the most enemies.  When on the same space as a
+     * enemy, it will attempt to attack the enemy with 50% success rate.
      */
     @Override
     public void act() {
@@ -56,11 +66,11 @@ public class Soldier extends Friendly implements Actionable, Movable{
             return;
         
         //If enemies present, switch to attack mode
-        if (space.getBalaCount() > 0 && isScouting())
+        if (space.getEnemyCount() > 0 && isScouting())
             toggleScouting();
         
         //if enemies are not present, switch to scout mode
-        if (space.getBalaCount() == 0 && !isScouting())
+        if (space.getEnemyCount() == 0 && !isScouting())
             toggleScouting();
         
         if (isScouting())
@@ -70,11 +80,7 @@ public class Soldier extends Friendly implements Actionable, Movable{
         
         incrementAge();
     }
-
-    /**
-     *
-     * @param space
-     */
+    
     @Override
     public void moveTo(Space space) {
         
@@ -87,13 +93,17 @@ public class Soldier extends Friendly implements Actionable, Movable{
     }
 
     /**
-     *
+     * When in scout mode, the soldier chooses a random explored space to move 
+     * to.  If there's an adjacent enemy, soldier enters attack mode and will
+     * choose the direction with the most enemies.
      * @return
      */
     @Override
     public Direction chooseDirection() {
         //Get array of potential directions
-        Object[] directions = space.getNeighbors().stream().sorted().toArray();
+        Object[] directions = space.getNeighborsDirections().stream()
+                                                            .sorted()
+                                                            .toArray();
         
         int maxEnemyCount = 0;
         int neighborEnemyCount = 0;
@@ -107,7 +117,8 @@ public class Soldier extends Friendly implements Actionable, Movable{
             //only look at areas that are explored.
             if (space.getNeighbor((Direction)d).isExplored()){
                 exploredDirections.add((Direction)d);
-                neighborEnemyCount = space.getNeighbor((Direction)d).getBalaCount();
+                neighborEnemyCount = space.getNeighbor(
+                                                  (Direction)d).getEnemyCount();
                 if (neighborEnemyCount > maxEnemyCount ){
                     maxEnemyCount = neighborEnemyCount;
                     nextD = (Direction)d;
@@ -125,23 +136,27 @@ public class Soldier extends Friendly implements Actionable, Movable{
             return nextD;
         
         //otherwise no enemies present, select next space randomly
-        return exploredDirections.get(Randomizer.Give.nextInt(numberOfDirections));
+        return exploredDirections.get(
+                                   Randomizer.Give.nextInt(numberOfDirections));
     }
 
     /**
-     *
-     * @return
+     * Determines if Soldier is in scout mode.
+     * @return  boolean, True or False.
      */
     public boolean isScouting() {
         return scouting;
     }
     
+    /**
+     * Toggles scout/attack mode.
+     */
     private void toggleScouting(){
         scouting = !scouting;
     }
     
     /**
-     *
+     * Performs scout action.
      */
     public void scout(){
         Direction nextDirection = chooseDirection();
@@ -153,15 +168,15 @@ public class Soldier extends Friendly implements Actionable, Movable{
     }
     
     /**
-     *
+     * Performs attack action, 50% success rate.
      */
     public void attack(){
         //Pick an enemy
-        Enemy enemy = space.getEnemy((Integer)space.getEnemiesUIDs().toArray()[0]);
+        Enemy enemy = space.getEnemy((Integer)space.getEnemiesUIDs()
+                                                   .toArray()[0]);
         
         // Try to attack the enemy, if successful the enemy dies.
         if (Randomizer.Give.nextDouble() <= 0.5)
             enemy.die();
     }
-    
 }

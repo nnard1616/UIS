@@ -24,22 +24,26 @@ import antcolonysimulation.environment.Space;
 import antcolonysimulation.simulation.Randomizer;
 
 /**
- *
+ * Subclass of Friendly ants that explore the Environment of the simulation.
+ * 
  * @author nathan
  */
 public class Scout extends Friendly implements Actionable, Movable{
 
     /**
-     *
-     * @param space
-     */
+     * Default constructor of Scout object. Additional side effects include set-
+     * -ting the Unit Identification Number (UID) and its age initialized to 0.
+     * 
+     * @param space    The space on which the Scout starts.
+    */
     public Scout (Space space){
         super(Lifespan.OTHER, space);
         setActive(true);
     }
     
     /**
-     *
+     * Randomly chooses a space to move to, regardless if it is explored or not.
+     * If the space is unexplored, it reveals that space.
      */
     @Override
     public void act() {
@@ -60,10 +64,6 @@ public class Scout extends Friendly implements Actionable, Movable{
         
     }
 
-    /**
-     *
-     * @param space
-     */
     @Override
     public void moveTo(Space space) {
         //Remove self from current space, place self in next space
@@ -74,19 +74,20 @@ public class Scout extends Friendly implements Actionable, Movable{
     }
 
     /**
-     *
-     * @return
+     *  Scouts move randomly, regardless if the area is explored or not.
+     * @return  Random Direction to move in.
      */
     @Override
     public Direction chooseDirection() {
-        Object[] directions = space.getNeighbors().toArray();
+        Object[] directions = space.getNeighborsDirections().toArray();
         int numberOfDirections = directions.length;
         
-        return (Direction)directions[Randomizer.Give.nextInt(numberOfDirections)];
+        return (Direction)directions[Randomizer.Give.nextInt(
+                                                           numberOfDirections)];
     }
     
     /**
-     *
+     *  If the space occupied by the scout is unexplored, then reveal it.
      */
     public void revealSpace(){
         space.setExplored(true);

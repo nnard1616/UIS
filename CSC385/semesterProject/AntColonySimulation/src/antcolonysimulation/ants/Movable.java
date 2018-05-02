@@ -18,21 +18,22 @@ package antcolonysimulation.ants;
 
 import antcolonysimulation.environment.Direction;
 import antcolonysimulation.environment.Space;
+
 /**
- *
+ * Interface that represents objects that are able to move in the simulation.
  * @author nathan
  */
 public interface Movable {
 
     /**
      * Method to move the Movable actor to the specified Space.
-     * @param space
+     * @param space     Space object that the Movable will move to.
      */
     public void moveTo(Space space);
 
     /**
      * Determines which Direction to move in.
-     * @return
+     * @return      Direction object that represents direction to move in grid.
      */
     public Direction chooseDirection();
 }

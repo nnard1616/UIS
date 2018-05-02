@@ -19,13 +19,14 @@ package antcolonysimulation.simulation;
 import java.util.Random;
 
 /**
- *
+ * Class for holding Random object to be used throughout the packages.
+ * 
  * @author nathan
  */
 public class Randomizer {
 
     /**
-     *
+     * Random object for generating random values for the simulation.
      */
-    public static Random Give = new Random();
+    public final static Random Give = new Random();
 }

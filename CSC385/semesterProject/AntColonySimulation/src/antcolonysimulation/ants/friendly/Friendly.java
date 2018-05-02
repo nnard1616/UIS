@@ -21,23 +21,26 @@ import antcolonysimulation.ants.Lifespan;
 import antcolonysimulation.environment.Space;
 
 /**
- *
+ *  Subclass of Ants that are friendly in the simulation.
  * @author nathan
  */
 public class Friendly extends Ant{
 
     /**
-     *
-     * @param lifespan
-     * @param space
-     */
+     * Default constructor of Friendly object. Additional side effects include 
+     * setting the Unit Identification Number (UID) and its age initialized 
+     * to 0.
+     * 
+     * @param lifespan How old the ant can live, see Lifespan enumeration.
+     * @param space    The space on which the ant starts.
+    */
     public Friendly(Lifespan lifespan, Space space){
         super(lifespan, space);
         space.addFriendly(this);
     }
     
     /**
-     *
+     * Kills the Friendly object.
      */
     @Override
     public void die(){

@@ -16,11 +16,10 @@
  */
 package antcolonysimulation;
 
-import antcolonysimulation.ants.enemy.Bala;
 import antcolonysimulation.simulation.Simulation;
 
 /**
- *
+ * Class that contains main function that starts the simulation GUI.
  * @author nathan
  */
 public class AntColonySimulation {
@@ -29,8 +28,7 @@ public class AntColonySimulation {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new Simulation();
-        
+        new Simulation(); //Side effect starts up simulation GUI.
     }
     
 }

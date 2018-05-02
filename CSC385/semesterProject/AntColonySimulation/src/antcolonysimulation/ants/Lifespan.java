@@ -17,7 +17,11 @@
 package antcolonysimulation.ants;
 
 /**
- *
+ * Enumeration containing the different lifespans of the different types of 
+ * ants.
+ * QUEEN --> 73000 turns (20 years)
+ * OTHER --> 3650  turns (1 year)
+ * 
  * @author nathan
  */
 public enum Lifespan {

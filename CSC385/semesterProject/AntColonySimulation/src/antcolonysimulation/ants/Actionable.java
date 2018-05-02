@@ -17,7 +17,9 @@
 package antcolonysimulation.ants;
 
 /**
- *
+ * Interface of classes that represent objects able to perform actions in the 
+ * simulation.
+ * 
  * @author nathan
  */
 public interface Actionable {

@@ -89,15 +89,15 @@ public class EnvironmentTest {
         System.out.println("testNeighbors");
         Environment te = new Environment(3);
         
-        Object[] tlds = te.getSpace(0,0).getNeighbors().stream().sorted().toArray();
-        Object[] trds = te.getSpace(0,2).getNeighbors().stream().sorted().toArray();
-        Object[] blds = te.getSpace(2,0).getNeighbors().stream().sorted().toArray();
-        Object[] brds = te.getSpace(2,2).getNeighbors().stream().sorted().toArray();
-        Object[] topds = te.getSpace(0,1).getNeighbors().stream().sorted().toArray();
-        Object[] botds = te.getSpace(2,1).getNeighbors().stream().sorted().toArray();
-        Object[] rightds = te.getSpace(1,2).getNeighbors().stream().sorted().toArray();
-        Object[] leftds = te.getSpace(1,0).getNeighbors().stream().sorted().toArray();
-        Object[] midds = te.getSpace(1,1).getNeighbors().stream().sorted().toArray();
+        Object[] tlds = te.getSpace(0,0).getNeighborsDirections().stream().sorted().toArray();
+        Object[] trds = te.getSpace(0,2).getNeighborsDirections().stream().sorted().toArray();
+        Object[] blds = te.getSpace(2,0).getNeighborsDirections().stream().sorted().toArray();
+        Object[] brds = te.getSpace(2,2).getNeighborsDirections().stream().sorted().toArray();
+        Object[] topds = te.getSpace(0,1).getNeighborsDirections().stream().sorted().toArray();
+        Object[] botds = te.getSpace(2,1).getNeighborsDirections().stream().sorted().toArray();
+        Object[] rightds = te.getSpace(1,2).getNeighborsDirections().stream().sorted().toArray();
+        Object[] leftds = te.getSpace(1,0).getNeighborsDirections().stream().sorted().toArray();
+        Object[] midds = te.getSpace(1,1).getNeighborsDirections().stream().sorted().toArray();
         
         Object[] tlcorner = new Direction[] {Direction.E, Direction.SE, Direction.S};
         Object[] trcorner = new Direction[] {Direction.SW, Direction.S, Direction.W};

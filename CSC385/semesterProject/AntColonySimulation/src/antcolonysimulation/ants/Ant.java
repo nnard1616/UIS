@@ -19,10 +19,15 @@ package antcolonysimulation.ants;
 import antcolonysimulation.environment.Space;
 
 /**
- *
+ * Parent class of Ant objects, contains common methods and attributes.
  * @author nathan
  */
 public class Ant {
+    
+    /**************************************************************************/
+    /*  Attributes                                                            */
+    /**************************************************************************/
+    
     private final int UID;
     private final int LIFESPAN;
     private int age;
@@ -32,6 +37,9 @@ public class Ant {
     private static int antCount = 0;
     protected Space space;
     
+    
+    /**************************************************************************/
+    /*  Constructor                                                           */
     /**************************************************************************/
     
     /**
@@ -47,6 +55,7 @@ public class Ant {
         this.age = 0;
         this.space = space;
     }
+    
     
     /**************************************************************************/
     /*  Getters                                                               */
@@ -128,6 +137,7 @@ public class Ant {
         return alive;
     }
     
+    
     /**************************************************************************/
     /*  Setters                                                               */
     /**************************************************************************/
@@ -142,7 +152,7 @@ public class Ant {
     
     /**
      * Set the Space reference on which the Ant occupies.
-     * @param space
+     * @param space  Space the ant is to occupy.
      */
     public void setSpace(Space space) {
         this.space = space;

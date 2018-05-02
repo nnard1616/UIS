@@ -117,21 +117,6 @@ public class ForagerTest {
     }
 
     /**
-     * Test of addPairs method, of class Forager.
-     */
-    @Test
-    public void testAddPairs() {
-        System.out.println("addPairs");
-        int[] receiver = new int[] {0,0};
-        int[] giver = new int[]{1,-1};
-        Forager instance = new Forager(new Space(5,5,5));
-        instance.addPairs(receiver, giver);
-        assertArrayEquals("receiver should be 1,-1", giver, receiver);
-        instance.addPairs(receiver, giver);
-        assertArrayEquals("receiver should be 2, -2", new int[] {2,-2}, receiver);
-    }
-
-    /**
      * Test of backtrack method, of class Forager.
      */
     @Test

@@ -21,36 +21,62 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ *  Environment class is the abstract physical world that the simulation ants
+ * exist in.  Backed by a 2D array of Space objects.
+ * 
  * @author nathan
  */
 public class Environment {
     
+    /**************************************************************************/
+    /*  Attributes                                                            */
+    /**************************************************************************/
+    
     private Space[][] grid;
-    private List<Space> borderSpaces;
+    
+    //Contains references to Spaces on the border, for Bala ant generation.
+    private List<Space> borderSpaces; 
+    
     private final int SIZE;
     private final int FOODMIN;
     private final int FOODMAX;
     
+    
+    /**************************************************************************/
+    /*  Constructors                                                          */
     /**************************************************************************/
     
+    /**
+     * Default constructor, creates Environment object that is 27x27 spaces,
+     * min food on space of 500, max food on space of 1000.  When spaces are 
+     * created, there's a 25% chance food will be on it, and it will be a random
+     * number between foodmin and foodmax.
+     */
     public Environment(){
         this(27, 500, 1000);//default grid size is 27x27
     }
     
     /**
-     *
-     * @param size
+     * Constructor with user defined size, creates Environment object that is 
+     * size x size spaces, with min food on space of 500, max food on space of 
+     * 1000. When spaces are created, there's a 25% chance food will be on it, 
+     * and it will be a random number between foodmin and foodmax.
+     * 
+     * @param size  Width and Height of the Environment grid of spaces.
      */
     public Environment(int size){
         this(size, 500, 1000);
     }
     
     /**
-     *
-     * @param size
-     * @param foodmin
-     * @param foodmax
+     * Constructor with user defined size, foodmin, and foodmax. Creates 
+     * Environment object that is size x size spaces.  When spaces are created, 
+     * there's a 25% chance food will be on it, and it will be a random number 
+     * between foodmin and foodmax.
+     * 
+     * @param size      Width and Height of the Environment grid of spaces.
+     * @param foodmin   Minimum food that can appear on a space.
+     * @param foodmax   Maximum food that can appear on a space.
      */
     public Environment(int size, int foodmin, int foodmax){
         this.SIZE = size;
@@ -62,66 +88,27 @@ public class Environment {
         
         for(int i = 0; i < SIZE; i++){
             for(int j = 0; j < SIZE; j++){
-                grid[i][j] = new Space(i, j, generateFood() );
+                grid[i][j] = new Space(i, j, generateFood() ); //create
                 if (i == 0 || j == 0 || i == SIZE-1 || j == SIZE-1)
-                    borderSpaces.add(grid[i][j]);
+                    borderSpaces.add(grid[i][j]); //store reference if border
             }
         }
                 
-        
+        // Connect neighbors to each other.
         addNeighbors();
     }
     
-    /**
-     *
-     * @param i
-     * @return
-     */
-    public Space getBorder(int i){
-        return borderSpaces.get(i);
-    }
+    
+    /**************************************************************************/
+    /*  Private Initialization Helpers                                        */
+    /**************************************************************************/
     
     /**
-     *
-     * @return
+     * Method that populates each Space object's neighbor hashmaps with 
+     * references to their adjacent neighboring Spaces.
      */
-    public Space[][] getGrid() {
-        return grid;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public int getSIZE() {
-        return SIZE;
-    }
-    
-    /**
-     *
-     * @param x
-     * @param y
-     * @return
-     */
-    public Space getSpace(int x, int y){
-        try{
-            return this.grid[x][y];
-        }catch(ArrayIndexOutOfBoundsException oob){
-            System.out.println("out of bounds indices were passed to Environment.getSpace: " + x +", " + y );
-            return null;
-        }
-    }
-    
-    /**
-     *
-     * @return
-     */
-    public int borderCount(){
-        return borderSpaces.size();
-    }
-    
     private void addNeighbors(){
-        for(int i = 0; i < SIZE; i++)
+        for(int i = 0; i < SIZE; i++){
             for(int j = 0; j < SIZE; j++){
                 
                 String ns = "";
@@ -144,49 +131,47 @@ public class Environment {
                 int[] nw = Direction.NW.getValue();
                 
                 if (ns.contains("N")){
-                    grid[i][j].addNeighbor(Direction.N, grid[ i+n[0] ][ j+n[1] ]);
+                    grid[i][j].addNeighbor(Direction.N, 
+                                           grid[ i+n[0] ][ j+n[1] ]);
                     if (ns.contains("E")){
-                        grid[i][j].addNeighbor(Direction.E, grid[ i+e[0] ][ j+e[1] ]);
-                        grid[i][j].addNeighbor(Direction.NE, grid[ i+ne[0] ][ j+ne[1] ]);
+                        grid[i][j].addNeighbor(Direction.E, 
+                                               grid[ i+e[0] ][ j+e[1] ]);
+                        grid[i][j].addNeighbor(Direction.NE, 
+                                               grid[ i+ne[0] ][ j+ne[1] ]);
                     }
                     if (ns.contains("W")){
-                        grid[i][j].addNeighbor(Direction.W, grid[ i+w[0] ][ j+w[1] ]);
-                        grid[i][j].addNeighbor(Direction.NW, grid[ i+nw[0] ][ j+nw[1] ]);
+                        grid[i][j].addNeighbor(Direction.W, 
+                                               grid[ i+w[0] ][ j+w[1] ]);
+                        grid[i][j].addNeighbor(Direction.NW, 
+                                               grid[ i+nw[0] ][ j+nw[1] ]);
                     }
                 }
                 if (ns.contains("S")){
-                    grid[i][j].addNeighbor(Direction.S, grid[ i+s[0] ][ j+s[1] ]);
+                    grid[i][j].addNeighbor(Direction.S, 
+                                           grid[ i+s[0] ][ j+s[1] ]);
                     if (ns.contains("E")){
-                        grid[i][j].addNeighbor(Direction.E, grid[ i+e[0] ][ j+e[1] ]);
-                        grid[i][j].addNeighbor(Direction.SE, grid[ i+se[0] ][ j+se[1] ]);
+                        grid[i][j].addNeighbor(Direction.E, 
+                                               grid[ i+e[0] ][ j+e[1] ]);
+                        grid[i][j].addNeighbor(Direction.SE, 
+                                               grid[ i+se[0] ][ j+se[1] ]);
                     }
                     if (ns.contains("W")){
-                        grid[i][j].addNeighbor(Direction.W, grid[ i+w[0] ][ j+w[1] ]);
-                        grid[i][j].addNeighbor(Direction.SW, grid[ i+sw[0] ][ j+sw[1] ]);
+                        grid[i][j].addNeighbor(Direction.W, 
+                                               grid[ i+w[0] ][ j+w[1] ]);
+                        grid[i][j].addNeighbor(Direction.SW, 
+                                               grid[ i+sw[0] ][ j+sw[1] ]);
                     }
                 }
             }
+        }
     }
     
     /**
-     *
+     * Method used to determine if food should appear on a space or not.  If so,
+     * randomly choose a value between FOODMIN and FOODMAX.
+     * 
+     * @return  int, 0 or random integer between FOODMIN and FOODMAX.
      */
-    public void revealAll(){
-        for (Space[] row : grid)
-            for (Space s: row)
-                s.setExplored(true);
-    }
-    
-    /**
-     *
-     * @param f
-     */
-    public void setAllFood(int f){
-        for (Space[] row : grid)
-            for (Space s: row)
-                s.setFood(f);
-    }
-    
     private int generateFood(){
         double roll = Randomizer.Give.nextDouble();
         if (roll <= 0.25)
@@ -195,9 +180,98 @@ public class Environment {
         else
             return 0;
     }
+  
+    /**************************************************************************/
+    /*  Getters                                                               */
+    /**************************************************************************/
     
     /**
-     *
+     * Returns reference to a Space on the border of the Environment at the user
+     * provided index of the Environment's ArrayList borderSpaces attribute.
+     * 
+     * @param i     index of the Border Space in ArrayList attribute.
+     * @return
+     */
+    public Space getBorder(int i){
+        if (i < borderCount())
+            return borderSpaces.get(i);
+        else
+            throw new IndexOutOfBoundsException("There are not that many border"
+                    + "spaces! Given: " + i + " Actual: " + borderCount());
+    }
+    
+    /**
+     * Returns reference to the 2D array of Space references.
+     * @return  Space[][]
+     */
+    public Space[][] getGrid() {
+        return grid;
+    }
+
+    /**
+     * Returns the SIZE attribute, which represents length of one side of the 
+     * Environment grid.
+     * 
+     * @return  int
+     */
+    public int getSIZE() {
+        return SIZE;
+    }
+    
+    /**
+     * Returns Space reference at the user provided (x,y) coordinates in the 
+     * 2D Array of Space references.
+     * 
+     * @param x     Horizontal coordinate.
+     * @param y     Vertical coordinate.
+     * @return      Space at (x,y).
+     */
+    public Space getSpace(int x, int y){
+        try{
+            return this.grid[x][y];
+        }catch(ArrayIndexOutOfBoundsException oob){
+            System.out.println("out of bounds indices were passed to "
+                             + "Environment.getSpace: " + x +", " + y );
+            return null;
+        }
+    }
+    
+    /**
+     * Returns the number of border Spaces in the Environment.
+     * @return
+     */
+    public int borderCount(){
+        return borderSpaces.size();
+    }
+    
+
+    /**************************************************************************/
+    /*  Setters                                                               */
+    /**************************************************************************/
+    
+    /**
+     * Makes all spaces revealed, mostly used for debugging purposes.
+     */
+    public void revealAll(){
+        for (Space[] row : grid)
+            for (Space s: row)
+                s.setExplored(true);
+    }
+    
+    /**
+     * Sets the food counters of all Spaces to the user provided int, f.
+     * Mostly used for debugging purposes.
+     * 
+     * @param f  Value to set all food counters to.
+     */
+    public void setAllFood(int f){
+        for (Space[] row : grid)
+            for (Space s: row)
+                s.setFood(f);
+    }
+    
+    /**
+     * Reduces the pheromone counters of all Spaces in the Environment by half.
      */
     public void halveAllPheromone(){
         for (Space[] row : grid)
@@ -205,9 +279,16 @@ public class Environment {
                 s.setPheromone(s.getPheromone()/2);
     }
     
+    
+    /**************************************************************************/
+    /*  String Representation Functions (Debugging)                           */
+    /**************************************************************************/
+    
     /**
-     *
-     * @return
+     * Returns a string representation of Environment that displays Spaces
+     * as their pheromone counters.  Mostly used for debugging.
+     * 
+     * @return  String of Pheromone counters.
      */
     public String pheromonesToString(){
         String result = "";
@@ -221,8 +302,10 @@ public class Environment {
     }
     
     /**
-     *
-     * @return
+     * Returns a string representation of Environment that displays Spaces
+     * as their food counters.  Mostly used for debugging.
+     * 
+     * @return  String of Food counters.
      */
     public String foodsToString(){
         String result = "";
