@@ -35,7 +35,7 @@ public class ScoutTest {
     public void testMoveTo() {
         System.out.println("moveTo");
         s = new Scout(e.getSpace(1, 1));
-        Direction next = (Direction)(s.getSpace().getNeighborsDirections().toArray()[0]);
+        Direction next = (Direction)(s.getSpace().getNeighborsDirections().get(0));
         Space nextSpace = s.getSpace().getNeighbor(next);
         Space oldSpace  = s.getSpace();
         s.moveTo(nextSpace);

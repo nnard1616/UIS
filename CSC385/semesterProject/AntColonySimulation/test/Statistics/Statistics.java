@@ -14,10 +14,10 @@ import java.util.Arrays;
 
 
 public class Statistics {
-    int[] data;
-    int size;   
+    Integer[] data;
+    Integer size;   
 
-    public Statistics(int[] data) {
+    public Statistics(Integer[] data) {
         this.data = data;
         size = data.length;
     }   
@@ -32,7 +32,7 @@ public class Statistics {
     public Double getVariance() {
         Double mean = getMean();
         Double temp = 0.0;
-        for(int a :data)
+        for(Integer a :data)
             temp += (a-mean)*(a-mean);
         return temp/(size-1);
     }

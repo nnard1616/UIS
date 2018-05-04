@@ -27,6 +27,9 @@ import antcolonysimulation.ants.friendly.Soldier;
 import antcolonysimulation.environment.Direction;
 import antcolonysimulation.environment.Space;
 import antcolonysimulation.simulation.Randomizer;
+import dataStructures.LinkedList;
+import dataStructures.List;
+import dataStructures.ListIterator;
 
 /**
  * A generic enemy ant that is able to move and perform actions, namely attack
@@ -90,11 +93,11 @@ public class Bala extends Enemy implements Actionable, Movable{
      */
     @Override
     public Direction chooseDirection() {
-        Object[] directions = space.getNeighborsDirections().toArray();
-        int numberOfDirections = directions.length;
+        LinkedList directions = (LinkedList)space.getNeighborsDirections();
+        int numberOfDirections = directions.size();
         
-        return (Direction)directions[Randomizer.Give.nextInt(
-                                                           numberOfDirections)];
+        return (Direction)directions.get(Randomizer.Give.nextInt(
+                                                           numberOfDirections));
     }
 
     /**
@@ -103,7 +106,11 @@ public class Bala extends Enemy implements Actionable, Movable{
      */
     public void attack(){
         Friendly target = null;
-        for (int fUID : space.getFriendliesUIDs()){
+        List fUIDs = space.getFriendliesUIDs();
+        ListIterator litr = fUIDs.listIterator(0);
+        
+        while(litr.hasNext()){
+            Integer fUID = (Integer)litr.getCurrent();
             if (space.getFriendly(fUID).getClass().equals(Queen.class)){
                 target = space.getFriendly(fUID);
                 break;
@@ -114,6 +121,7 @@ public class Bala extends Enemy implements Actionable, Movable{
                 target = space.getFriendly(fUID);
             else if (space.getFriendly(fUID).getClass().equals(Scout.class))
                 target = space.getFriendly(fUID);
+            litr.next();
         }
         
         if (Randomizer.Give.nextDouble() <= 0.5)

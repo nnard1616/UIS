@@ -22,11 +22,16 @@ import antcolonysimulation.ants.Movable;
 import antcolonysimulation.environment.Direction;
 import antcolonysimulation.environment.Space;
 import antcolonysimulation.simulation.Randomizer;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Stack;
-import java.util.concurrent.ArrayBlockingQueue;
+import dataStructures.AVLTree;
+import dataStructures.ArrayList;
+import dataStructures.DuplicateItemException;
+import dataStructures.LinkedList;
+import dataStructures.LinkedStack;
+import dataStructures.List;
+import dataStructures.Queue;
+import dataStructures.LinkedQueue;
+import dataStructures.ListIterator;
+import dataStructures.Stack;
 
 /**
  * Foragers are a sub class of Friendly ants that scout for food and carry 
@@ -42,19 +47,25 @@ public class Forager extends Friendly implements Actionable, Movable{
     private int food = 0; // 0 --> forage mode, >0 --> return-to-nest mode.
     
     /** Long Term Memory.
-     * travelHistory records all spaces traveled to, periodically has loops
-     * cut out of it.  
+     * travelHistoryStack records all spaces traveled to in Linked Stack,
+     * periodically has loops cut out of it.  
      */
-    private Stack<Space> travelHistory = new Stack<>(); 
+    private Stack travelHistoryStack = new LinkedStack(); 
+    
+    /** Long Term Memory.
+     * travelHistoryTree records all spaces traveled to in AVL Tree.  Used to
+     * quickly look up past visited spaces and to keep track of potential loops.
+     */
+    private AVLTree travelHistoryTree = new AVLTree();
     
     /** Short Term Memory. 
      * recentVisits records only most recently visited spaces up to memory 
      * capacity, used to prevent local infinite loops.
      */
-    private Queue<Space> recentVisits;
+    private Queue recentVisits;
     
     //Short Term Memory Capacity.
-    private int visitMemoryCapacity;
+    private int visitMemoryCapacity; 
     
     
     /**************************************************************************/
@@ -80,8 +91,10 @@ public class Forager extends Friendly implements Actionable, Movable{
         super(Lifespan.OTHER, space);
         setActive(true);
         this.visitMemoryCapacity = visitMemoryCapacity;
-        recentVisits =  new ArrayBlockingQueue<Space>(visitMemoryCapacity);
-        travelHistory.add(space);
+        recentVisits =  new LinkedQueue();
+        travelHistoryStack.add(space);
+        travelHistoryTree.add(space);
+        recentVisits.add(space);
     }
     
 
@@ -109,8 +122,6 @@ public class Forager extends Friendly implements Actionable, Movable{
         
         if (isForaging()){
             
-            Direction nextDirection = chooseDirection();
-            
             moveTo(space.getNeighbor(chooseDirection()));
             
             //if food present, pick it up
@@ -120,7 +131,7 @@ public class Forager extends Friendly implements Actionable, Movable{
 
                 //forget last few steps
                 recentVisits.clear();
-                travelHistory.pop();
+                travelHistoryStack.pop();
             }
         }
         else
@@ -138,13 +149,19 @@ public class Forager extends Friendly implements Actionable, Movable{
      */
     @Override
     public void moveTo(Space space) {
-        if (travelHistory.contains(space) && travelHistory.size() > 1)
-            trimTravelHistory(space);
         
-        //record movement
+        //record movement if foraging
         if (isForaging()){
-            travelHistory.push(space);
-            addRecentVisit();
+            //check if we've been to this space yet, long term memory
+            try{
+                travelHistoryTree.add(space);
+                travelHistoryStack.push(space);  
+            }catch(DuplicateItemException die){
+                // we've already been to this space before
+                if (travelHistoryStack.size() > 1)
+                    trimTravelHistory(space); //trim loop
+            }
+            addRecentVisit(space);//update short term memory
         }
         
         //Remove self from current space, place self in next space
@@ -163,19 +180,17 @@ public class Forager extends Friendly implements Actionable, Movable{
     @Override
     public Direction chooseDirection() {
         //Get array of potential directions
-        Object[] directions = space.getNeighborsDirections().stream()
-                                                            .sorted()
-                                                            .toArray();
+        LinkedList directions = (LinkedList)space.getNeighborsDirections();
         
         int maxPheromone = maxNeighborPheromoneCount();
-        List<Direction> exploredAndTopPheromonicDirections = new ArrayList<>();
+        List exploredAndTopPheromonicDirections = new ArrayList();
         
-        
+        ListIterator litr = directions.listIterator(0);
         
         //determine which explored neighbors have largest pheromone count
-        for (Object d : directions){
+        while (litr.hasNext()){
             
-            Space neighbor = space.getNeighbor((Direction)d);
+            Space neighbor = space.getNeighbor((Direction)litr.getCurrent());
             
             //only look at areas that are explored.
             if (neighbor.isExplored() ){
@@ -184,8 +199,11 @@ public class Forager extends Friendly implements Actionable, Movable{
                 if (!recentlyVisited(neighbor))
                 
                     if (neighbor.getPheromone() == maxPheromone)
-                        exploredAndTopPheromonicDirections.add((Direction)d);
+                        exploredAndTopPheromonicDirections.add(
+                                                  (Direction)litr.getCurrent());
             }
+            
+            litr.next();
         }
         
         int numberOfDirections = exploredAndTopPheromonicDirections.size();
@@ -193,12 +211,13 @@ public class Forager extends Friendly implements Actionable, Movable{
         //nowhere to move and we aren't at base
         if (numberOfDirections == 0 ){
             recentVisits.clear();
+            recentVisits.add(this.space);
             return chooseDirection();
-        }
+        }//this will allow us to move now.
         
             
-        return exploredAndTopPheromonicDirections.get(Randomizer.Give.nextInt(
-                                                           numberOfDirections));
+        return (Direction)exploredAndTopPheromonicDirections.get(
+                                   Randomizer.Give.nextInt(numberOfDirections));
     }
     
     /**
@@ -221,14 +240,14 @@ public class Forager extends Friendly implements Actionable, Movable{
      * Eventually ends up back at the nest where food is deposited.
      */
     public void backtrack(){
-        if (travelHistory.size() > 1){
+        if (travelHistoryStack.size() > 1){
             //we're not at base yet, backtrack
-            Space backStep = travelHistory.pop();
+            Space backStep = (Space)travelHistoryStack.pop();
                     
             depositPheromone();
             moveTo(backStep);
-        }else if (travelHistory.size() == 1){
-            Space backStep = travelHistory.peek();
+        }else if (travelHistoryStack.size() == 1){
+            Space backStep = (Space)travelHistoryStack.peek();
             
             depositPheromone();
             moveTo(backStep);
@@ -236,19 +255,23 @@ public class Forager extends Friendly implements Actionable, Movable{
             //we're home, deposit food
             depositFood();
             recentVisits.clear();
+            recentVisits.add(backStep);//add back the nest node.
+            travelHistoryTree.clear();
+            travelHistoryTree.add(backStep);//add back the nest node.
         }
     }
     
     /**
      * Adds current space to Forager's recently visited space memory.  If full, 
      * removes oldest memory to make space for new memory.
+     * @param space  Space object to add to short term memory.
      */
-    public void addRecentVisit(){
-        //if unsuccessful adding the space to the queue,
-        if (!recentVisits.offer(space)){
-            
+    public void addRecentVisit(Space space){
+        if (recentVisits.size() < visitMemoryCapacity)
+            recentVisits.enqueue(space);
+        else{
             //remove the head
-            recentVisits.remove();
+            recentVisits.dequeue();
             
             //add the space
             recentVisits.add(space);
@@ -256,13 +279,22 @@ public class Forager extends Friendly implements Actionable, Movable{
     }
     
     /**
-     * Determines whether query space has been visited recently.  Used to 
-     * prevent local loops.
-     * @param s     Space object to query for.
+     * Determines whether query space has been visited recently in short term
+     * memory.  Used to prevent local infinite loops.
+     * @param space     Space object to query for.
      * @return      boolean, True or False.
      */
-    public boolean recentlyVisited(Space s){
-        return recentVisits.contains(s);
+    public boolean recentlyVisited(Space space){
+        boolean b = false;
+        if (recentVisits.size() > 0){
+            for (int i = 0; i < visitMemoryCapacity; i++){
+                if (recentVisits.getFront().equals(space))
+                    b = true;
+                recentVisits.enqueue(recentVisits.dequeue());
+            }
+        }
+            
+        return b;
     }
     
     /**
@@ -270,9 +302,8 @@ public class Forager extends Friendly implements Actionable, Movable{
      * @param space     Space that
      */
     public void trimTravelHistory(Space space){
-        while (travelHistory.peek() != space)
-            travelHistory.pop();
-        travelHistory.pop();
+        while (travelHistoryStack.peek() != space)
+            travelHistoryTree.remove((Comparable)travelHistoryStack.pop());
     }
     
     
@@ -306,10 +337,10 @@ public class Forager extends Friendly implements Actionable, Movable{
 
     /**
      * Getter that returns Forager's travelHistory
-     * @return  Stack<Space>, history of spaces visited since the nest.
+     * @return  Stack, history of spaces visited since the nest.
      */
-    public Stack<Space> getTravelHistory() {
-        return travelHistory;
+    public Stack getTravelHistory() {
+        return travelHistoryStack;
     }
     
     /**
@@ -318,16 +349,15 @@ public class Forager extends Friendly implements Actionable, Movable{
      */
     public int maxNeighborPheromoneCount(){
         
-        Object[] directions = space.getNeighborsDirections().stream()
-                                                            .sorted()
-                                                            .toArray();
+        LinkedList directions = (LinkedList)space.getNeighborsDirections();
         
         int maxPheromone = 0;
+        ListIterator litr = directions.listIterator(0);
         
         //determine which explored neighbors have largest pheromone count
-        for (Object d : directions){
+        while (litr.hasNext()){
             
-            Space neighbor = space.getNeighbor((Direction)d);
+            Space neighbor = space.getNeighbor((Direction)litr.getCurrent());
             
             //only look at areas that are explored.
             if (neighbor.isExplored() ){
@@ -339,6 +369,7 @@ public class Forager extends Friendly implements Actionable, Movable{
                         maxPheromone = neighbor.getPheromone();
                     }
             }
+            litr.next();
         }
         return maxPheromone;
     }

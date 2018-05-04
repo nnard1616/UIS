@@ -23,8 +23,10 @@ import antcolonysimulation.ants.Movable;
 import antcolonysimulation.environment.Direction;
 import antcolonysimulation.environment.Space;
 import antcolonysimulation.simulation.Randomizer;
-import java.util.ArrayList;
-import java.util.List;
+import dataStructures.ArrayList;
+import dataStructures.LinkedList;
+import dataStructures.List;
+import dataStructures.ListIterator;
 
 /**
  * Subclass of Friendly ants that scout for and attempt to kill Enemy ants.
@@ -101,29 +103,29 @@ public class Soldier extends Friendly implements Actionable, Movable{
     @Override
     public Direction chooseDirection() {
         //Get array of potential directions
-        Object[] directions = space.getNeighborsDirections().stream()
-                                                            .sorted()
-                                                            .toArray();
+        LinkedList directions = (LinkedList)space.getNeighborsDirections();
         
         int maxEnemyCount = 0;
         int neighborEnemyCount = 0;
         Direction nextD = null;
-        List<Direction> exploredDirections = new ArrayList<>();
+        List exploredDirections = new ArrayList();
         
+        ListIterator litr = directions.listIterator(0);
         
         
         //determine which explored neighbor has largest number of enemies
-        for (Object d : directions){
+        while (litr.hasNext()){
             //only look at areas that are explored.
-            if (space.getNeighbor((Direction)d).isExplored()){
-                exploredDirections.add((Direction)d);
+            if (space.getNeighbor((Direction)litr.getCurrent()).isExplored()){
+                exploredDirections.add((Direction)litr.getCurrent());
                 neighborEnemyCount = space.getNeighbor(
-                                                  (Direction)d).getEnemyCount();
+                                  (Direction)litr.getCurrent()).getEnemyCount();
                 if (neighborEnemyCount > maxEnemyCount ){
                     maxEnemyCount = neighborEnemyCount;
-                    nextD = (Direction)d;
+                    nextD = (Direction)litr.getCurrent();
                 }
             }
+            litr.next();
         }
         
         int numberOfDirections = exploredDirections.size();
@@ -136,7 +138,7 @@ public class Soldier extends Friendly implements Actionable, Movable{
             return nextD;
         
         //otherwise no enemies present, select next space randomly
-        return exploredDirections.get(
+        return (Direction)exploredDirections.get(
                                    Randomizer.Give.nextInt(numberOfDirections));
     }
 
@@ -173,7 +175,7 @@ public class Soldier extends Friendly implements Actionable, Movable{
     public void attack(){
         //Pick an enemy
         Enemy enemy = space.getEnemy((Integer)space.getEnemiesUIDs()
-                                                   .toArray()[0]);
+                                                   .get(0));
         
         // Try to attack the enemy, if successful the enemy dies.
         if (Randomizer.Give.nextDouble() <= 0.5)

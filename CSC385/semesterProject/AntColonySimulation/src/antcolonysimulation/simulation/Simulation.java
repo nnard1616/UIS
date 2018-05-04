@@ -29,9 +29,9 @@ import antsimgui.SimulationEvent;
 import antsimgui.SimulationEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
+import dataStructures.LinkedList;
+import dataStructures.List;
+import dataStructures.ListIterator;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
@@ -48,7 +48,7 @@ public class Simulation implements SimulationEventListener, ActionListener{
     
     private static int turn = 0;
     private Environment environment;
-    private List<Actionable> ants;
+    private List ants;
     private AntSimGUI gui;
     private ColonyNodeView[][] guiNodes;
     private Queen q;
@@ -81,7 +81,7 @@ public class Simulation implements SimulationEventListener, ActionListener{
     public Simulation(int boardSize){
         this.BOARDSIZE = boardSize;
         this.environment = new Environment(BOARDSIZE);
-        this.ants = new LinkedList<>();
+        this.ants = new LinkedList();
         this.gui = new AntSimGUI();
         gui.addSimulationEventListener(this);
         this.guiNodes = new ColonyNodeView[BOARDSIZE][BOARDSIZE];
@@ -158,7 +158,7 @@ public class Simulation implements SimulationEventListener, ActionListener{
         this.makeBalas = true;
         this.environment = new Environment(BOARDSIZE);
         Space start = environment.getSpace(BOARDSIZE/2, BOARDSIZE/2);
-        q = new Queen(start, ants);
+        q = new Queen(start, (LinkedList)ants);
         
         q.hatchForager(50);
         q.hatchScout(4);
@@ -179,7 +179,7 @@ public class Simulation implements SimulationEventListener, ActionListener{
         this.makeBalas = false;
         this.environment = new Environment(BOARDSIZE);
         Space start = environment.getSpace(BOARDSIZE/2, BOARDSIZE/2);
-        q = new Queen(start, ants);
+        q = new Queen(start, (LinkedList)ants);
         
         environment.setAllFood(0);
         environment.revealAll();
@@ -199,7 +199,7 @@ public class Simulation implements SimulationEventListener, ActionListener{
         this.BOARDSIZE = 3;
         this.environment = new Environment(BOARDSIZE);
         Space start = environment.getSpace(0, 0);
-        q = new Queen(start, ants);
+        q = new Queen(start, (LinkedList)ants);
         
         q.hatchForager(1);
         q.setActive(false);
@@ -222,11 +222,12 @@ public class Simulation implements SimulationEventListener, ActionListener{
         this.makeBalas = true;
         this.environment = new Environment(BOARDSIZE);
         Space start = environment.getSpace(BOARDSIZE/2, BOARDSIZE/2);
-        q = new Queen(start, ants);
+        q = new Queen(start, (LinkedList)ants);
         
+        generateBala();
         q.hatchSoldier(2);
         q.setActive(false);
-        generateBala();
+        
         environment.setAllFood(0);
         environment.revealAll();
         start.setFood(1000);
@@ -387,8 +388,8 @@ public class Simulation implements SimulationEventListener, ActionListener{
             q.act();
             
             //update Queen's ColonyNodeView after acting her turn.
-            int row = q.getCoordinates()[0];
-            int col = q.getCoordinates()[1];
+            int row = q.getX();
+            int col = q.getY();
             ColonyNodeView cnv = guiNodes[row][col];
             updateColonyNodeViewFromSpace(cnv, q.getSpace());
 
@@ -396,14 +397,14 @@ public class Simulation implements SimulationEventListener, ActionListener{
             if (Randomizer.Give.nextDouble() <= 0.03)
                 generateBala();
 
-            ListIterator<Actionable> litr = ants.listIterator();
+            ListIterator litr = ants.listIterator(0);
             
             //cycle through all ants, have them perform their actions, if
             //the queen is alive.  Breaks immediately when queen dies.
             while (litr.hasNext()){
                 if ( q.isAlive()){
                     
-                    Actionable curr = litr.next();
+                    Actionable curr = (Actionable)litr.getCurrent();
                     
                     //Current space occupied before acting the turn.
                     Space oldSpace = ((Ant)curr).getSpace();
@@ -415,16 +416,16 @@ public class Simulation implements SimulationEventListener, ActionListener{
                     
                     //Update the space(s)
                     if (oldSpace == newSpace){
-                        row = newSpace.getCoordinates()[0];
-                        col = newSpace.getCoordinates()[1];
+                        row = newSpace.getX();
+                        col = newSpace.getY();
 
                         cnv = guiNodes[row][col];
                         updateColonyNodeViewFromSpace(cnv, newSpace);
                     }else{
-                        int orow = oldSpace.getCoordinates()[0];
-                        int ocol = oldSpace.getCoordinates()[1];
-                        int nrow = newSpace.getCoordinates()[0];
-                        int ncol = newSpace.getCoordinates()[1];
+                        int orow = oldSpace.getX();
+                        int ocol = oldSpace.getY();
+                        int nrow = newSpace.getX();
+                        int ncol = newSpace.getY();
 
                         ColonyNodeView ocnv = guiNodes[orow][ocol];
                         ColonyNodeView ncnv = guiNodes[nrow][ncol];
@@ -438,6 +439,8 @@ public class Simulation implements SimulationEventListener, ActionListener{
 
                 }else
                     break; //queen is dead
+                if (litr.hasNext())
+                    litr.next();
             }// end while
 
             if (q.isAlive()){

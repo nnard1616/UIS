@@ -9,8 +9,9 @@ import antcolonysimulation.ants.friendly.Forager;
 import antcolonysimulation.ants.friendly.Queen;
 import antcolonysimulation.environment.Environment;
 import antcolonysimulation.environment.Space;
-import java.util.ArrayList;
-import java.util.List;
+import dataStructures.ArrayList;
+import dataStructures.LinkedList;
+import dataStructures.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -106,6 +107,7 @@ public class ForagerTest {
         f.act();
         assertEquals("C) Should be at 1,0", e.getSpace(1, 0), f.getSpace());
         f.act();
+        
         assertEquals("D) Should be at 0,0", e.getSpace(0, 0), f.getSpace());
         f.act();
         assertEquals("E) Should be at 1,1", e.getSpace(1, 1), f.getSpace());
@@ -159,10 +161,10 @@ public class ForagerTest {
     public void testNoFoodAnywhere(){
         System.out.println("testNoFoodAnywhere");
         Environment e = new Environment(3);
-        List<Actionable> l = new ArrayList<>();
+        List l = new LinkedList();
         e.revealAll();
         e.setAllFood(0);
-        Queen q = new Queen(e.getSpace(0, 0), l);
+        Queen q = new Queen(e.getSpace(0, 0), (LinkedList)l);
         
         Forager f = new Forager(e.getSpace(0, 0));
         
@@ -182,11 +184,11 @@ public class ForagerTest {
     public void testFoodLowerRightCorner(){
         System.out.println("testFoodLowerRightCorner");
         Environment e = new Environment(3);
-        List<Actionable> l = new ArrayList<>();
+        List l = new LinkedList();
         e.revealAll();
         e.setAllFood(0);
         e.getSpace(2, 2).setFood(50);
-        Queen q = new Queen(e.getSpace(0, 0), l);
+        Queen q = new Queen(e.getSpace(0, 0), (LinkedList)l);
         
         Forager f = new Forager(e.getSpace(0, 0));
         

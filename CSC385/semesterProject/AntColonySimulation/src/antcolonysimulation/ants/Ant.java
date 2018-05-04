@@ -94,11 +94,21 @@ public class Ant {
     }
 
     /**
-     * Returns the coordinates of the Space object that the Ant occupies.
-     * @return Doublet of ints.
+     * Returns the horizontal coordinate of the Space object that the Ant 
+     * occupies.
+     * @return Integer
      */
-    public int[] getCoordinates() {
-        return space.getCoordinates();
+    public Integer getX() {
+        return space.getX();
+    }
+    
+    /**
+     * Returns the vertical coordinate of the Space object that the Ant 
+     * occupies.
+     * @return Integer.
+     */
+    public Integer getY() {
+        return space.getY();
     }
 
     /**

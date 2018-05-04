@@ -22,7 +22,8 @@ import antcolonysimulation.environment.Direction;
 import antcolonysimulation.environment.Space;
 import antcolonysimulation.simulation.Randomizer;
 import antcolonysimulation.simulation.Simulation;
-import java.util.List;
+import dataStructures.LinkedList;
+import dataStructures.ListIterator;
 
 /**
  *  Sub class of Friendly ants that consumes food every turn and produces new 
@@ -32,7 +33,7 @@ import java.util.List;
  */
 public class Queen extends Friendly implements Actionable{
     
-    private List<Actionable> ants;
+    private LinkedList ants;
     
     /**************************************************************************/
     
@@ -43,14 +44,19 @@ public class Queen extends Friendly implements Actionable{
      * @param space     The space on which the ant starts.
      * @param ants      Reference to the simulation's container of ant actors.
     */
-    public Queen(Space space, List<Actionable> ants){
+    public Queen(Space space, LinkedList ants){
         super(Lifespan.QUEEN, space);
         setActive(true);
         this.ants = ants;
         space.setExplored(true);
-        for ( Direction d : space.getNeighborsDirections())
-            space.getNeighbor(d).setExplored(true);
         
+        LinkedList nDirections = (LinkedList)space.getNeighborsDirections();
+        ListIterator litr = nDirections.listIterator(0);
+        
+        while(litr.hasNext()){
+            space.getNeighbor((Direction)litr.getCurrent()).setExplored(true);
+            litr.next();
+        }
     }
     
     /**

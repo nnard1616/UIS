@@ -17,8 +17,8 @@
 package antcolonysimulation.environment;
 
 import antcolonysimulation.simulation.Randomizer;
-import java.util.ArrayList;
-import java.util.List;
+import dataStructures.ArrayList;
+import dataStructures.Doublet;
 
 /**
  *  Environment class is the abstract physical world that the simulation ants
@@ -35,7 +35,7 @@ public class Environment {
     private Space[][] grid;
     
     //Contains references to Spaces on the border, for Bala ant generation.
-    private List<Space> borderSpaces; 
+    private ArrayList borderSpaces; 
     
     private final int SIZE;
     private final int FOODMIN;
@@ -84,7 +84,7 @@ public class Environment {
         this.FOODMAX = foodmax;
         
         grid = new Space[SIZE][SIZE];
-        borderSpaces = new ArrayList<>();
+        borderSpaces = new ArrayList();
         
         for(int i = 0; i < SIZE; i++){
             for(int j = 0; j < SIZE; j++){
@@ -108,58 +108,84 @@ public class Environment {
      * references to their adjacent neighboring Spaces.
      */
     private void addNeighbors(){
+        
+        //cycle through the coordinates in the grid.
         for(int i = 0; i < SIZE; i++){
             for(int j = 0; j < SIZE; j++){
                 
-                String ns = "";
+                /* poleNeighbors contains N, S, E, or W if that neighbor exists
+                 * at the current location in the grid.
+                 *
+                 * EG: at (0,0), there are only neighbors to the S and E.
+                 *     therefore, poleNeighbors = "SE".  
+                 *
+                 * Later, this will be used to connect Space (0,0) to 
+                 * S, E, and SE neighbors via the neighbor hashmap.
+                 */
+                String poleNeighbors = "";
                 if (i >= 0 && i <  SIZE-1)
-                    ns += "S";
+                    poleNeighbors += "S";
                 if (i >  0 && i <= SIZE-1)
-                    ns += "N";
+                    poleNeighbors += "N";
                 if (j >= 0 && j <  SIZE-1)
-                    ns += "E";
+                    poleNeighbors += "E";
                 if (j >  0 && j <= SIZE-1)
-                    ns += "W";
+                    poleNeighbors += "W";
                 
-                int[] n  = Direction.N.getValue();
-                int[] ne = Direction.NE.getValue();
-                int[] e  = Direction.E.getValue();
-                int[] se = Direction.SE.getValue();
-                int[] s  = Direction.S.getValue();
-                int[] sw = Direction.SW.getValue();
-                int[] w  = Direction.W.getValue();
-                int[] nw = Direction.NW.getValue();
+                Doublet n  = Direction.N.getValue();
+                Doublet ne = Direction.NE.getValue();
+                Doublet e  = Direction.E.getValue();
+                Doublet se = Direction.SE.getValue();
+                Doublet s  = Direction.S.getValue();
+                Doublet sw = Direction.SW.getValue();
+                Doublet w  = Direction.W.getValue();
+                Doublet nw = Direction.NW.getValue();
                 
-                if (ns.contains("N")){
+                /* This mess uses the stored doublets in the Direction 
+                 * objects/enumeration to compute the coordinates
+                 * of the neighboring Spaces, and then add those neighbors
+                 * to the neighbor hashmap keyed by the corresponding Direction.
+                 *
+                 * Why?  To enable easy refactoring in the future should I 
+                 * decide to change what the Directions N, W, etc mean.
+                 * Simply change the values in Direction enumeration.
+                 */
+                if (poleNeighbors.contains("N")){
                     grid[i][j].addNeighbor(Direction.N, 
-                                           grid[ i+n[0] ][ j+n[1] ]);
-                    if (ns.contains("E")){
+                            grid[ i+(Integer)n.getX() ][ j+(Integer)n.getY() ]);
+                    
+                    if (poleNeighbors.contains("E")){
                         grid[i][j].addNeighbor(Direction.E, 
-                                               grid[ i+e[0] ][ j+e[1] ]);
+                            grid[ i+(Integer)e.getX() ][ j+(Integer)e.getY() ]);
+                        
                         grid[i][j].addNeighbor(Direction.NE, 
-                                               grid[ i+ne[0] ][ j+ne[1] ]);
+                          grid[ i+(Integer)ne.getX() ][ j+(Integer)ne.getY() ]);
                     }
-                    if (ns.contains("W")){
+                    if (poleNeighbors.contains("W")){
                         grid[i][j].addNeighbor(Direction.W, 
-                                               grid[ i+w[0] ][ j+w[1] ]);
+                            grid[ i+(Integer)w.getX() ][ j+(Integer)w.getY() ]);
+                        
                         grid[i][j].addNeighbor(Direction.NW, 
-                                               grid[ i+nw[0] ][ j+nw[1] ]);
+                          grid[ i+(Integer)nw.getX() ][ j+(Integer)nw.getY() ]);
                     }
                 }
-                if (ns.contains("S")){
+                if (poleNeighbors.contains("S")){
                     grid[i][j].addNeighbor(Direction.S, 
-                                           grid[ i+s[0] ][ j+s[1] ]);
-                    if (ns.contains("E")){
+                            grid[ i+(Integer)s.getX() ][ j+(Integer)s.getY() ]);
+                    
+                    if (poleNeighbors.contains("E")){
                         grid[i][j].addNeighbor(Direction.E, 
-                                               grid[ i+e[0] ][ j+e[1] ]);
+                            grid[ i+(Integer)e.getX() ][ j+(Integer)e.getY() ]);
+                        
                         grid[i][j].addNeighbor(Direction.SE, 
-                                               grid[ i+se[0] ][ j+se[1] ]);
+                          grid[ i+(Integer)se.getX() ][ j+(Integer)se.getY() ]);
                     }
-                    if (ns.contains("W")){
+                    if (poleNeighbors.contains("W")){
                         grid[i][j].addNeighbor(Direction.W, 
-                                               grid[ i+w[0] ][ j+w[1] ]);
+                            grid[ i+(Integer)w.getX() ][ j+(Integer)w.getY() ]);
+                        
                         grid[i][j].addNeighbor(Direction.SW, 
-                                               grid[ i+sw[0] ][ j+sw[1] ]);
+                          grid[ i+(Integer)sw.getX() ][ j+(Integer)sw.getY() ]);
                     }
                 }
             }
@@ -190,11 +216,11 @@ public class Environment {
      * provided index of the Environment's ArrayList borderSpaces attribute.
      * 
      * @param i     index of the Border Space in ArrayList attribute.
-     * @return
+     * @return      Space on the border at given index.
      */
     public Space getBorder(int i){
         if (i < borderCount())
-            return borderSpaces.get(i);
+            return (Space)borderSpaces.get(i);
         else
             throw new IndexOutOfBoundsException("There are not that many border"
                     + "spaces! Given: " + i + " Actual: " + borderCount());
@@ -238,7 +264,7 @@ public class Environment {
     
     /**
      * Returns the number of border Spaces in the Environment.
-     * @return
+     * @return int
      */
     public int borderCount(){
         return borderSpaces.size();

@@ -22,6 +22,7 @@ import antcolonysimulation.ants.Movable;
 import antcolonysimulation.environment.Direction;
 import antcolonysimulation.environment.Space;
 import antcolonysimulation.simulation.Randomizer;
+import dataStructures.LinkedList;
 
 /**
  * Subclass of Friendly ants that explore the Environment of the simulation.
@@ -79,11 +80,11 @@ public class Scout extends Friendly implements Actionable, Movable{
      */
     @Override
     public Direction chooseDirection() {
-        Object[] directions = space.getNeighborsDirections().toArray();
-        int numberOfDirections = directions.length;
+        LinkedList directions = (LinkedList)space.getNeighborsDirections();
+        int numberOfDirections = directions.size();
         
-        return (Direction)directions[Randomizer.Give.nextInt(
-                                                           numberOfDirections)];
+        return (Direction)directions.get(Randomizer.Give.nextInt(
+                                                           numberOfDirections));
     }
     
     /**

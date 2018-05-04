@@ -16,6 +16,8 @@
  */
 package antcolonysimulation.environment;
 
+import dataStructures.Doublet;
+
 /**
  * A Direction is associated with a doublet that represents the change in 
  * position relative to a coordinate point on a grid. 
@@ -23,17 +25,17 @@ package antcolonysimulation.environment;
  * @author nathan
  */
 public enum Direction {
-    N (new int[] {-1, 0}),
-    NE(new int[] {-1, 1}),
-    E (new int[] { 0, 1}),
-    SE(new int[] { 1, 1}),
-    S (new int[] { 1, 0}),
-    SW(new int[] { 1,-1}),
-    W (new int[] { 0,-1}),
-    NW(new int[] {-1,-1});
+    N (new Doublet(-1, 0)),
+    NE(new Doublet(-1, 1)),
+    E (new Doublet( 0, 1)),
+    SE(new Doublet( 1, 1)),
+    S (new Doublet( 1, 0)),
+    SW(new Doublet( 1,-1)),
+    W (new Doublet( 0,-1)),
+    NW(new Doublet(-1,-1));
     
-    private final int[] d;
-    Direction(int[] d) { this.d = d;}
+    private final Doublet d;
+    Direction(Doublet d) { this.d = d;}
 
     /**
      * Returns the doublet that corresponds to the Direction identifier.
@@ -41,7 +43,7 @@ public enum Direction {
      * coordinate point on a grid.
      * @return {int, int} --> {change in x, change in y}
      */
-    public int[] getValue() { return d; }
+    public Doublet getValue() { return d; }
     
     /**
      * Returns the Direction that is 180 degrees opposite of the current 

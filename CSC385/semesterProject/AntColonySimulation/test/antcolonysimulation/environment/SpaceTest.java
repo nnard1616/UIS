@@ -5,13 +5,12 @@
  */
 package antcolonysimulation.environment;
 
-import antcolonysimulation.ants.Actionable;
 import antcolonysimulation.ants.enemy.Bala;
 import antcolonysimulation.ants.enemy.Enemy;
 import antcolonysimulation.ants.friendly.Friendly;
 import antcolonysimulation.ants.friendly.Queen;
-import java.util.ArrayList;
-import java.util.List;
+import dataStructures.LinkedList;
+import dataStructures.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
@@ -26,14 +25,14 @@ public class SpaceTest {
     private static Enemy ant1;
     private static Friendly ant2;
     private static Friendly ant3;
-    private static List<Actionable> ants = new ArrayList<>();
+    private static List ants = new LinkedList();
     
     @BeforeClass
     public static void prep(){
         ant0 = new Bala(te.getSpace(0, 0));
         ant1 = new Bala(te.getSpace(0, 0));
-        ant2 = new Queen(te.getSpace(0, 0), ants);
-        ant3 = new Queen(te.getSpace(0, 0), ants);
+        ant2 = new Queen(te.getSpace(0, 0), (LinkedList)ants);
+        ant3 = new Queen(te.getSpace(0, 0), (LinkedList)ants);
         
         te.getSpace(0, 0).addEnemy(ant0);     //UID 0
         te.getSpace(0, 0).addEnemy(ant1);     //UID 1

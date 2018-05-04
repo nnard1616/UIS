@@ -5,8 +5,8 @@
  */
 package csc385datastructures;
 
+import dataStructures.AVLTree;
 import dataStructures.HashFunction;
-import dataStructures.HashMap;
 
 /**
  *
@@ -44,14 +44,9 @@ public class Csc385DataStructures {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        IdentityHashFunction hf = new IdentityHashFunction();
-        HashMap hMap = new HashMap(hf);
-        
-        for (int i = 0; i < 8; i++)
-            hMap.add(hashes[i], values[i]);
-        
-        System.out.println(hMap);
-
+        AVLTree t = new AVLTree();
+        t.add(5);
+        t.add(5);
     }
     
 }

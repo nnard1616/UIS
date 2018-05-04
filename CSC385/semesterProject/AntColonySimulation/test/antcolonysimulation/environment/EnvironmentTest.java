@@ -8,8 +8,11 @@ package antcolonysimulation.environment;
 import Statistics.Statistics;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
+import dataStructures.ArrayList;
+import dataStructures.Doublet;
+import dataStructures.List;
+import dataStructures.ListIterator;
+import java.util.Arrays;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -29,7 +32,9 @@ public class EnvironmentTest {
         Environment instance = new Environment();
         Space expResult = new Space(0,0,0);
         Space result = instance.getSpace(x, y);
-        Assert.assertArrayEquals("getSpace gave unexpected results", expResult.getCoordinates(), result.getCoordinates());
+        Assert.assertArrayEquals("getSpace gave unexpected results", 
+                        new Integer[]{expResult.getX(), expResult.getY()}, 
+                        new Integer[]{result.getX(),result.getY()});
         
         //Out of bounds test
         System.out.println("getSpace: out of bounds");
@@ -54,7 +59,7 @@ public class EnvironmentTest {
         Method generateFood = Environment.class.getDeclaredMethod("generateFood");
         generateFood.setAccessible(true);
         
-        List<Integer> foods = new ArrayList<>();
+        ArrayList foods = new ArrayList();
         
         while(reps < 10000){
             Integer food = (Integer)generateFood.invoke(e);
@@ -70,13 +75,11 @@ public class EnvironmentTest {
         }
         
         System.out.println("generateFood: testing nonzero food variance");
-        int[] foodsArray = foods.stream().mapToInt(i -> i).toArray();
+        Integer[] foodsArray = trimNulls(Arrays.copyOf(foods.getTheItems(), foods.getTheItems().length, Integer[].class));
         Statistics stat = new Statistics(foodsArray);
         Assert.assertTrue("Not getting even distribution between 500..1000", (stat.getVariance() >= 19000) && (stat.getVariance() <= 22000));
         
-        
         System.out.println("generateFood: testing zero food ratio");
-        System.out.println(zeroes);
         double zeroesRatio = zeroes / (zeroes + nonzeroes + 0.0);
         Assert.assertTrue("Not the right amount of zeroes: " + zeroesRatio, (zeroesRatio >= 0.73) && (zeroesRatio <= 0.77));
     }
@@ -89,15 +92,25 @@ public class EnvironmentTest {
         System.out.println("testNeighbors");
         Environment te = new Environment(3);
         
-        Object[] tlds = te.getSpace(0,0).getNeighborsDirections().stream().sorted().toArray();
-        Object[] trds = te.getSpace(0,2).getNeighborsDirections().stream().sorted().toArray();
-        Object[] blds = te.getSpace(2,0).getNeighborsDirections().stream().sorted().toArray();
-        Object[] brds = te.getSpace(2,2).getNeighborsDirections().stream().sorted().toArray();
-        Object[] topds = te.getSpace(0,1).getNeighborsDirections().stream().sorted().toArray();
-        Object[] botds = te.getSpace(2,1).getNeighborsDirections().stream().sorted().toArray();
-        Object[] rightds = te.getSpace(1,2).getNeighborsDirections().stream().sorted().toArray();
-        Object[] leftds = te.getSpace(1,0).getNeighborsDirections().stream().sorted().toArray();
-        Object[] midds = te.getSpace(1,1).getNeighborsDirections().stream().sorted().toArray();
+        Object[] tlds = convertListToArray(te.getSpace(0,0).getNeighborsDirections());
+        Object[] trds = convertListToArray(te.getSpace(0,2).getNeighborsDirections());
+        Object[] blds = convertListToArray(te.getSpace(2,0).getNeighborsDirections());
+        Object[] brds = convertListToArray(te.getSpace(2,2).getNeighborsDirections());
+        Object[] topds = convertListToArray(te.getSpace(0,1).getNeighborsDirections());
+        Object[] botds = convertListToArray(te.getSpace(2,1).getNeighborsDirections());
+        Object[] rightds = convertListToArray(te.getSpace(1,2).getNeighborsDirections());
+        Object[] leftds = convertListToArray(te.getSpace(1,0).getNeighborsDirections());
+        Object[] midds = convertListToArray(te.getSpace(1,1).getNeighborsDirections());
+        
+        Arrays.sort(tlds);
+        Arrays.sort(trds);
+        Arrays.sort(blds);
+        Arrays.sort(brds);
+        Arrays.sort(topds);
+        Arrays.sort(botds);
+        Arrays.sort(rightds);
+        Arrays.sort(leftds);
+        Arrays.sort(midds);
         
         Object[] tlcorner = new Direction[] {Direction.E, Direction.SE, Direction.S};
         Object[] trcorner = new Direction[] {Direction.SW, Direction.S, Direction.W};
@@ -119,62 +132,83 @@ public class EnvironmentTest {
         Assert.assertArrayEquals("Left should have E, NE, N, SE, S, W", tlcorner, tlds);
         Assert.assertArrayEquals("Middle should have E, NE, NW, N, SE, SW, S, W", tlcorner, tlds);
         
-        int[] n  = Direction.N.getValue();
-        int[] ne = Direction.NE.getValue();
-        int[] e  = Direction.E.getValue();
-        int[] se = Direction.SE.getValue();
-        int[] s  = Direction.S.getValue();
-        int[] sw = Direction.SW.getValue();
-        int[] w  = Direction.W.getValue();
-        int[] nw = Direction.NW.getValue();
+        Doublet n  = Direction.N.getValue();
+        Doublet ne = Direction.NE.getValue();
+        Doublet e  = Direction.E.getValue();
+        Doublet se = Direction.SE.getValue();
+        Doublet s  = Direction.S.getValue();
+        Doublet sw = Direction.SW.getValue();
+        Doublet w  = Direction.W.getValue();
+        Doublet nw = Direction.NW.getValue();
         
-        Assert.assertEquals("Neighbors of 0,0 are wrong.", te.getSpace(0+e[0], 0+e[1]), te.getSpace(0, 0).getNeighbor(Direction.E));
-        Assert.assertEquals("Neighbors of 0,0 are wrong.", te.getSpace(0+se[0], 0+se[1]), te.getSpace(0, 0).getNeighbor(Direction.SE));
-        Assert.assertEquals("Neighbors of 0,0 are wrong.", te.getSpace(0+s[0], 0+s[1]), te.getSpace(0, 0).getNeighbor(Direction.S));
+        Assert.assertEquals("Neighbors of 0,0 are wrong.", te.getSpace(0+(Integer)e.getX(), 0+(Integer)e.getY()), te.getSpace(0, 0).getNeighbor(Direction.E));
+        Assert.assertEquals("Neighbors of 0,0 are wrong.", te.getSpace(0+(Integer)se.getX(), 0+(Integer)se.getY()), te.getSpace(0, 0).getNeighbor(Direction.SE));
+        Assert.assertEquals("Neighbors of 0,0 are wrong.", te.getSpace(0+(Integer)s.getX(), 0+(Integer)s.getY()), te.getSpace(0, 0).getNeighbor(Direction.S));
         
-        Assert.assertEquals("Neighbors of 0,2 are wrong.", te.getSpace(0+sw[0], 2+sw[1]), te.getSpace(0, 2).getNeighbor(Direction.SW));
-        Assert.assertEquals("Neighbors of 0,2 are wrong.", te.getSpace(0+w[0], 2+w[1]), te.getSpace(0, 2).getNeighbor(Direction.W));
-        Assert.assertEquals("Neighbors of 0,2 are wrong.", te.getSpace(0+s[0], 2+s[1]), te.getSpace(0, 2).getNeighbor(Direction.S));
+        Assert.assertEquals("Neighbors of 0,2 are wrong.", te.getSpace(0+(Integer)sw.getX(), 2+(Integer)sw.getY()), te.getSpace(0, 2).getNeighbor(Direction.SW));
+        Assert.assertEquals("Neighbors of 0,2 are wrong.", te.getSpace(0+(Integer)w.getX(), 2+(Integer)w.getY()), te.getSpace(0, 2).getNeighbor(Direction.W));
+        Assert.assertEquals("Neighbors of 0,2 are wrong.", te.getSpace(0+(Integer)s.getX(), 2+(Integer)s.getY()), te.getSpace(0, 2).getNeighbor(Direction.S));
         
-        Assert.assertEquals("Neighbors of 2,0 are wrong.", te.getSpace(2+e[0], 0+e[1]), te.getSpace(2, 0).getNeighbor(Direction.E));
-        Assert.assertEquals("Neighbors of 2,0 are wrong.", te.getSpace(2+ne[0], 0+ne[1]), te.getSpace(2, 0).getNeighbor(Direction.NE));
-        Assert.assertEquals("Neighbors of 2,0 are wrong.", te.getSpace(2+n[0], 0+n[1]), te.getSpace(2, 0).getNeighbor(Direction.N));
+        Assert.assertEquals("Neighbors of 2,0 are wrong.", te.getSpace(2+(Integer)e.getX(), 0+(Integer)e.getY()), te.getSpace(2, 0).getNeighbor(Direction.E));
+        Assert.assertEquals("Neighbors of 2,0 are wrong.", te.getSpace(2+(Integer)ne.getX(), 0+(Integer)ne.getY()), te.getSpace(2, 0).getNeighbor(Direction.NE));
+        Assert.assertEquals("Neighbors of 2,0 are wrong.", te.getSpace(2+(Integer)n.getX(), 0+(Integer)n.getY()), te.getSpace(2, 0).getNeighbor(Direction.N));
         
-        Assert.assertEquals("Neighbors of 2,2 are wrong.", te.getSpace(2+w[0], 2+w[1]), te.getSpace(2, 2).getNeighbor(Direction.W));
-        Assert.assertEquals("Neighbors of 2,2 are wrong.", te.getSpace(2+nw[0], 2+nw[1]), te.getSpace(2, 2).getNeighbor(Direction.NW));
-        Assert.assertEquals("Neighbors of 2,2 are wrong.", te.getSpace(2+n[0], 2+n[1]), te.getSpace(2, 2).getNeighbor(Direction.N));
+        Assert.assertEquals("Neighbors of 2,2 are wrong.", te.getSpace(2+(Integer)w.getX(), 2+(Integer)w.getY()), te.getSpace(2, 2).getNeighbor(Direction.W));
+        Assert.assertEquals("Neighbors of 2,2 are wrong.", te.getSpace(2+(Integer)nw.getX(), 2+(Integer)nw.getY()), te.getSpace(2, 2).getNeighbor(Direction.NW));
+        Assert.assertEquals("Neighbors of 2,2 are wrong.", te.getSpace(2+(Integer)n.getX(), 2+(Integer)n.getY()), te.getSpace(2, 2).getNeighbor(Direction.N));
         
-        Assert.assertEquals("Neighbors of 0,1 are wrong.", te.getSpace(0+w[0], 1+w[1]), te.getSpace(0,1).getNeighbor(Direction.W));
-        Assert.assertEquals("Neighbors of 0,1 are wrong.", te.getSpace(0+sw[0], 1+sw[1]), te.getSpace(0,1).getNeighbor(Direction.SW));
-        Assert.assertEquals("Neighbors of 0,1 are wrong.", te.getSpace(0+s[0], 1+s[1]), te.getSpace(0,1).getNeighbor(Direction.S));
-        Assert.assertEquals("Neighbors of 0,1 are wrong.", te.getSpace(0+e[0], 1+e[1]), te.getSpace(0,1).getNeighbor(Direction.E));
-        Assert.assertEquals("Neighbors of 0,1 are wrong.", te.getSpace(0+se[0], 1+se[1]), te.getSpace(0,1).getNeighbor(Direction.SE));
+        Assert.assertEquals("Neighbors of 0,1 are wrong.", te.getSpace(0+(Integer)w.getX(), 1+(Integer)w.getY()), te.getSpace(0,1).getNeighbor(Direction.W));
+        Assert.assertEquals("Neighbors of 0,1 are wrong.", te.getSpace(0+(Integer)sw.getX(), 1+(Integer)sw.getY()), te.getSpace(0,1).getNeighbor(Direction.SW));
+        Assert.assertEquals("Neighbors of 0,1 are wrong.", te.getSpace(0+(Integer)s.getX(), 1+(Integer)s.getY()), te.getSpace(0,1).getNeighbor(Direction.S));
+        Assert.assertEquals("Neighbors of 0,1 are wrong.", te.getSpace(0+(Integer)e.getX(), 1+(Integer)e.getY()), te.getSpace(0,1).getNeighbor(Direction.E));
+        Assert.assertEquals("Neighbors of 0,1 are wrong.", te.getSpace(0+(Integer)se.getX(), 1+(Integer)se.getY()), te.getSpace(0,1).getNeighbor(Direction.SE));
         
-        Assert.assertEquals("Neighbors of 2,1 are wrong.", te.getSpace(2+e[0], 1+e[1]), te.getSpace(2,1).getNeighbor(Direction.E));
-        Assert.assertEquals("Neighbors of 2,1 are wrong.", te.getSpace(2+ne[0], 1+ne[1]), te.getSpace(2,1).getNeighbor(Direction.NE));
-        Assert.assertEquals("Neighbors of 2,1 are wrong.", te.getSpace(2+nw[0], 1+nw[1]), te.getSpace(2, 1).getNeighbor(Direction.NW));
-        Assert.assertEquals("Neighbors of 2,1 are wrong.", te.getSpace(2+n[0], 1+n[1]), te.getSpace(2, 1).getNeighbor(Direction.N));
-        Assert.assertEquals("Neighbors of 2,1 are wrong.", te.getSpace(2+w[0], 1+w[1]), te.getSpace(2, 1).getNeighbor(Direction.W));
+        Assert.assertEquals("Neighbors of 2,1 are wrong.", te.getSpace(2+(Integer)e.getX(), 1+(Integer)e.getY()), te.getSpace(2,1).getNeighbor(Direction.E));
+        Assert.assertEquals("Neighbors of 2,1 are wrong.", te.getSpace(2+(Integer)ne.getX(), 1+(Integer)ne.getY()), te.getSpace(2,1).getNeighbor(Direction.NE));
+        Assert.assertEquals("Neighbors of 2,1 are wrong.", te.getSpace(2+(Integer)nw.getX(), 1+(Integer)nw.getY()), te.getSpace(2, 1).getNeighbor(Direction.NW));
+        Assert.assertEquals("Neighbors of 2,1 are wrong.", te.getSpace(2+(Integer)n.getX(), 1+(Integer)n.getY()), te.getSpace(2, 1).getNeighbor(Direction.N));
+        Assert.assertEquals("Neighbors of 2,1 are wrong.", te.getSpace(2+(Integer)w.getX(), 1+(Integer)w.getY()), te.getSpace(2, 1).getNeighbor(Direction.W));
         
-        Assert.assertEquals("Neighbors of 1,2 are wrong.", te.getSpace(1+s[0], 2+s[1]), te.getSpace(1,2).getNeighbor(Direction.S));
-        Assert.assertEquals("Neighbors of 1,2 are wrong.", te.getSpace(1+sw[0], 2+sw[1]), te.getSpace(1,2).getNeighbor(Direction.SW));
-        Assert.assertEquals("Neighbors of 1,2 are wrong.", te.getSpace(1+nw[0], 2+nw[1]), te.getSpace(1,2).getNeighbor(Direction.NW));
-        Assert.assertEquals("Neighbors of 1,2 are wrong.", te.getSpace(1+n[0], 2+n[1]), te.getSpace(1,2).getNeighbor(Direction.N));
-        Assert.assertEquals("Neighbors of 1,2 are wrong.", te.getSpace(1+w[0], 2+w[1]), te.getSpace(1,2).getNeighbor(Direction.W));
+        Assert.assertEquals("Neighbors of 1,2 are wrong.", te.getSpace(1+(Integer)s.getX(), 2+(Integer)s.getY()), te.getSpace(1,2).getNeighbor(Direction.S));
+        Assert.assertEquals("Neighbors of 1,2 are wrong.", te.getSpace(1+(Integer)sw.getX(), 2+(Integer)sw.getY()), te.getSpace(1,2).getNeighbor(Direction.SW));
+        Assert.assertEquals("Neighbors of 1,2 are wrong.", te.getSpace(1+(Integer)nw.getX(), 2+(Integer)nw.getY()), te.getSpace(1,2).getNeighbor(Direction.NW));
+        Assert.assertEquals("Neighbors of 1,2 are wrong.", te.getSpace(1+(Integer)n.getX(), 2+(Integer)n.getY()), te.getSpace(1,2).getNeighbor(Direction.N));
+        Assert.assertEquals("Neighbors of 1,2 are wrong.", te.getSpace(1+(Integer)w.getX(), 2+(Integer)w.getY()), te.getSpace(1,2).getNeighbor(Direction.W));
         
-        Assert.assertEquals("Neighbors of 1,0 are wrong.", te.getSpace(1+e[0], 0+e[1]), te.getSpace(1,0).getNeighbor(Direction.E));
-        Assert.assertEquals("Neighbors of 1,0 are wrong.", te.getSpace(1+ne[0], 0+ne[1]), te.getSpace(1,0).getNeighbor(Direction.NE));
-        Assert.assertEquals("Neighbors of 1,0 are wrong.", te.getSpace(1+n[0], 0+n[1]), te.getSpace(1,0).getNeighbor(Direction.N));
-        Assert.assertEquals("Neighbors of 1,0 are wrong.", te.getSpace(1+se[0], 0+se[1]), te.getSpace(1,0).getNeighbor(Direction.SE));
-        Assert.assertEquals("Neighbors of 1,0 are wrong.", te.getSpace(1+w[0], 0+w[1]), te.getSpace(1,0).getNeighbor(Direction.W));
+        Assert.assertEquals("Neighbors of 1,0 are wrong.", te.getSpace(1+(Integer)e.getX(), 0+(Integer)e.getY()), te.getSpace(1,0).getNeighbor(Direction.E));
+        Assert.assertEquals("Neighbors of 1,0 are wrong.", te.getSpace(1+(Integer)ne.getX(), 0+(Integer)ne.getY()), te.getSpace(1,0).getNeighbor(Direction.NE));
+        Assert.assertEquals("Neighbors of 1,0 are wrong.", te.getSpace(1+(Integer)n.getX(), 0+(Integer)n.getY()), te.getSpace(1,0).getNeighbor(Direction.N));
+        Assert.assertEquals("Neighbors of 1,0 are wrong.", te.getSpace(1+(Integer)se.getX(), 0+(Integer)se.getY()), te.getSpace(1,0).getNeighbor(Direction.SE));
+        Assert.assertEquals("Neighbors of 1,0 are wrong.", te.getSpace(1+(Integer)s.getX(), 0+(Integer)s.getY()), te.getSpace(1,0).getNeighbor(Direction.S));
         
-        Assert.assertEquals("Neighbors of 1,1 are wrong.", te.getSpace(1+e[0], 1+e[1]), te.getSpace(1,1).getNeighbor(Direction.E));
-        Assert.assertEquals("Neighbors of 1,1 are wrong.", te.getSpace(1+ne[0], 1+ne[1]), te.getSpace(1,1).getNeighbor(Direction.NE));
-        Assert.assertEquals("Neighbors of 1,1 are wrong.", te.getSpace(1+n[0], 1+n[1]), te.getSpace(1,1).getNeighbor(Direction.N));
-        Assert.assertEquals("Neighbors of 1,1 are wrong.", te.getSpace(1+se[0], 1+se[1]), te.getSpace(1,1).getNeighbor(Direction.SE));
-        Assert.assertEquals("Neighbors of 1,1 are wrong.", te.getSpace(1+w[0], 1+w[1]), te.getSpace(1,1).getNeighbor(Direction.W));
-        Assert.assertEquals("Neighbors of 1,1 are wrong.", te.getSpace(1+nw[0], 1+nw[1]), te.getSpace(1,1).getNeighbor(Direction.NW));
-        Assert.assertEquals("Neighbors of 1,1 are wrong.", te.getSpace(1+sw[0], 1+sw[1]), te.getSpace(1,1).getNeighbor(Direction.SW));
-        Assert.assertEquals("Neighbors of 1,1 are wrong.", te.getSpace(1+s[0], 1+s[1]), te.getSpace(1,1).getNeighbor(Direction.S));
+        Assert.assertEquals("Neighbors of 1,1 are wrong.", te.getSpace(1+(Integer)e.getX(), 1+(Integer)e.getY()), te.getSpace(1,1).getNeighbor(Direction.E));
+        Assert.assertEquals("Neighbors of 1,1 are wrong.", te.getSpace(1+(Integer)ne.getX(), 1+(Integer)ne.getY()), te.getSpace(1,1).getNeighbor(Direction.NE));
+        Assert.assertEquals("Neighbors of 1,1 are wrong.", te.getSpace(1+(Integer)n.getX(), 1+(Integer)n.getY()), te.getSpace(1,1).getNeighbor(Direction.N));
+        Assert.assertEquals("Neighbors of 1,1 are wrong.", te.getSpace(1+(Integer)se.getX(), 1+(Integer)se.getY()), te.getSpace(1,1).getNeighbor(Direction.SE));
+        Assert.assertEquals("Neighbors of 1,1 are wrong.", te.getSpace(1+(Integer)w.getX(), 1+(Integer)w.getY()), te.getSpace(1,1).getNeighbor(Direction.W));
+        Assert.assertEquals("Neighbors of 1,1 are wrong.", te.getSpace(1+(Integer)nw.getX(), 1+(Integer)nw.getY()), te.getSpace(1,1).getNeighbor(Direction.NW));
+        Assert.assertEquals("Neighbors of 1,1 are wrong.", te.getSpace(1+(Integer)sw.getX(), 1+(Integer)sw.getY()), te.getSpace(1,1).getNeighbor(Direction.SW));
+        Assert.assertEquals("Neighbors of 1,1 are wrong.", te.getSpace(1+(Integer)s.getX(), 1+(Integer)s.getY()), te.getSpace(1,1).getNeighbor(Direction.S));
+    }
+    
+    public Object[] convertListToArray(List l){
+        Object[] r = new Object[l.size()];
+        ListIterator litr = l.listIterator(0);
+        while(litr.hasNext()){
+            r[l.indexOf(litr.getCurrent())] = litr.getCurrent();
+            litr.next();
+        }
+        return r;
+    }
+    
+    public Integer[] trimNulls(Integer[] in){
+        int c = 0;
+        for (Integer a : in)
+            if (a != null)
+                c++;
+        Integer[] r = new Integer[c];
+        for (int i = 0; i < c; i++)
+            r[i] = in[i];
+        return r;
     }
 }

@@ -22,33 +22,33 @@ import antcolonysimulation.ants.friendly.Forager;
 import antcolonysimulation.ants.friendly.Friendly;
 import antcolonysimulation.ants.friendly.Scout;
 import antcolonysimulation.ants.friendly.Soldier;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import dataStructures.HashMap;
+import dataStructures.List;
 
 /**
  * Space is a unit of the Environment that can contain food, pheromone, and 
  * ants.  Spaces are also aware of neighboring Spaces.
  * @author nathan
  */
-public class Space {   
+public class Space implements Comparable<Space>{   
     
     /**************************************************************************/
     /*  Attributes                                                            */
     /**************************************************************************/
     
-    private Map<Integer, Enemy> enemyAnts;
-    private Map<Integer, Friendly> friendlyAnts;
+    private HashMap enemyAnts;
+    private HashMap friendlyAnts;
     private int scoutCount = 0;
     private int foragerCount = 0;
     private int soldierCount = 0;
     private int queenCount   = 0;
-    private int enemyCount    = 0;
+    private int balaCount    = 0;
     private int food;
-    private final int[] coordinates;
+    private final int x;  //horizontal coordinate
+    private final int y;  //vertical coordinate
     private int pheromone = 0;
     private boolean explored = false;
-    private Map<Direction, Space> neighbors;
+    private HashMap neighbors;
 
     
     /**************************************************************************/
@@ -56,7 +56,7 @@ public class Space {
     /**************************************************************************/
     
     /**
-     * Creates new Space object with user provided cooredinates, (x,y), and 
+     * Creates new Space object with user provided coordinates, (x,y), and 
      * food.
      * 
      * @param x     Horizontal coordinate.
@@ -64,11 +64,12 @@ public class Space {
      * @param food  Amount of food to be present on space.
      */
     public Space(int x, int y, int food){
-        this.enemyAnts = new HashMap<>();
-        this.friendlyAnts = new HashMap<>();
+        this.enemyAnts = new HashMap();
+        this.friendlyAnts = new HashMap();
         this.food = food;
-        this.coordinates = new int[] {x,y};
-        neighbors = new HashMap<>();
+        this.x = x;
+        this.y = y;
+        neighbors = new HashMap();
     }
     
     
@@ -85,7 +86,7 @@ public class Space {
      */
     public Enemy getEnemy(int UID){
         try{
-            return this.enemyAnts.get(UID); 
+            return (Enemy)this.enemyAnts.get(UID); 
         }catch(NullPointerException n){
             System.out.println("tried getting enemy not in hashmap");
             return null;
@@ -101,7 +102,7 @@ public class Space {
      */
     public Friendly getFriendly(int UID){
         try{
-            return this.friendlyAnts.get(UID); 
+            return (Friendly)this.friendlyAnts.get(UID); 
         }catch(NullPointerException n){
             System.out.println("tried getting friendly not in hashmap");
             return null;
@@ -109,23 +110,23 @@ public class Space {
     }
     
     /**
-     * Returns Set of Integers representing the UIDs of the Enemies on this 
+     * Returns List of Integers representing the UIDs of the Enemies on this 
      * Space.
      * 
-     * @return Set of Integers
+     * @return List of Integers
      */
-    public Set<Integer> getEnemiesUIDs(){
-        return enemyAnts.keySet();
+    public List getEnemiesUIDs(){
+        return enemyAnts.keyList();
     }
     
     /**
-     * Returns Set of Integers representing the UIDs of the Friendlies on this 
+     * Returns List of Integers representing the UIDs of the Friendlies on this 
      * Space.
      * 
-     * @return Set of Integers
+     * @return List of Integers
      */
-    public Set<Integer> getFriendliesUIDs(){
-        return friendlyAnts.keySet();
+    public List getFriendliesUIDs(){
+        return friendlyAnts.keyList();
     }
     
     /**
@@ -137,11 +138,21 @@ public class Space {
     }
 
     /**
-     * Returns doublet representing the coordinates of Space in Environment.
-     * @return doublet of ints.
+     * Returns int that represents horizontal coordinate of Space in 
+     * Environment.
+     * @return int.
      */
-    public int[] getCoordinates() {
-        return coordinates;
+    public int getX() {
+        return x;
+    }
+    
+    /**
+     * Returns int that represents vertical coordinate of Space in 
+     * Environment.
+     * @return int.
+     */
+    public int getY() {
+        return y;
     }
 
     /**
@@ -189,15 +200,15 @@ public class Space {
      * @return int
      */
     public int getEnemyCount() {
-        return enemyCount;
+        return enemyAnts.size();
     }
     
     /**
      * Returns Set of Directions associated with the Neighbors of this Space.
      * @return  Set of Direction objects.
      */
-    public Set<Direction> getNeighborsDirections(){
-        return this.neighbors.keySet();
+    public List getNeighborsDirections(){
+        return this.neighbors.keyList();
     }
     
     /**
@@ -209,7 +220,7 @@ public class Space {
      * @return      Space, the neighbor at that Direction.
      */
     public Space getNeighbor(Direction d){
-        return this.neighbors.get(d);
+        return (Space)this.neighbors.get(d);
     }
     
     
@@ -296,7 +307,7 @@ public class Space {
      * @param space     Space object that represents the neighbor of this Space. 
      */
     public void addNeighbor(Direction direction, Space space){
-        neighbors.put(direction, space);
+        neighbors.add(direction, space);
     }
     
     /**
@@ -304,9 +315,9 @@ public class Space {
      * @param enemy  Enemy ant object to be added.
      */
     public void addEnemy(Enemy enemy){
-        this.enemyAnts.put(enemy.getUID(), enemy);
+        this.enemyAnts.add(enemy.getUID(), enemy);
         if (enemy.getClass().equals(Bala.class))
-            enemyCount++;
+            balaCount++;
     }
     
     /**
@@ -317,15 +328,14 @@ public class Space {
      * @return      Enemy object upon successful removal.
      */
     public Enemy popEnemy(Integer UID){
-        try{
-            Enemy enemy = this.enemyAnts.remove(UID);
-            
+        Enemy enemy = (Enemy)this.enemyAnts.get(UID);
+
+        if (this.enemyAnts.remove(UID)){
             if (enemy.getClass().equals(Bala.class))
-                enemyCount--;
-            
+                balaCount--;
             return enemy;
-        }catch(NullPointerException n){
-            System.out.println("tried popping enemy not in hashmap");
+        } else{
+            System.out.println("Tried removing enemy not on space.");
             return null;
         }
     }
@@ -335,7 +345,7 @@ public class Space {
      * @param friendly  Friendly ant object to be added.
      */
     public void addFriendly(Friendly friendly){
-        this.friendlyAnts.put(friendly.getUID(), friendly);
+        this.friendlyAnts.add(friendly.getUID(), friendly);
         if (friendly.getClass().equals(Forager.class))
             foragerCount++;
         else if (friendly.getClass().equals(Scout.class))
@@ -354,9 +364,9 @@ public class Space {
      * @return      Friendly object upon successful removal.
      */
     public Friendly popFriendly(int UID){
-        try{
-            Friendly friendly = this.friendlyAnts.remove(UID);
-            
+        Friendly friendly = (Friendly)this.friendlyAnts.get(UID);
+
+        if (this.friendlyAnts.remove(UID)){
             if (friendly.getClass().equals(Forager.class))
                 foragerCount--;
             else if (friendly.getClass().equals(Scout.class))
@@ -365,10 +375,9 @@ public class Space {
                 soldierCount--;
             else
                 queenCount--;
-            
             return friendly;
-        }catch(NullPointerException n){
-            System.out.println("tried popping friendly not in hashmap");
+        } else{
+            System.out.println("Tried removing friendly not on space.");
             return null;
         }
     }
@@ -382,7 +391,7 @@ public class Space {
         foragerCount = 0;
         soldierCount = 0;
         queenCount   = 0;
-        enemyCount    = 0;
+        balaCount    = 0;
         food         = 0;
         pheromone    = 0;
         friendlyAnts.clear();
@@ -390,12 +399,46 @@ public class Space {
         explored     = false;
     }
     
+    /**************************************************************************/
+    /*  Overrides                                                             */
+    /**************************************************************************/
+    
     /**
      * String representation of Space, just its coordinates:  (x,y)
      * @return  String, (x,y)
      */
     @Override
     public String toString(){
-        return "(" + coordinates[0] + ", " + coordinates[1] + ")";
+        return "(" + x + ", " + y + ")";
+    }
+    
+    /**
+     * Determines if Space is equal to query Space.
+     * @return  boolean, True or False.
+     */
+    @Override
+    public boolean equals(Object o){
+        if (o.getClass() != Space.class)
+            return false;
+        else{
+            return ((Integer)x).equals(((Space)o).getX()) && 
+                   ((Integer)y).equals(((Space)o).getY());
+        }
+    }
+
+    /**
+     * Determines how Space should compare to query Space, used for 
+     * AVLTree use.  X coordinate trumps Y coordinate.
+     * @return  int, -1, 0, or 1
+     */
+    @Override
+    public int compareTo(Space o) {
+        if (x > o.getX() )
+            return 1;
+        if (x == o.getX() && y > o.getY() ) 
+            return 1;
+        if (x == o.getX() && y == o.getY() ) 
+            return 0;
+        return -1;
     }
 }
