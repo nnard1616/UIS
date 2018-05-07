@@ -1,21 +1,18 @@
-<!--
-Written by: Kevin Zepp
-example.php provided for CSC 368 Week 14 lecture notes & final project
-January 2018
--->
+<!--------------------------------
+# Nathan Nard
+# nnard2
+# CSC 368 - Final Project
+# May 6, 2018
+--------------------------------->
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>MySQL Database Example</title>
-  </head>
-
-  <body>
-
-  <h2>This is a sample of MySQL database manipulation</h2>
-
-  <a href="insert.php">Insert a Record</a><br>
-  <a href="display.php">Display a Record</a><br>
-  <a href="update.php">Update a Record</a><br>
-
-
-  </body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Grocery Store Inventory</title>
+    </head>
+    <h1>Welcome</h1>
+    <body>
+        <h2>This is an application for managing inventory of Generic Grocery Store.</h2>
+        <?php require('nav.php');?>
+    </body>
 </html>

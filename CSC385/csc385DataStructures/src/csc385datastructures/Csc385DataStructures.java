@@ -5,7 +5,7 @@
  */
 package csc385datastructures;
 
-import dataStructures.AVLTree;
+import dataStructures.ArrayQueue;
 import dataStructures.HashFunction;
 
 /**
@@ -44,9 +44,35 @@ public class Csc385DataStructures {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        AVLTree t = new AVLTree();
-        t.add(5);
-        t.add(5);
+        ArrayQueue aq = new ArrayQueue();
+        aq.enqueue("Adrian Peterson");
+        aq.dequeue();
+        aq.enqueue("Devonta Freeman");
+        aq.enqueue("Chris Johnson");
+        aq.dequeue();
+        aq.dequeue();
+        aq.enqueue("Todd Gurley");
+        aq.enqueue("Doug Martin");
+        aq.enqueue("Latavius Murray");
+        aq.enqueue("Frank Gore");
+        aq.dequeue();
+        aq.enqueue("Mark Ingram");
+        aq.dequeue();
+        aq.enqueue("Jonathan Stewart");
+        aq.enqueue("Justin Forsett");
+        aq.dequeue();
+        aq.enqueue("Le'Veon Bell");
+        Object[] arr = aq.getTheItems();
+        
+        for (Object o : arr)
+            System.out.println(o);
+        System.out.println(arr.length);
+        
+        System.out.println(aq.getFront());
+        System.out.println("");
+        while (!aq.isEmpty()){
+            System.out.println(aq.dequeue());
+        }
     }
     
 }

@@ -286,4 +286,8 @@ public class ArrayQueue implements Queue
 		return getFront();
 	}
 
+    public Object[] getTheItems() {
+        return theItems;
+    }
+
 }
