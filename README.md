@@ -14,6 +14,12 @@ CSC368
 
 Systems Programming Languages
 
+Final Project: PHP Application for keeping track of a grocery store's inventory.
+
+[Website (may not be available after 5/15/2018)](https://uisacad5.uis.edu/~nnard2/index.php)
+
+[Project Directory](https://github.com/nnard1616/UIS/tree/master/CSC368/finalProject)
+
 CSC385
 ------
 
