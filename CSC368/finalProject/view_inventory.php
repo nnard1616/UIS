@@ -15,15 +15,15 @@
         <h2>Here is the whole inventory.</h2>
         <?php
             require('connect_database.php');
-            
+
             $query = mysqli_query($connection, "SELECT * FROM inventory");
-            
+
             //copied from kevin zepp
             if (!$query) {
-                echo 'Could not run query: ' . mysqli_error($conn);
+                echo 'Could not run query: ' . mysqli_error($connection);
                 exit;
             }
-            
+
             //Start of Table and Column Headings
             print "<table border='1'>\n";
             print " <tr><th>Item Name</th>"
@@ -46,7 +46,7 @@
             }
             print "</table>\n";
             // Close Connection
-            mysqli_close($connection); 
+            mysqli_close($connection);
             //end copy
             require('nav.php');
             ?>
