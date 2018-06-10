@@ -7,7 +7,7 @@ Springfield.
 CSC225&CSC275
 -------------
 
-`Java` Programming 1 & 2  --> [Waived](https://github.com/nnard1616/UoHelsinki--Java_Programming_MOOCs)
+Java Programming 1 & 2  --> [Waived](https://github.com/nnard1616/UoHelsinki--Java_Programming_MOOCs)
 
 CSC368
 ------
